@@ -2,3 +2,6 @@
 *.d
 *.out
 miniRT
+*libmlx*
+*.swiftmodule
+*.swiftdoc
