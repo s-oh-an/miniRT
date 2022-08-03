@@ -6,22 +6,23 @@
 #    By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/03 09:57:48 by sohan             #+#    #+#              #
-#    Updated: 2022/08/03 14:18:38 by sohan            ###   ########.fr        #
+#    Updated: 2022/08/03 17:23:17 by sohan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#INCLUDES_DIR = ./includes/
+INCLUDES_DIR = ./includes/
 LIBFT_DIR = ./lib/libft/
 MLX_DIR = ./lib/mlx/
-#SOURCE_DIR = ./sources/
-PARSE_DIR = ./parse/
+SOURCE_DIR = ./src
+PARSE_DIR = $(SOURCE_DIR)/parse/
 OBJECT_DIR = ./objects
 FILES = \
 		main \
 
 PARSE_FILE = parse
 
-vpath %.c $(PARSE_DIR)
+#vpath %.c $(SOURCE_DIR)
+VPATH := $(shell find src -type d -print | tr '\012' ':' | sed 's/:$$//')
 
 SOURCES = $(addsuffix .c, $(FILES)) \
 		  $(addprefix $(PARSE_DIR), $(addsuffix .c, $(PARSE_FILE))) \

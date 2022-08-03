@@ -1,4 +1,4 @@
-#include "parse/parse.h"
+#include "../includes/parse.h"
 #include <stdio.h>
 
 int	main(int argc, char **argv)
