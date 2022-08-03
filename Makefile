@@ -6,63 +6,75 @@
 #    By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/03 09:57:48 by sohan             #+#    #+#              #
-#    Updated: 2022/08/03 12:15:03 by sohan            ###   ########.fr        #
+#    Updated: 2022/08/03 14:18:38 by sohan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-INCLUDES_DIR = ./includes/
-LIBFT_INC_DIR = ./libft/
-SOURCE_DIR = ./sources/
-OBJECT_DIR = objects
+#INCLUDES_DIR = ./includes/
+LIBFT_DIR = ./lib/libft/
+MLX_DIR = ./lib/mlx/
+#SOURCE_DIR = ./sources/
+PARSE_DIR = ./parse/
+OBJECT_DIR = ./objects
 FILES = \
 		main \
 
-vpath %.c $(SOURCE_DIR)
+PARSE_FILE = parse
 
-SOURCES = $(addprefix $(SOURCE_DIR), $(addsuffix .c, $(FILES)))
-OBJECTS = $(addprefix $(OBJECT_DIR)/, $(addsuffix .o, $(FILES)))
+vpath %.c $(PARSE_DIR)
+
+SOURCES = $(addsuffix .c, $(FILES)) \
+		  $(addprefix $(PARSE_DIR), $(addsuffix .c, $(PARSE_FILE))) \
+
+OBJECTS = $(addprefix $(OBJECT_DIR)/, $(notdir $(SOURCES:.c=.o)))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -MD
 DLIBS = -framework Metal -framework AppKit
-LDFLAGS = -lmlx -Lmlx -Llibft -lft
+LDFLAGS = -lmlx -L$(MLX_DIR) -lft -L$(LIBFT_DIR)
 
 NAME = miniRT
-LIBFT = $(addprefix $(LIBFT_INC_DIR), libft.a)
+LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 MLX	= libmlx.dylib
 
 all: $(NAME) 
 
-$(NAME): $(OBJECT_DIR) $(OBJECTS) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(DLIBS) $(LDFLAGS) -I$(INCLUDES_DIR) $(OBJECTS) -o $@ 
+$(NAME): $(LIBFT) $(MLX) $(OBJECT_DIR) $(OBJECTS)
+	$(CC) $(CFLAGS) $(DLIBS) $(LDFLAGS) $(OBJECTS) -o $@
 
 $(OBJECT_DIR):
 	@mkdir -p $(OBJECT_DIR)
 
 $(OBJECT_DIR)/%.o: %.c
-	$(CC) $(CFLAGS) -I$(INCLUDES_DIR) -I$(LIBFT_INC_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
 $(LIBFT):
 	@echo "make libft"
-	@make -C libft/
+	@make -C $(LIBFT_DIR)
 
 $(MLX):
 	@echo "make mlx"
-	@make -C mlx/
-	@cp mlx/$@ .
+	@make -C $(MLX_DIR)
+	@cp $(MLX_DIR)$@ .
 
 clean:
 	rm -rf $(OBJECT_DIR)
-	@make -C mlx/ clean
-	@make -C libft/ clean
+	@make -C $(MLX_DIR) clean
+	@make -C $(LIBFT_DIR) clean
 
-fclean: clean
+fclean:
+	rm -rf $(OBJECT_DIR)
 	rm -f $(NAME) $(LIBFT) $(MLX)
-	@make -C libft/ fclean
+	@make -C $(MLX_DIR) clean
+	@make -C $(LIBFT_DIR) fclean
 
 re :
+	rm -rf $(OBJECT_DIR)
 	rm -f $(NAME) $(LIBFT) $(MLX)
-	@make -C libft/ fclean
+	@make -C $(MLX_DIR) clean
+	@make -C $(LIBFT_DIR) fclean
 	@make all
 
 .PHONY: all clean fclean re
+
+-include $(OBJECTS:.o=.d)

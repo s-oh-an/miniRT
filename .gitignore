@@ -1,6 +1,7 @@
 *.o
 *.d
 *.out
+*.a
 miniRT
 *libmlx*
 *.swiftmodule
