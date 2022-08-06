@@ -6,13 +6,13 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 18:52:36 by sohan             #+#    #+#             */
-/*   Updated: 2021/05/24 20:14:01 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/06 18:20:33 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_isspace(int c)
+static int	ft_isspace_atoi(int c)
 {
 	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);
@@ -49,7 +49,7 @@ int	ft_atoi(const char *str)
 
 	result = 0;
 	sign = 1;
-	while (ft_isspace(*str))
+	while (ft_isspace_atoi(*str))
 		str++;
 	if (*str == '-' || *str == '+')
 	{
