@@ -6,7 +6,7 @@
 #    By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/03 09:57:48 by sohan             #+#    #+#              #
-#    Updated: 2022/08/03 17:23:17 by sohan            ###   ########.fr        #
+#    Updated: 2022/08/06 18:27:49 by sohan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,17 +15,20 @@ LIBFT_DIR = ./lib/libft/
 MLX_DIR = ./lib/mlx/
 SOURCE_DIR = ./src
 PARSE_DIR = $(SOURCE_DIR)/parse/
+STRING_DIR = $(SOURCE_DIR)/string/
 OBJECT_DIR = ./objects
 FILES = \
 		main \
 
 PARSE_FILE = parse
+STRING_FILE = ft_stof
 
 #vpath %.c $(SOURCE_DIR)
 VPATH := $(shell find src -type d -print | tr '\012' ':' | sed 's/:$$//')
 
 SOURCES = $(addsuffix .c, $(FILES)) \
 		  $(addprefix $(PARSE_DIR), $(addsuffix .c, $(PARSE_FILE))) \
+		  $(addprefix $(STRING_DIR), $(addsuffix .c, $(STRING_FILE))) \
 
 OBJECTS = $(addprefix $(OBJECT_DIR)/, $(notdir $(SOURCES:.c=.o)))
 

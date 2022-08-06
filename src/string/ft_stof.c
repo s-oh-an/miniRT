@@ -1,0 +1,50 @@
+#include "../../includes/ft_string.h"
+#include "../../lib/libft/libft.h"
+#include <math.h>
+
+float	ft_stof(char const *str)
+{
+	double	ret;
+	int		digit;
+	int		digit_decimal;
+
+	ret = 0;
+	digit = 0;
+	digit_decimal = 0;
+	while (ft_isdigit(*str) && *str)
+	{
+		ret  = (ret * 10) + *str - '0';
+		++str;
+		++digit;
+		if (digit > 8)
+		{
+			ft_putendl_fd("Error\nExceeds Significant Digits Limit", 2);
+			exit(1);
+		}
+	}
+	if (*str != '\0' && *str != '.')
+	{
+		ft_putendl_fd("Error\nNot a Number", 2);
+		exit(1);
+	}
+	if (*str == '.')
+		++str;
+	while (ft_isdigit(*str) && *str)
+	{
+		++digit_decimal;
+		ret +=  (*str - '0') * pow(10, -digit_decimal);
+		++str;
+		++digit;
+		if (digit > 8)
+		{
+			ft_putendl_fd("Error\nExceeds Significant Digits Limit", 2);
+			exit(1);
+		}
+	}
+	if (*str != '\0')
+	{
+		ft_putendl_fd("Error\nNot a Number", 2);
+		exit(1);
+	}
+	return (ret);
+}
