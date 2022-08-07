@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 13:15:59 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/06 18:41:38 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/07 14:41:17 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,44 +56,44 @@ void	set_light_ratio(float *ratio, char const *str)
 	}
 }
 
-void	set_color(t_color *color, char const *str)
+void	set_vec3(struct s_vec3 *vec, char const *str)
 {
-	char	**rgb;
+	char	**xyz;
 	int		i;
 
 	i = 0;
-	rgb = ft_split(str, ',');
-	if (!rgb)
+	xyz = ft_split(str, ',');
+	if (!xyz)
 	{
 		ft_putendl_fd("Error\nError While malloc", 2);
 		exit(1);
 	}
-	while (rgb[i])
+	while (xyz[i])
 		++i;
 	if (i != 3)
 	{
 		ft_putendl_fd("Error\nInvalid Color", 2);
 		exit(1);
 	}
-	color->x = ft_atoi(rgb[0]);
-	if (color->x == 0 && rgb[0][0] != '0')
+	vec->x = ft_atoi(xyz[0]);
+	if (vec->x == 0 && xyz[0][0] != '0')
 	{
-		ft_putendl_fd("Error\nInvalid Color", 2);
+		ft_putendl_fd("Error\nInvalid vec", 2);
 		exit(1);
 	}
-	color->y = ft_atoi(rgb[1]);
-	if (color->y == 0 && rgb[1][0] != '0')
+	vec->y = ft_atoi(xyz[1]);
+	if (vec->y == 0 && xyz[1][0] != '0')
 	{
-		ft_putendl_fd("Error\nInvalid Color", 2);
+		ft_putendl_fd("Error\nInvalid vec", 2);
 		exit(1);
 	}
-	color->z = ft_atoi(rgb[2]);
-	if (color->z == 0 && rgb[2][0] != '0')
+	vec->z = ft_atoi(xyz[2]);
+	if (vec->z == 0 && xyz[2][0] != '0')
 	{
-		ft_putendl_fd("Error\nInvalid Color", 2);
+		ft_putendl_fd("Error\nInvalid vec", 2);
 		exit(1);
 	}
-	free_array(rgb);
+	free_array(xyz);
 }
 
 void	set_ambient(t_scene *scene, char const **data, int *identifier_flag)
@@ -105,21 +105,37 @@ void	set_ambient(t_scene *scene, char const **data, int *identifier_flag)
 	}
 	*identifier_flag |= 1;
 	set_light_ratio(&scene->ambient.ratio, data[1]);
-	set_color(&scene->ambient.color, data[2]);
+	set_vec3(&scene->ambient.color, data[2]);
 }
 
 void	set_camera(t_scene *scene, char const **data, int *identifier_flag)
 {
-	(void)scene;
-	(void)data;
-	(void)identifier_flag;
+	if (is_duplicate_identifier(*identifier_flag & 2))
+	{
+		ft_putendl_fd("Error\nDuplicate Identifier", 2);
+		exit(1);
+	}
+	*identifier_flag |= 2;
+	set_vec3(&scene->camera.coordinate, data[1]);
+	set_vec3(&scene->camera.n_vector, data[2]);
+	scene->camera.fov = ft_stof(data[3]);
+	if (scene->camera.fov < 0 || scene->camera.fov > 180)
+	{	
+		ft_putendl_fd("Error\nInvalid FOV", 2);
+		exit(1);
+	}
 }
 
 void	set_light(t_scene *scene, char const **data, int *identifier_flag)
 {
-	(void)scene;
-	(void)data;
-	(void)identifier_flag;
+	if (is_duplicate_identifier(*identifier_flag & 4))
+	{
+		ft_putendl_fd("Error\nDuplicate Identifier", 2);
+		exit(1);
+	}
+	*identifier_flag |= 4;
+	set_vec3(&scene->light.coordinate, data[1]);
+	set_light_ratio(&scene->light.ratio, data[2]);
 }
 
 void	set_object(t_scene *scene, char const **data, int type)
@@ -138,8 +154,11 @@ void	read_rt_file(int fd, t_scene *scene)
 	
 	ret = 1;
 	identifier_flag = 0;
+	line = NULL;
 	while (ret)
 	{
+		if (line)
+			free(line);
 		ret = get_next_line(fd, &line);
 		if (!*line)
 			continue ;
@@ -163,4 +182,6 @@ void	read_rt_file(int fd, t_scene *scene)
 		}
 		free_array(data);
 	}
+	if (line)
+		free(line);
 }

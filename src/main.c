@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:43:52 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/06 18:51:56 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/07 14:48:32 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,18 @@
 
 void	print(t_scene *scene)
 {
+	printf("[Ambient]\n");
 	printf("ambient light ratio	: %f\n", scene->ambient.ratio);
-	printf("color				: %f %f %f\n", scene->ambient.color.x, scene->ambient.color.y,scene->ambient.color.z);
+	printf("color			: %f %f %f\n", scene->ambient.color.x, scene->ambient.color.y,scene->ambient.color.z);
+	printf("[Camera]\n");
+	printf("xyz coordinate		: %f %f %f\n", scene->camera.coordinate.x, scene->camera.coordinate.y,scene->camera.coordinate.z);
+	printf("normal vector		: %f %f %f\n", scene->camera.n_vector.x, scene->camera.n_vector.y,scene->camera.n_vector.z);
+	printf("FOV		  	: %d\n", scene->camera.fov);
+	printf("[Light]\n");
+	printf("xyz coordinate		: %f %f %f\n", scene->light.coordinate.x, scene->light.coordinate.y,scene->light.coordinate.z);
+	printf("light ratio		: %f\n", scene->light.ratio);
+
+	printf("[Object]\n");
 }
 
 int	main(int argc, char **argv)
@@ -42,5 +52,6 @@ int	main(int argc, char **argv)
 	}
 	read_rt_file(fd, &scene);
 	print(&scene);
+	system("leaks miniRT");
 	return (0);
 }
