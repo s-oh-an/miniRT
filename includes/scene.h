@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 13:55:12 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/06 18:23:24 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/07 17:34:24 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ typedef struct s_ambient	t_ambient;
 typedef struct s_light		t_light;
 typedef struct s_camera		t_camera;
 typedef struct s_object		t_object;
-typedef struct s_property	t_property;
+typedef struct s_sphere		t_sphere;
+typedef struct s_plane		t_plane;
+typedef struct s_cylinder	t_cylinder;
 typedef struct s_vec3		t_coordinate;
 typedef struct s_vec3		t_color;
 typedef struct s_vec3		t_normal_vector;
@@ -42,7 +44,7 @@ struct s_camera
 {
 	t_coordinate	coordinate;
 	t_normal_vector	n_vector;
-	int				fov;
+	float			fov;
 };
 
 struct s_light
@@ -51,19 +53,33 @@ struct s_light
 	float			ratio;
 };
 
-struct s_property
+struct s_sphere
+{
+	t_coordinate	coordinate;
+	float			diameter;
+	t_color			color;
+};
+
+struct s_plane
 {
 	t_coordinate	coordinate;
 	t_normal_vector	n_vector;
-	unsigned int	diameter;
-	unsigned int	height;
+	t_color			color;
+};
+
+struct s_cylinder
+{
+	t_coordinate	coordinate;
+	t_normal_vector	n_vector;
+	float			diameter;
+	float			height;
 	t_color			color;
 };
 
 struct s_object
 {
-	int			type;
-	t_property	property;
+	int		type;
+	void	*property;
 };
 
 typedef struct s_scene
@@ -71,7 +87,7 @@ typedef struct s_scene
 	t_ambient		ambient;
 	t_light			light;
 	t_camera		camera;
-	t_object_list	*object;
+	t_object_list	*objects;
 }	t_scene;
 
 enum e_object_type

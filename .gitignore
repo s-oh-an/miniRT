@@ -7,4 +7,4 @@ miniRT
 *.swiftmodule
 *.swiftdoc
 .ccls
-*test*
+*test.c
