@@ -1,7 +1,6 @@
 
 # include "../../includes/discriminant.h"
 
-//카메라 생성자
 
 
 
@@ -17,21 +16,22 @@ t_window	window(int width, int height)
 	return (window);
 }
 
+//카메라 생성자
 t_camera	camera(t_coordinate point_w, float fov, t_window window)
 {
-	t_camera	camera;
+	t_camera	cam;
 
-	camera.coordinate = point_w;
-	camera.n_vector = vec_op_unit(point_w);
-	camera.fov = fov;
-	camera.viewport_h = 2.0 * tan((fov / 2) * (PI / 180));
-	camera.viewport_w = camera.viewport_h * window.ratio;
-	camera.hori_vec = init_vec(camera.viewport_w, 0, 0);
-	camera.vert_vec = init_vec(camera.viewport_h, 0, 0);
-	camera.focal_len = 1.0;
+	cam.coordinate = point_w;
+	cam.n_vector = vec_op_unit(point_w);
+	cam.fov = fov;
+	cam.viewport_h = 2.0;
+	cam.viewport_w = cam.viewport_h * window.ratio;
+	// cam.hori_vec = init_vec(cam.viewport_w, 0, 0);
+	// cam.vert_vec = init_vec(cam.viewport_h, 0, 0);
+	cam.focal_len = 1.0 / tan((fov / 2) * (PI / 180));
 	// point_w - (OQ + QM + MB) = point_w - (OB)
-	camera.left_bottom = vec_op_minus_vec(point_w, vec_op_plus_element(vec_op_plus_vec(vdivide(camera.hori_vec, 2.0),vdivide(camera.hori_vec, 2.0)), 0, 0, 1));
-	return (camera);
+	cam.left_bottom = init_point(-(cam.viewport_w / 2), -1, -(cam.focal_len));
+	return (cam);
 }
 
 
