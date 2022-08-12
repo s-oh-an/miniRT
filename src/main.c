@@ -13,31 +13,17 @@
 #include "../includes/parse.h"
 #include "../includes/scene.h"
 #include "../lib/libft/libft.h"
-#include "../lib/mlx/mlx.h" //
 #include <fcntl.h>
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include "../includes/vector.h" //
 #include "../includes/discriminant.h" //
+#include "../includes/my_mlx.h" //
+#include "../includes/ray.h" //
 
 ///////////// add mlx func /////////////////
 
-typedef struct s_data
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}	t_data;
-
-typedef struct s_mlx
-{
-	void	*mlx;
-	void	*win;
-	t_data	data;
-}	t_mlx;
 
 void	init_mlx(t_mlx *m, t_window w)
 {
@@ -139,32 +125,29 @@ int	is_rt_file(char const *str)
 
 int	main(int argc, char **argv)
 {
-	// int		fd;
-	// t_scene scene;
+	int		fd;
+	t_scene scene;
 
-	// if (argc != 2 || !ft_strncmp(argv[1], "", ft_strlen(argv[1])))
-	// {	
-	// 	ft_putendl_fd("Error\nUsage:./miniRT <filename.rt>", 2);
-	// 	exit(1);
-	// }
-	// if (!is_rt_file(argv[1]))
-	// {
-	// 	ft_putendl_fd("Error\nNot .rt file", 2);
-	// 	exit(1);
-	// }
-	// fd = open(argv[1], O_RDONLY);
-	// if (fd == -1)
-	// {
-	// 	perror("Error");
-	// 	exit(1);
-	// }
-	// read_rt_file(fd, &scene);
-	// print(&scene);
+	if (argc != 2 || !ft_strncmp(argv[1], "", ft_strlen(argv[1])))
+	{	
+		ft_putendl_fd("Error\nUsage:./miniRT <filename.rt>", 2);
+		exit(1);
+	}
+	if (!is_rt_file(argv[1]))
+	{
+		ft_putendl_fd("Error\nNot .rt file", 2);
+		exit(1);
+	}
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error");
+		exit(1);
+	}
+	read_rt_file(fd, &scene);
+	print(&scene);
 
 	///////////////////////insert mlx print/////////////////////
-
-	(void)argc;
-	(void)argv;
 
 	t_mlx	*m;
 	t_window	win;
@@ -177,23 +160,24 @@ int	main(int argc, char **argv)
 
 	m->data.img = mlx_new_image(m->mlx, win.width, win.height);
 	m->data.addr = mlx_get_data_addr(m->data.img, &m->data.bits_per_pixel, &m->data.line_length, &m->data.endian);
-	int i;
-	int k;
-	int j;
 
-	for (i = 250, k = 99; i < 300; i++, k -= 2)
-	{
-	for (j = 150 + k; j < 250; j++)
-		my_mlx_pixel_put(&(m->data), i, j, 0x0000FF00);
-	}
-	for (i = 300, k = 0; i < 350; i++, k += 2)
-	{
-	for (j = 150 + k; j < 250; j++)
-		my_mlx_pixel_put(&(m->data), i, j, 0x0000FF00);
-	}
+	// int i;
+	// int k;
+	// int j;
+
+	// for (i = 250, k = 99; i < 300; i++, k -= 2)
+	// {
+	// for (j = 150 + k; j < 250; j++)
+	// 	my_mlx_pixel_put(&(m->data), i, j, 0x0000FF00);
+	// }
+	// for (i = 300, k = 0; i < 350; i++, k += 2)
+	// {
+	// for (j = 150 + k; j < 250; j++)
+	// 	my_mlx_pixel_put(&(m->data), i, j, 0x0000FF00);
+	// }
+	shoot_ray(m, cam, win);
 
 	mlx_put_image_to_window(m->mlx, m->win, m->data.img, 0, 0);
-
 
 
 	mlx_hook(m->win, X_EVENT_KEY_PRESS, 0, &press_key, m);
