@@ -19,7 +19,7 @@ t_coordinate	vec_op_plus_vec(t_coordinate vec1, t_coordinate vec2);
 t_coordinate	vec_op_plus_element(t_coordinate vec1, float x, float y, float z);
 t_coordinate	vec_op_minus_vec(t_coordinate vec1, t_coordinate vec2);
 t_coordinate	vec_op_minus_element(t_coordinate vec1, float x, float y, float z);
-t_coordinate	vec_op_multi_double(t_coordinate vec, float t);
+t_coordinate	vec_op_multi_float(t_coordinate vec, float t);
 float			vec_op_dotproduct(t_coordinate vec1, t_coordinate vec2);
 t_coordinate	vec_op_crossproduct(t_coordinate vec1, t_coordinate vec2);
 t_coordinate	vec_op_unit(t_coordinate vec);

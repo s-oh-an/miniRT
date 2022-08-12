@@ -17,6 +17,6 @@ typedef struct s_ray
 }	t_ray;
 
 t_ray	init_ray(float x, float y, float z);
-void	shoot_ray(t_mlx *m, t_camera cam, t_window win);
+void	shoot_ray(t_mlx *m, t_camera cam, t_window win, t_sphere *sphere);
 
 #endif

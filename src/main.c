@@ -6,13 +6,15 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:43:52 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/07 19:01:33 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/12 19:47:22 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parse.h"
 #include "../includes/scene.h"
+#include "../includes/draw.h"
 #include "../lib/libft/libft.h"
+#include "../lib/mlx/mlx.h"
 #include <fcntl.h>
 #include <errno.h>
 #include <stdio.h>
@@ -64,7 +66,7 @@ void	print(t_scene *scene)
 	printf("ambient light ratio	: %f\n", scene->ambient.ratio);
 	printf("color			: %f %f %f\n", scene->ambient.color.x, scene->ambient.color.y,scene->ambient.color.z);
 	printf("[Camera]\n");
-	printf("xyz coordinate		: %f %f %f\n", scene->camera.coordinate.x, scene->camera.coordinate.y,scene->camera.coordinate.z);
+	printf("xyz coordinate		: %f %f %f\n", scene->camera.orig.x, scene->camera.orig.y,scene->camera.orig.z);
 	printf("normal vector		: %f %f %f\n", scene->camera.n_vector.x, scene->camera.n_vector.y,scene->camera.n_vector.z);
 	printf("FOV		  	: %f\n", scene->camera.fov);
 	printf("[Light]\n");
@@ -127,6 +129,8 @@ int	main(int argc, char **argv)
 {
 	int		fd;
 	t_scene scene;
+	//t_image	img;
+	//t_mlx	mlx;
 
 	if (argc != 2 || !ft_strncmp(argv[1], "", ft_strlen(argv[1])))
 	{	
@@ -146,6 +150,9 @@ int	main(int argc, char **argv)
 	}
 	read_rt_file(fd, &scene);
 	print(&scene);
+	world_to_camera(&scene);
+	printf("\n\n");
+	print(&scene);
 
 	///////////////////////insert mlx print/////////////////////
 
@@ -153,8 +160,9 @@ int	main(int argc, char **argv)
 	t_window	win;
 	t_camera	cam;
 
-	win = window(800, 450);
-	cam = camera(init_point(0,0,0), 45, win);
+	win = window(800, 800);
+	//cam = camera(init_point(0,0,0), 45, win);
+	cam = scene.camera;
 	m = malloc(sizeof(t_mlx));
 	init_mlx(m, win);
 
@@ -175,7 +183,14 @@ int	main(int argc, char **argv)
 	// for (j = 150 + k; j < 250; j++)
 	// 	my_mlx_pixel_put(&(m->data), i, j, 0x0000FF00);
 	// }
-	shoot_ray(m, cam, win);
+	t_object_list *cur;
+
+	cur = scene.objects;
+	cur = cur->next;
+	t_object	*obj;
+	obj = cur->content;
+	t_sphere	*sp = obj->property;
+	shoot_ray(m, cam, win, sp);
 
 	mlx_put_image_to_window(m->mlx, m->win, m->data.img, 0, 0);
 
@@ -186,6 +201,11 @@ int	main(int argc, char **argv)
 
 	///////////////////////////////////////////////////////////
 
+		//mlx.mlx_ptr = mlx_init();
+	//mlx.img.img = mlx_new_image(mlx.mlx_ptr, 500, 500);
+	//mlx.img.addr = mlx_get_data_addr(mlx.img.img, &mlx.img.bits_per_pixel, &mlx.img.line_length, &mlx.img.endian);
+	//mlx.win_ptr = mlx_new_window(mlx.mlx_ptr, 500, 500, "test");
+	//mlx_loop(mlx.mlx_ptr);
 	system("leaks miniRT");
 	return (0);
 }

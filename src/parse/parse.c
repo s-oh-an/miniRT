@@ -6,13 +6,15 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 13:15:59 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/07 19:31:01 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/12 19:53:59 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parse.h"
 #include "../../includes/ft_string.h"
 #include "../../lib/libft/libft.h"
+#include "../../includes/vector.h"
+#include <math.h>
 
 /*void	check_file()
 {
@@ -149,7 +151,7 @@ void	set_camera(t_scene *scene, char const **data, int *identifier_flag)
 		exit(1);
 	}
 	*identifier_flag |= 2;
-	set_vec3(&scene->camera.coordinate, data[1]);
+	set_vec3(&scene->camera.orig, data[1]);
 	set_vec3(&scene->camera.n_vector, data[2]);
 	if (!is_valid_vector_range(&scene->camera.n_vector))
 	{
@@ -162,6 +164,10 @@ void	set_camera(t_scene *scene, char const **data, int *identifier_flag)
 		ft_putendl_fd("Error\nInvalid FOV", 2);
 		exit(1);
 	}
+	scene->camera.viewport_h = 2.0;
+	scene->camera.viewport_w = scene->camera.viewport_h * (16 /9);
+	scene->camera.focal_len = 1.0 / tan((scene->camera.fov / 2) * (M_PI / 180));
+	scene->camera.left_bottom = init_point(-(scene->camera.viewport_w / 2), -1, (scene->camera.focal_len));
 }
 
 void	set_light(t_scene *scene, char const **data, int *identifier_flag)
@@ -207,6 +213,7 @@ void	set_sphere(t_scene *scene, char const **data)
 		ft_putendl_fd("Error\nInvalid Diameter Value", 2);
 		exit(1);
 	}
+	sp.radius2 = (sp.diameter / 2) * (sp.diameter / 2);
 	set_vec3(&sp.color, data[3]);
 	if (!is_valid_color_range(&scene->ambient.color))
 	{

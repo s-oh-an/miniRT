@@ -12,7 +12,7 @@ t_window	window(int width, int height)
 
 	window.width = width;
 	window.height = height;
-	window.ratio = width / height; // float을 어디에 붙여서 형변환해야하는지 
+	window.ratio = (float)width / (float)height; // float을 어디에 붙여서 형변환해야하는지 
 	return (window);
 }
 
@@ -21,16 +21,16 @@ t_camera	camera(t_coordinate point_w, float fov, t_window window)
 {
 	t_camera	cam;
 
-	cam.coordinate = point_w;
+	cam.orig = point_w;
 	cam.n_vector = vec_op_unit(point_w);
 	cam.fov = fov;
 	cam.viewport_h = 2.0;
 	cam.viewport_w = cam.viewport_h * window.ratio;
 	// cam.hori_vec = init_vec(cam.viewport_w, 0, 0);
 	// cam.vert_vec = init_vec(cam.viewport_h, 0, 0);
-	cam.focal_len = 1.0 / tan((fov / 2) * (PI / 180));
+	cam.focal_len = 1.0 / tan((fov / 2) * (M_PI / 180));
 	// point_w - (OQ + QM + MB) = point_w - (OB)
-	cam.left_bottom = init_point(-(cam.viewport_w / 2), -1, -(cam.focal_len));
+	cam.left_bottom = init_point(-(cam.viewport_w / 2), 1, (cam.focal_len));
 	return (cam);
 }
 

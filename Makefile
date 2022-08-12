@@ -6,7 +6,7 @@
 #    By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/03 09:57:48 by sohan             #+#    #+#              #
-#    Updated: 2022/08/06 18:27:49 by sohan            ###   ########.fr        #
+#    Updated: 2022/08/12 17:21:51 by sohan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,15 +19,17 @@ STRING_DIR = $(SOURCE_DIR)/string/
 VECTOR_DIR = $(SOURCE_DIR)/vector/
 DISCRIMINANT_DIR = $(SOURCE_DIR)/discriminant/
 RAY_DIR = $(SOURCE_DIR)/ray/
+DRAW_DIR = $(SOURCE_DIR)/draw/
 OBJECT_DIR = ./objects
 FILES = \
 		main \
 
-PARSE_FILE = parse
+PARSE_FILE = parse world_to_camera
 STRING_FILE = ft_stof
 VECTOR_FILE = vector
 DISCRIMINANT_FILE = viewport
 RAY_FILE = ray
+DRAW_FILE = draw
 
 #vpath %.c $(SOURCE_DIR)
 VPATH := $(shell find src -type d -print | tr '\012' ':' | sed 's/:$$//')
@@ -38,6 +40,7 @@ SOURCES = $(addsuffix .c, $(FILES)) \
 		  $(addprefix $(VECTOR_DIR), $(addsuffix .c, $(VECTOR_FILE))) \
 		  $(addprefix $(DISCRIMINANT_DIR), $(addsuffix .c, $(DISCRIMINANT_FILE))) \
 		  $(addprefix $(RAY_DIR), $(addsuffix .c, $(RAY_FILE))) \
+		  $(addprefix $(DRAW_DIR), $(addsuffix .c, $(DRAW_FILE))) \
 
 OBJECTS = $(addprefix $(OBJECT_DIR)/, $(notdir $(SOURCES:.c=.o)))
 

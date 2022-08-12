@@ -4,7 +4,7 @@
 
 float	ft_stof(char const *str)
 {
-	double	ret;
+	float	ret;
 	int		digit;
 	int		digit_decimal;
 	int		sign;

@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 13:55:12 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/07 17:34:24 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/12 19:54:18 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define X_EVENT_KEY_PRESS		2
 # define X_EVENT_KEY_EXIT		17 //
 
+typedef struct s_scene		t_scene;
 typedef struct s_ambient	t_ambient;
 typedef struct s_light		t_light;
 typedef struct s_camera		t_camera;
@@ -30,7 +31,9 @@ typedef struct s_vec3		t_coordinate;
 typedef struct s_vec3		t_vec; //
 typedef struct s_vec3		t_color;
 typedef struct s_vec3		t_normal_vector;
+typedef struct s_vec3		t_vec3;
 typedef t_list				t_object_list;
+
 
 struct s_vec3
 {
@@ -47,16 +50,18 @@ struct s_ambient
 
 struct s_camera
 {
-	t_coordinate	coordinate;	// 	월드기준 좌표
-	t_normal_vector	n_vector;	// 월드기준 정규화된 방향벡터 
+	t_coordinate	orig;
+	t_normal_vector	n_vector;
+	t_vec3			u;
+	t_vec3			v;
+	t_vec3			n;
 	float			fov;
 	float			viewport_h;
 	float			viewport_w;
 	t_vec			hori_vec;
 	t_vec			vert_vec;
-	double			focal_len;
+	float			focal_len;
 	t_coordinate	left_bottom;
-
 };
 
 struct s_light
@@ -69,6 +74,7 @@ struct s_sphere
 {
 	t_coordinate	coordinate;
 	float			diameter;
+	float			radius2;
 	t_color			color;
 };
 
@@ -94,13 +100,13 @@ struct s_object
 	void	*property;
 };
 
-typedef struct s_scene
+struct s_scene
 {
 	t_ambient		ambient;
 	t_light			light;
 	t_camera		camera;
 	t_object_list	*objects;
-}	t_scene;
+};
 
 enum e_object_type
 {
