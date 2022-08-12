@@ -1,6 +1,6 @@
 
 
-# include "vector.h"
+# include "../../includes/vector.h"
 
 t_coordinate	init_vec(float x, float y, float z)
 {
@@ -108,15 +108,15 @@ t_coordinate	vec_op_multi_float(t_coordinate vec, float t)
 //     return (vec);
 // }
 
-// // 벡터 스칼라 나누기
-// t_vec3      vdivide(t_vec3 vec, float t)
-// {
-//     vec.x *= 1 / t;
-//     vec.y *= 1 / t;
-//     vec.z *= 1 / t;
+// 벡터 스칼라 나누기
+t_vec	vdivide(t_vec vec, float t)
+{
+	vec.x = vec.x * (1 / t);
+	vec.y = vec.y * (1 / t);
+	vec.z = vec.z * (1 / t);
 
-//     return vec;
-// }      이거 왜 필요한지 모르겠음
+	return (vec);
+}
 
 // 벡터 product
 float	vec_op_dotproduct(t_coordinate vec1, t_coordinate vec2)
