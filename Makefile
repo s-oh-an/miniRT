@@ -18,6 +18,7 @@ PARSE_DIR = $(SOURCE_DIR)/parse/
 STRING_DIR = $(SOURCE_DIR)/string/
 VECTOR_DIR = $(SOURCE_DIR)/vector/
 DISCRIMINANT_DIR = $(SOURCE_DIR)/discriminant/
+RAY_DIR = $(SOURCE_DIR)/ray/
 OBJECT_DIR = ./objects
 FILES = \
 		main \
@@ -26,6 +27,7 @@ PARSE_FILE = parse
 STRING_FILE = ft_stof
 VECTOR_FILE = vector
 DISCRIMINANT_FILE = viewport
+RAY_FILE = ray
 
 #vpath %.c $(SOURCE_DIR)
 VPATH := $(shell find src -type d -print | tr '\012' ':' | sed 's/:$$//')
@@ -35,6 +37,7 @@ SOURCES = $(addsuffix .c, $(FILES)) \
 		  $(addprefix $(STRING_DIR), $(addsuffix .c, $(STRING_FILE))) \
 		  $(addprefix $(VECTOR_DIR), $(addsuffix .c, $(VECTOR_FILE))) \
 		  $(addprefix $(DISCRIMINANT_DIR), $(addsuffix .c, $(DISCRIMINANT_FILE))) \
+		  $(addprefix $(RAY_DIR), $(addsuffix .c, $(RAY_FILE))) \
 
 OBJECTS = $(addprefix $(OBJECT_DIR)/, $(notdir $(SOURCES:.c=.o)))
 
