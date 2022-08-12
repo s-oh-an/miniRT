@@ -7,6 +7,8 @@
 # include <math.h>
 # include "scene.h"
 
+# define PI 3.141592
+
 t_coordinate	init_vec(float x, float y, float z);
 t_coordinate	init_point(float x, float y, float z);
 t_color			init_color(float x, float y, float z);
@@ -21,6 +23,7 @@ t_coordinate	vec_op_multi_double(t_coordinate vec, float t);
 float			vec_op_dotproduct(t_coordinate vec1, t_coordinate vec2);
 t_coordinate	vec_op_crossproduct(t_coordinate vec1, t_coordinate vec2);
 t_coordinate	vec_op_unit(t_coordinate vec);
+t_vec			vdivide(t_vec vec, float t);
 
 
 #endif
