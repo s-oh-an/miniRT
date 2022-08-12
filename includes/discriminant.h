@@ -7,18 +7,6 @@
 # include "scene.h"
 # include "vector.h"
 
-typedef struct s_pixel
-{
-	t_coordinate	point;
-	int				hit; 	// if hit == 1, else == 0
-}	t_pixel;
-
-typedef struct s_ray
-{
-	t_pixel			dir_pixel;
-	t_coordinate	unit_vec;
-} t_ray;
-
 typedef struct s_window
 {
 	int		width;
