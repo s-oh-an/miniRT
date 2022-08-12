@@ -16,12 +16,16 @@ MLX_DIR = ./lib/mlx/
 SOURCE_DIR = ./src
 PARSE_DIR = $(SOURCE_DIR)/parse/
 STRING_DIR = $(SOURCE_DIR)/string/
+VECTOR_DIR = $(SOURCE_DIR)/vector/
+DISCRIMINANT_DIR = $(SOURCE_DIR)/discriminant/
 OBJECT_DIR = ./objects
 FILES = \
 		main \
 
 PARSE_FILE = parse
 STRING_FILE = ft_stof
+VECTOR_FILE = vector
+DISCRIMINANT_FILE = viewport
 
 #vpath %.c $(SOURCE_DIR)
 VPATH := $(shell find src -type d -print | tr '\012' ':' | sed 's/:$$//')
@@ -29,6 +33,8 @@ VPATH := $(shell find src -type d -print | tr '\012' ':' | sed 's/:$$//')
 SOURCES = $(addsuffix .c, $(FILES)) \
 		  $(addprefix $(PARSE_DIR), $(addsuffix .c, $(PARSE_FILE))) \
 		  $(addprefix $(STRING_DIR), $(addsuffix .c, $(STRING_FILE))) \
+		  $(addprefix $(VECTOR_DIR), $(addsuffix .c, $(VECTOR_FILE))) \
+		  $(addprefix $(DISCRIMINANT_DIR), $(addsuffix .c, $(DISCRIMINANT_FILE))) \
 
 OBJECTS = $(addprefix $(OBJECT_DIR)/, $(notdir $(SOURCES:.c=.o)))
 
