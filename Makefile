@@ -17,7 +17,7 @@ SOURCE_DIR = ./src
 PARSE_DIR = $(SOURCE_DIR)/parse/
 STRING_DIR = $(SOURCE_DIR)/string/
 VECTOR_DIR = $(SOURCE_DIR)/vector/
-DISCRIMINANT_DIR = $(SOURCE_DIR)/discriminant/
+# DISCRIMINANT_DIR = $(SOURCE_DIR)/discriminant/
 RAY_DIR = $(SOURCE_DIR)/ray/
 DRAW_DIR = $(SOURCE_DIR)/draw/
 OBJECT_DIR = ./objects
@@ -27,7 +27,7 @@ FILES = \
 PARSE_FILE = parse world_to_camera
 STRING_FILE = ft_stof
 VECTOR_FILE = vector
-DISCRIMINANT_FILE = viewport
+# DISCRIMINANT_FILE = viewport
 RAY_FILE = ray
 DRAW_FILE = draw # my_mlx
 
