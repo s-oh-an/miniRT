@@ -15,6 +15,10 @@
 
 # include "scene.h"
 # include "ray.h"
+# include "../lib/mlx/mlx.h" //
+# include "discriminant.h"
+
+
 
 int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray);
 
