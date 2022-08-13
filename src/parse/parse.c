@@ -164,6 +164,9 @@ void	set_camera(t_scene *scene, char const **data, int *identifier_flag)
 		ft_putendl_fd("Error\nInvalid FOV", 2);
 		exit(1);
 	}
+	scene->camera.win.width = 1280;
+	scene->camera.win.height = 720;
+	scene->camera.win.ratio = 16.0 / 9.0;
 	scene->camera.viewport_h = 2.0;
 	scene->camera.viewport_w = scene->camera.viewport_h * (16 /9);
 	// scene->camera.viewport_w = scene->camera.viewport_h; // 1: 1

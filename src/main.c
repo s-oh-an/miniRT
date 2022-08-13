@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../includes/vector.h" //
-#include "../includes/discriminant.h" //
+// #include "../includes/discriminant.h" //
 #include "../includes/ray.h" //
 
 ///////////// add mlx func /////////////////
@@ -168,31 +168,33 @@ int	main(int argc, char **argv)
 	///////////////////////insert mlx print/////////////////////
 
 	t_mlx	*m;
-	t_window	win;
+	// t_window	win;
 	t_camera	cam;
 
 	// win = window(1280, 1280); // 1:1
-	win = window(1280, 720); // 16 : 9
+	// win = window(1280, 720); // 16 : 9
 	// win = window(960, 720); // 4:3
 	//cam = camera(init_point(0,0,0), 45, win);
 	cam = scene.camera;
 	m = malloc(sizeof(t_mlx));
-	init_mlx(m, win);
+	init_mlx(m, cam.win);
 
-	m->data.img = mlx_new_image(m->mlx, win.width, win.height);
+	m->data.img = mlx_new_image(m->mlx, cam.win.width, cam.win.height);
 	m->data.addr = mlx_get_data_addr(m->data.img, &m->data.bits_per_pixel, &m->data.line_length, &m->data.endian);
 
-	t_object_list *cur;
+	// t_object_list *cur;
 
-	cur = scene.objects;
-	cur = cur->next;
-	t_object	*obj;
-	obj = cur->content;
-	t_sphere	*sp = obj->property;
-	shoot_ray(m, cam, win, sp);
+	// cur = scene.objects;
+	// t_object	*obj;
+	// obj = cur->content;
+	// t_sphere	*sp = obj->property;
+	// shoot_ray(m, cam, obj);
+
+	// obj = cur->content;
+
+	check_ob_list(m, cam, scene.objects);
 
 	mlx_put_image_to_window(m->mlx, m->win, m->data.img, 0, 0);
-
 
 	mlx_hook(m->win, X_EVENT_KEY_PRESS, 0, &press_key, m);
 	mlx_hook(m->win, X_EVENT_KEY_EXIT, 0, &exit_minirt, m);
