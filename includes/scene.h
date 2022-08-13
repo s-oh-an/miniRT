@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 13:55:12 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/12 19:54:18 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/13 17:11:08 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ struct s_cylinder
 	t_coordinate	coordinate;
 	t_normal_vector	n_vector;
 	float			diameter;
+	float			radius2;
 	float			height;
 	t_color			color;
 };

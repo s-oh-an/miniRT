@@ -27,11 +27,11 @@ int	dist_object(t_object *object, t_ray *ray, t_color *color)
 		*color = ((t_plane *)object->property)->color;
 		return (is_ray_hit_plane((t_plane *)object->property, ray));
 	}	
-	// else if (object->type == T_CYLINDER)
-	// {
-	// 	(*color) = ((t_cylinder *)object->property)->color;
-	// 	return (is_ray_hit_cylinder((t_cylinder *)object->property, ray));
-	// }
+	else if (object->type == T_CYLINDER)
+	{
+	 	(*color) = ((t_cylinder *)object->property)->color;
+	 	return (is_ray_hit_cylinder((t_cylinder *)object->property, ray));
+	}
 	else
 		return (0);
 }
@@ -66,7 +66,7 @@ void	shoot_ray(t_mlx *m, t_camera cam, t_object *object)
 		while (i < cam.win.width)
 		{
 			// 이 픽셀에 해당하는 뷰포트의 픽셀을 지나가는 광선이 물체와 만나는지 확인
-			u = (2.0 /* *cam.win.ratio*/) * (float)i / (float)(cam.win.width);
+			u = (2.0  *cam.win.ratio) * (float)i / (float)(cam.win.width);
 			v = 2.0 * (float)j / (float)(cam.win.height);
 			int k = ray_in_viewport(cam, u, v, object, &color);
 			//fprintf(file, "%d ", k);
