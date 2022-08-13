@@ -28,3 +28,19 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 		return (0);
 	return (1);
 }
+
+int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
+{
+	float	c_dot_n;
+	float	d_dot_n;
+	float	d;
+
+	c_dot_n = vec_op_dotproduct(plane->n_vector, plane->coordinate);
+	d_dot_n = vec_op_dotproduct(plane->n_vector, ray->vec);
+	if (d_dot_n == 0)
+		return (0);
+	d = c_dot_n / d_dot_n;
+	if (d < 0)
+		return (0);
+	return (1);
+}

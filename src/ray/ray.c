@@ -3,6 +3,7 @@
 #include "../../includes/ray.h"
 #include "../../includes/draw.h"
 
+
 t_ray	init_ray(float x, float y, float z)
 {
 	t_ray	ray;
@@ -32,8 +33,41 @@ int	ray_in_viewport(t_camera cam, t_window win, float u, float v, t_sphere *sphe
 		return (0);
 }
 
-// #include <fcntl.h>
+// distinguish object
+// int	dist_object(t_sphere *ob_list, t_ray *ray)
+// {
+// 	t_object	*cur;
+// 	t_sphere	*sp;
+// 	t_plane		*pl;
+// 	t_cylinder	*cy;
 
+// 	cur = (t_object *)ob_list->content;
+// 	while (cur)
+// 	{
+// 		if (cur->type == T_SPHERE)
+// 			return (is_ray_hit_sphere((t_sphere *)cur->property, ray));
+// 		// if (cur->type == T_PLANE)
+// 		// 	return (is_ray_hit_sphere((t_plane *)cur->property, ray));
+// 		// if (cur->type == T_CYLINDER)
+// 		// 	return (is_ray_hit_sphere((t_cylinder *)cur->property, ray));
+// 	}
+// }
+
+// int	ray_in_viewport(t_camera cam, t_window win, float u, float v, t_object *object)
+// {
+// 	t_ray	ray;
+// 	float	hori_r;
+// 	float	vert_r;
+
+// 	// 2.0 / 2 / win.width
+// 	vert_r = 1.0 / (float)win.width;
+// 	hori_r = 1.0 / (float)win.height;
+// 	ray = init_ray((cam.left_bottom.x + vert_r + u ), (cam.left_bottom.y + hori_r + v), cam.left_bottom.z);
+	
+// 	return (dist_object(object, &ray));
+// }
+
+// #include <fcntl.h>
 void	shoot_ray(t_mlx *m, t_camera cam, t_window win, t_sphere *sphere)
 {
 	float	u;
@@ -57,7 +91,8 @@ void	shoot_ray(t_mlx *m, t_camera cam, t_window win, t_sphere *sphere)
 			if (k)													// 
 			{
 				//printf("i : %d j : %d\n", i, j);
-				my_mlx_pixel_put(&(m->data), i, j, 0x0000FF00);
+				my_mlx_pixel_put(&(m->data), i, j, trans_trgb(sphere->color));
+				// my_mlx_pixel_put(&(m->data), i, j, 0x0000FF00);
 			}
 			i++;
 		}

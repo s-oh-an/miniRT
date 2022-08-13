@@ -12,7 +12,7 @@
 
 #include "../includes/parse.h"
 #include "../includes/scene.h"
-#include "../includes/draw.h"
+#include "../includes/my_mlx.h"
 #include "../lib/libft/libft.h"
 #include "../lib/mlx/mlx.h"
 #include <fcntl.h>
@@ -21,11 +21,16 @@
 #include <string.h>
 #include "../includes/vector.h" //
 #include "../includes/discriminant.h" //
-#include "../includes/my_mlx.h" //
 #include "../includes/ray.h" //
 
 ///////////// add mlx func /////////////////
 
+int	exit_minirt(t_mlx *m)
+{
+	mlx_destroy_window(m->mlx, m->win);
+	free(m);
+	exit(0);
+}
 
 void	init_mlx(t_mlx *m, t_window w)
 {
@@ -33,6 +38,18 @@ void	init_mlx(t_mlx *m, t_window w)
 	m->mlx = mlx_init();
 	m->win = mlx_new_window(m->mlx, w.width, w.height, "s(oh)an's MINIRT");
 
+}
+
+int	trans_trgb(t_color color)
+{
+	int	trgb;
+
+	trgb = (int)color.x;
+	trgb = trgb << 8;
+	trgb = trgb | (int)color.y;
+	trgb = trgb << 8;
+	trgb = trgb | (int)color.z;
+	return (trgb);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -43,19 +60,13 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-int	exit_minirt(t_mlx *m)
-{
-	mlx_destroy_window(m->mlx, m->win);
-	free(m);
-	exit(0);
-}
-
 int	press_key(int key_code, t_mlx *m)
 {
 	if (key_code == KEY_ESC)
 		exit_minirt(m);
 	return (0);
 }
+
 
 
 /////////////////////////////////////////////
