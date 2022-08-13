@@ -1,10 +1,6 @@
 
 # include "../../includes/discriminant.h"
 
-
-
-
-
 // 캔버스 생성자 
 t_window	window(int width, int height)
 {

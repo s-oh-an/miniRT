@@ -169,20 +169,6 @@ int	main(int argc, char **argv)
 	m->data.img = mlx_new_image(m->mlx, win.width, win.height);
 	m->data.addr = mlx_get_data_addr(m->data.img, &m->data.bits_per_pixel, &m->data.line_length, &m->data.endian);
 
-	// int i;
-	// int k;
-	// int j;
-
-	// for (i = 250, k = 99; i < 300; i++, k -= 2)
-	// {
-	// for (j = 150 + k; j < 250; j++)
-	// 	my_mlx_pixel_put(&(m->data), i, j, 0x0000FF00);
-	// }
-	// for (i = 300, k = 0; i < 350; i++, k += 2)
-	// {
-	// for (j = 150 + k; j < 250; j++)
-	// 	my_mlx_pixel_put(&(m->data), i, j, 0x0000FF00);
-	// }
 	t_object_list *cur;
 
 	cur = scene.objects;

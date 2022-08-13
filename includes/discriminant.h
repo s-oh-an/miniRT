@@ -15,7 +15,6 @@ typedef struct s_window
 }	t_window;
 
 
-// t_ray	**find_view_pixel(float fov);
 t_window	window(int width, int height);
 t_camera	camera(t_coordinate point_w, float fov, t_window window);
 
