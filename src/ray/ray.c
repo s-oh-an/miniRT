@@ -32,7 +32,7 @@ int	ray_in_viewport(t_camera cam, t_window win, float u, float v, t_sphere *sphe
 		return (0);
 }
 
-#include <fcntl.h>
+// #include <fcntl.h>
 
 void	shoot_ray(t_mlx *m, t_camera cam, t_window win, t_sphere *sphere)
 {
@@ -41,15 +41,15 @@ void	shoot_ray(t_mlx *m, t_camera cam, t_window win, t_sphere *sphere)
 	int		i;
 	int		j;
 
-	j = 0;
+	j = win.height - 1;
 	//FILE *file = fopen("result.txt", "w");
-	while (j < win.height)
+	while (j >= 0)
 	{
 		i = 0;
 		while (i < win.width)
 		{
 			// 이 픽셀에 해당하는 뷰포트의 픽셀을 지나가는 광선이 물체와 만나는지 확인
-			u = 2.0 * (float)i / (float)(win.width);
+			u = (2.0 * win.ratio) * (float)i / (float)(win.width);
 			v = 2.0 * (float)j / (float)(win.height);
 			int k = ray_in_viewport(cam, win, u, v, sphere);
 			//fprintf(file, "%d ", k);
@@ -61,7 +61,7 @@ void	shoot_ray(t_mlx *m, t_camera cam, t_window win, t_sphere *sphere)
 			}
 			i++;
 		}
-		j++;
+		j--;
 	}
 	//fprintf(file, "\n");
 }

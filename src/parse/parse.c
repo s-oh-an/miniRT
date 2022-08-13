@@ -166,6 +166,8 @@ void	set_camera(t_scene *scene, char const **data, int *identifier_flag)
 	}
 	scene->camera.viewport_h = 2.0;
 	scene->camera.viewport_w = scene->camera.viewport_h * (16 /9);
+	// scene->camera.viewport_w = scene->camera.viewport_h; // 1: 1
+	// scene->camera.viewport_w = scene->camera.viewport_h * (4/3);
 	scene->camera.focal_len = 1.0 / tan((scene->camera.fov / 2) * (M_PI / 180));
 	scene->camera.left_bottom = init_point(-(scene->camera.viewport_w / 2), -1, (scene->camera.focal_len));
 }

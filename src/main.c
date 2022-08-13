@@ -160,7 +160,9 @@ int	main(int argc, char **argv)
 	t_window	win;
 	t_camera	cam;
 
-	win = window(800, 800);
+	// win = window(1280, 1280); // 1:1
+	win = window(1280, 720); // 16 : 9
+	// win = window(960, 720); // 4:3
 	//cam = camera(init_point(0,0,0), 45, win);
 	cam = scene.camera;
 	m = malloc(sizeof(t_mlx));
