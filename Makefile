@@ -29,7 +29,7 @@ STRING_FILE = ft_stof
 VECTOR_FILE = vector
 DISCRIMINANT_FILE = viewport
 RAY_FILE = ray
-DRAW_FILE = draw
+DRAW_FILE = draw # my_mlx
 
 #vpath %.c $(SOURCE_DIR)
 VPATH := $(shell find src -type d -print | tr '\012' ':' | sed 's/:$$//')
