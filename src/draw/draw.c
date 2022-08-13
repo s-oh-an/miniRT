@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 16:45:40 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/12 19:54:04 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/13 20:07:27 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,20 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 	float	b;
 	float	c;
 	float	d;
+	float	t[2];
 
-	b = vec_op_dotproduct(ray->vec, sphere->coordinate);
-	b *= b;
-	c = vec_len(sphere->coordinate) * vec_len(sphere->coordinate) - sphere->radius2;
-	d = b - c;
+	b = vec_op_dotproduct(ray->vec, vec_op_minus_vec(init_vec(0, 0, 0), sphere->coordinate));
+	c = vec_len_squared(sphere->coordinate) - sphere->radius2;
+	d = (b* b) - c;
 	if (d < 0)
 		return (0);
+	t[0] = -b + sqrt(d);
+	t[1] = -b - sqrt(d);
+	if (t[0] * t[1] > 0)
+	{
+		if (t[0] < 0)
+			return (0);
+	}
 	return (1);
 }
 

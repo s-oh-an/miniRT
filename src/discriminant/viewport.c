@@ -1,6 +1,5 @@
 
-// # include "../../includes/discriminant.h"
-
+#include "../../includes/discriminant.h"
 // // 캔버스 생성자 
 // t_window	window(int width, int height)
 // {
@@ -13,22 +12,19 @@
 // }
 
 // //카메라 생성자
-// t_camera	camera(t_coordinate point_w, float fov, t_window window)
-// {
-// 	t_camera	cam;
+t_camera	camera(void)
+{
+	t_camera	cam;
 
-// 	cam.orig = point_w;
-// 	cam.n_vector = vec_op_unit(point_w);
-// 	cam.fov = fov;
-// 	cam.viewport_h = 2.0;
-// 	cam.viewport_w = cam.viewport_h * window.ratio;
-// 	// cam.hori_vec = init_vec(cam.viewport_w, 0, 0);
-// 	// cam.vert_vec = init_vec(cam.viewport_h, 0, 0);
-// 	cam.focal_len = 1.0 / tan((fov / 2) * (M_PI / 180));
-// 	// point_w - (OQ + QM + MB) = point_w - (OB)
-// 	cam.left_bottom = init_point(-(cam.viewport_w / 2), 1, (cam.focal_len));
-// 	return (cam);
-// }
+	cam.win.width = 1280;
+	cam.win.height = 720;
+	cam.win.ratio = 16.0 / 9.0;
+	cam.viewport_h = 2.0;
+	cam.viewport_w = cam.viewport_h * (16 /9);
+	cam.focal_len = 1.0 / tan((cam.fov / 2) * (M_PI / 180));
+	cam.left_bottom = init_point(-(cam.viewport_w / 2), -1, -(cam.focal_len));
+	return (cam);
+}
 
 
 // t_ray	**set_view_pixel_point(t_ray **ray, int size, float len)

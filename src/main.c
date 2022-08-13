@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:43:52 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/12 19:47:22 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/13 19:44:42 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../includes/vector.h" //
-// #include "../includes/discriminant.h" //
+#include "../includes/discriminant.h" //
 #include "../includes/ray.h" //
 
 ///////////// add mlx func /////////////////
@@ -175,6 +175,7 @@ int	main(int argc, char **argv)
 	// win = window(1280, 720); // 16 : 9
 	// win = window(960, 720); // 4:3
 	//cam = camera(init_point(0,0,0), 45, win);
+	//cam = camera();
 	cam = scene.camera;
 	m = malloc(sizeof(t_mlx));
 	init_mlx(m, cam.win);
