@@ -15,9 +15,10 @@
 
 # include "../lib/libft/libft.h"
 
-# define KEY_ESC		53 //
+# define KEY_ESC				53
+
 # define X_EVENT_KEY_PRESS		2
-# define X_EVENT_KEY_EXIT		17 //
+# define X_EVENT_KEY_EXIT		17
 
 typedef struct s_scene		t_scene;
 typedef struct s_ambient	t_ambient;
@@ -28,7 +29,7 @@ typedef struct s_sphere		t_sphere;
 typedef struct s_plane		t_plane;
 typedef struct s_cylinder	t_cylinder;
 typedef struct s_vec3		t_coordinate;
-typedef struct s_vec3		t_vec; //
+typedef struct s_vec3		t_vec;
 typedef struct s_vec3		t_color;
 typedef struct s_vec3		t_normal_vector;
 typedef struct s_vec3		t_vec3;
@@ -48,6 +49,13 @@ struct s_ambient
 	t_color	color;
 };
 
+typedef struct s_window
+{
+	int		width;
+	int		height;
+	float	ratio;
+}	t_window;
+
 struct s_camera
 {
 	t_coordinate	orig;
@@ -55,6 +63,7 @@ struct s_camera
 	t_vec3			u;
 	t_vec3			v;
 	t_vec3			n;
+	t_window		win;
 	float			fov;
 	float			viewport_h;
 	float			viewport_w;

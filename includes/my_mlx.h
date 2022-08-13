@@ -9,7 +9,7 @@
 
 # include "../lib/mlx/mlx.h" //
 # include "scene.h"
-# include "discriminant.h"
+// # include "discriminant.h"
 
 typedef struct s_data
 {

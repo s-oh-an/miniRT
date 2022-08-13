@@ -7,7 +7,7 @@
 
 # include "scene.h"
 # include "vector.h"
-# include "discriminant.h"
+// # include "discriminant.h"
 # include "my_mlx.h"
 
 typedef struct s_ray
@@ -17,6 +17,6 @@ typedef struct s_ray
 }	t_ray;
 
 t_ray	init_ray(float x, float y, float z);
-void	shoot_ray(t_mlx *m, t_camera cam, t_window win, t_sphere *sphere);
+void	check_ob_list(t_mlx *m, t_camera cam, t_object_list *cur);
 
 #endif
