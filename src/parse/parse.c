@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 13:15:59 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/12 19:53:59 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/13 17:11:44 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,6 +307,7 @@ void	set_cylinder(t_scene *scene, char const **data)
 		ft_putendl_fd("Error\nInvalid Property Value", 2);
 		exit(1);
 	}
+	cy.radius2 = (cy.diameter / 2) * (cy.diameter / 2);
 	set_vec3(&cy.color, data[5]);
 	if (!is_valid_color_range(&scene->ambient.color))
 	{
