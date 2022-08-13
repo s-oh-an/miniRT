@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"draw.h": "c",
+		"ray.h": "c",
+		"scene.h": "c"
+	}
+}
