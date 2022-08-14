@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/08/03 09:57:48 by sohan             #+#    #+#              #
-#    Updated: 2022/08/13 19:37:21 by sohan            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 INCLUDES_DIR = ./includes/
 LIBFT_DIR = ./lib/libft/
 MLX_DIR = ./lib/mlx/
@@ -32,7 +20,7 @@ RAY_FILE = ray
 DRAW_FILE = draw # my_mlx
 
 #vpath %.c $(SOURCE_DIR)
-VPATH := $(shell find src -type d -print | tr '\012' ':' | sed 's/:$$//')
+VPATH := $(shell find $(SOURCE_DIR) -type d -print | tr '\012' ':' | sed 's/:$$//')
 
 SOURCES = $(addsuffix .c, $(FILES)) \
 		  $(addprefix $(PARSE_DIR), $(addsuffix .c, $(PARSE_FILE))) \
@@ -59,6 +47,7 @@ $(NAME): $(LIBFT) $(MLX) $(OBJECT_DIR) $(OBJECTS)
 	$(CC) $(CFLAGS) $(DLIBS) $(LDFLAGS) $(OBJECTS) -o $@
 
 $(OBJECT_DIR):
+	@echo "make objects folder"
 	@mkdir -p $(OBJECT_DIR)
 
 $(OBJECT_DIR)/%.o: %.c
