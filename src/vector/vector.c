@@ -1,10 +1,10 @@
+#include "../../includes/vector.h"
+#include <math.h>
+#include <stdio.h>
 
-
-# include "../../includes/vector.h"
-
-t_coordinate	init_vec(float x, float y, float z)
+t_vec	vec3(float x, float y, float z)
 {
-	t_coordinate vec;
+	t_vec vec;
 	
 	vec.x = x;
 	vec.y = y;
@@ -12,9 +12,9 @@ t_coordinate	init_vec(float x, float y, float z)
 	return (vec);
 }
 
-t_coordinate	init_point(float x, float y, float z)
+/*t_vec	init_point(float x, float y, float z)
 {
-	t_coordinate point;
+	t_vec point;
 	
 	point.x = x;
 	point.y = y;
@@ -32,15 +32,15 @@ t_color	init_color(float x, float y, float z)
 	return (color);
 }
 
-void	set_vec(t_coordinate *vec, float x, float y, float z)
+void	set_vec(t_vec *vec, float x, float y, float z)
 {
 	vec->x = x;
 	vec->y = y;
 	vec->z = z;
-}
+}*/
 
 // 벡터 길이 제곱
-float	vec_len_squared(t_coordinate vec)
+float	vlen2(t_vec vec)
 {
 	float	len;
 
@@ -48,16 +48,16 @@ float	vec_len_squared(t_coordinate vec)
 	return (len);
 }
 
-float	vec_len(t_coordinate vec)
+float	vlen(t_vec vec)
 {
 	float len;
 
-	len = sqrt(vec_len_squared(vec));
+	len = sqrt(vlen2(vec));
 	return (len);
 }
 
 // 벡터 덧셈
-t_coordinate	vec_op_plus_vec(t_coordinate vec1, t_coordinate vec2)
+t_vec	vplus(t_vec vec1, t_vec vec2)
 {
 	vec1.x = vec1.x + vec2.x;
 	vec1.y = vec1.y + vec2.y;
@@ -65,7 +65,7 @@ t_coordinate	vec_op_plus_vec(t_coordinate vec1, t_coordinate vec2)
 	return (vec1);
 }
 
-t_coordinate	vec_op_plus_element(t_coordinate vec1, float x, float y, float z)
+t_vec	vplus_f(t_vec vec1, float x, float y, float z)
 {
 	vec1.x = vec1.x + x;
 	vec1.y = vec1.y + y;
@@ -74,7 +74,7 @@ t_coordinate	vec_op_plus_element(t_coordinate vec1, float x, float y, float z)
 }
 
 // 벡터 뺼셈
-t_coordinate	vec_op_minus_vec(t_coordinate vec1, t_coordinate vec2)
+t_vec	vminus(t_vec vec1, t_vec vec2)
 {
 	vec1.x = vec1.x - vec2.x;
 	vec1.y = vec1.y - vec2.y;
@@ -82,7 +82,7 @@ t_coordinate	vec_op_minus_vec(t_coordinate vec1, t_coordinate vec2)
 	return (vec1);
 }
 
-t_coordinate	vec_op_minus_element(t_coordinate vec1, float x, float y, float z)
+t_vec	vminus_f(t_vec vec1, float x, float y, float z)
 {
 	vec1.x = vec1.x - x;
 	vec1.y = vec1.y - y;
@@ -91,7 +91,7 @@ t_coordinate	vec_op_minus_element(t_coordinate vec1, float x, float y, float z)
 }
 
 // 벡터 곱셈
-t_coordinate	vec_op_multi_float(t_coordinate vec, float t)
+t_vec	vmulti_f(t_vec vec, float t)
 {
 	vec.x = vec.x * t;
 	vec.y = vec.y * t;
@@ -109,7 +109,7 @@ t_coordinate	vec_op_multi_float(t_coordinate vec, float t)
 // }
 
 // 벡터 스칼라 나누기
-t_vec	vdivide(t_vec vec, float t)
+t_vec	vdiv(t_vec vec, float t)
 {
 	vec.x = vec.x * (1 / t);
 	vec.y = vec.y * (1 / t);
@@ -118,8 +118,8 @@ t_vec	vdivide(t_vec vec, float t)
 	return (vec);
 }
 
-// 벡터 product
-float	vec_op_dotproduct(t_coordinate vec1, t_coordinate vec2)
+// 벡터 
+float	vdot(t_vec vec1, t_vec vec2)
 {
 	float	res;
 
@@ -127,9 +127,9 @@ float	vec_op_dotproduct(t_coordinate vec1, t_coordinate vec2)
 	return (res);
 }
 
-t_coordinate	vec_op_crossproduct(t_coordinate vec1, t_coordinate vec2)
+t_vec	vcross(t_vec vec1, t_vec vec2)
 {
-	t_coordinate	res;
+	t_vec	res;
 
 	res.x = (vec1.y * vec2.z) - (vec1.z * vec2.y);
 	res.y = (vec1.x * vec2.z) - (vec1.z * vec2.x);
@@ -138,12 +138,12 @@ t_coordinate	vec_op_crossproduct(t_coordinate vec1, t_coordinate vec2)
 }
 
 // 벡터 표준화 
-t_coordinate	vec_op_unit(t_coordinate vec)
+t_vec	vunit(t_vec vec)
 {
-	t_coordinate	unit;
-	float	len;
+	t_vec	unit;
+	float			len;
 
-	len = vec_len(vec);
+	len = vlen(vec);
 	if (len == 0)
 	{
 		printf("length of vector is 0");

@@ -3,32 +3,32 @@ LIBFT_DIR = ./lib/libft/
 MLX_DIR = ./lib/mlx/
 SOURCE_DIR = ./src
 PARSE_DIR = $(SOURCE_DIR)/parse/
-STRING_DIR = $(SOURCE_DIR)/string/
+UTILS_DIR = $(SOURCE_DIR)/utils/
 VECTOR_DIR = $(SOURCE_DIR)/vector/
 DISCRIMINANT_DIR = $(SOURCE_DIR)/discriminant/
 RAY_DIR = $(SOURCE_DIR)/ray/
-DRAW_DIR = $(SOURCE_DIR)/draw/
+TRANSFORM_DIR = $(SOURCE_DIR)/transform/
 OBJECT_DIR = ./objects
 FILES = \
 		main \
 
-PARSE_FILE = parse world_to_camera
-STRING_FILE = ft_stof
+PARSE_FILE = parse
+UTILS_FILE = ft_stof utils_mlx utils_common
 VECTOR_FILE = vector
-DISCRIMINANT_FILE = viewport
-RAY_FILE = ray
-DRAW_FILE = draw # my_mlx
+DISCRIMINANT_FILE = discriminant
+RAY_FILE = trace
+TRANSFORM_FILE = world_to_camera transformation 
 
 #vpath %.c $(SOURCE_DIR)
 VPATH := $(shell find $(SOURCE_DIR) -type d -print | tr '\012' ':' | sed 's/:$$//')
 
 SOURCES = $(addsuffix .c, $(FILES)) \
 		  $(addprefix $(PARSE_DIR), $(addsuffix .c, $(PARSE_FILE))) \
-		  $(addprefix $(STRING_DIR), $(addsuffix .c, $(STRING_FILE))) \
+		  $(addprefix $(UTILS_DIR), $(addsuffix .c, $(UTILS_FILE))) \
 		  $(addprefix $(VECTOR_DIR), $(addsuffix .c, $(VECTOR_FILE))) \
 		  $(addprefix $(DISCRIMINANT_DIR), $(addsuffix .c, $(DISCRIMINANT_FILE))) \
 		  $(addprefix $(RAY_DIR), $(addsuffix .c, $(RAY_FILE))) \
-		  $(addprefix $(DRAW_DIR), $(addsuffix .c, $(DRAW_FILE))) \
+		  $(addprefix $(TRANSFORM_DIR), $(addsuffix .c, $(TRANSFORM_FILE))) \
 
 OBJECTS = $(addprefix $(OBJECT_DIR)/, $(notdir $(SOURCES:.c=.o)))
 

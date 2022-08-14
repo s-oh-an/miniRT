@@ -1,26 +1,8 @@
 #include "../../includes/parse.h"
-#include "../../includes/ft_string.h"
+#include "../../includes/utils.h"
 #include "../../lib/libft/libft.h"
 #include "../../includes/vector.h"
 #include <math.h>
-
-/*void	check_file()
-{
-
-}*/
-
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		++i;
-	}
-	free(array);
-}
 
 int	is_duplicate_identifier(int identifier_flag)
 {
@@ -157,10 +139,8 @@ void	set_camera(t_scene *scene, char const **data, int *identifier_flag)
 	scene->camera.win.ratio = 16.0 / 9.0;
 	scene->camera.viewport_h = 2.0;
 	scene->camera.viewport_w = scene->camera.viewport_h * (16 /9);
-	// scene->camera.viewport_w = scene->camera.viewport_h; // 1: 1
-	// scene->camera.viewport_w = scene->camera.viewport_h * (4/3);
 	scene->camera.focal_len = 1.0 / tan((scene->camera.fov / 2) * (M_PI / 180));
-	scene->camera.left_bottom = init_point(-(scene->camera.viewport_w / 2), -1, -(scene->camera.focal_len));
+	scene->camera.left_bottom = vec3(-(scene->camera.viewport_w / 2), -1, -(scene->camera.focal_len));
 }
 
 void	set_light(t_scene *scene, char const **data, int *identifier_flag)
@@ -367,4 +347,14 @@ void	read_rt_file(int fd, t_scene *scene)
 		ft_putendl_fd("Error\nNot enough Scene Arguments", 2);
 		exit(1);
 	}
+}
+
+int	is_rt_file(char const *str)
+{
+	char	*file;
+
+	file = ft_strchr(str, '.');
+	if (!file || ft_strncmp(file, ".rt", ft_strlen(file)) != 0)
+		return (0);
+	return (1);
 }

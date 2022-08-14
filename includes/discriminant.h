@@ -1,21 +1,11 @@
-
-
-
 #ifndef DISCRIMINANT_H
 # define DISCRIMINANT_H
 
 # include "scene.h"
-# include "vector.h"
+# include "ray.h"
 
-// typedef struct s_window
-// {
-// 	int		width;
-// 	int		height;
-// 	float	ratio;
-// }	t_window;
-
-
-// t_window	window(int width, int height);
-t_camera	camera(void);
+int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray);
+int	is_ray_hit_plane(t_plane *plane, t_ray *ray);
+int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray);
 
 #endif

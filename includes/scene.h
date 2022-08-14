@@ -16,11 +16,11 @@ typedef struct s_object		t_object;
 typedef struct s_sphere		t_sphere;
 typedef struct s_plane		t_plane;
 typedef struct s_cylinder	t_cylinder;
-typedef struct s_vec3		t_coordinate;
 typedef struct s_vec3		t_vec;
-typedef struct s_vec3		t_color;
-typedef struct s_vec3		t_normal_vector;
-typedef struct s_vec3		t_vec3;
+
+typedef t_vec				t_coordinate;
+typedef t_vec				t_color;
+typedef t_vec				t_normal_vector;
 typedef t_list				t_object_list;
 
 
@@ -48,9 +48,9 @@ struct s_camera
 {
 	t_coordinate	orig;
 	t_normal_vector	n_vector;
-	t_vec3			u;
-	t_vec3			v;
-	t_vec3			n;
+	t_vec			x;
+	t_vec			y;
+	t_vec			z;
 	t_window		win;
 	float			fov;
 	float			viewport_h;

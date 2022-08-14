@@ -1,15 +1,8 @@
-
-
-
-
-
-
 #ifndef MY_MLX_H
 # define MY_MLX_H
 
 # include "../lib/mlx/mlx.h" //
 # include "scene.h"
-// # include "discriminant.h"
 
 typedef struct s_data
 {
@@ -28,7 +21,6 @@ typedef struct s_mlx
 }	t_mlx;
 
 void	init_mlx(t_mlx *m, t_window w);
-int		trans_trgb(t_color color);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		press_key(int key_code, t_mlx *m);
 

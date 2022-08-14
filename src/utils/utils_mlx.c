@@ -1,25 +1,17 @@
+#include "../../includes/scene.h"
+#include "../../lib/mlx/mlx.h"
+#include "../../includes/my_mlx.h"
 
-
-#include "../../includes/draw.h"
+int	exit_minirt(t_mlx *m)
+{
+	mlx_destroy_window(m->mlx, m->win);
+	exit(0);
+}
 
 void	init_mlx(t_mlx *m, t_window w)
 {
-
 	m->mlx = mlx_init();
 	m->win = mlx_new_window(m->mlx, w.width, w.height, "s(oh)an's MINIRT");
-
-}
-
-int	trans_trgb(t_color color)
-{
-	int	trgb;
-
-	trgb = (int)color.x;
-	trgb = trgb << 8;
-	trgb = trgb | (int)color.y;
-	trgb = trgb << 8;
-	trgb = trgb | (int)color.z;
-	return (trgb);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)

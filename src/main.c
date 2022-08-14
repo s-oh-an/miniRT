@@ -1,6 +1,5 @@
 #include "../includes/parse.h"
 #include "../includes/scene.h"
-#include "../includes/my_mlx.h"
 #include "../lib/libft/libft.h"
 #include "../lib/mlx/mlx.h"
 #include <fcntl.h>
@@ -10,54 +9,8 @@
 #include "../includes/vector.h" //
 #include "../includes/discriminant.h" //
 #include "../includes/ray.h" //
-
-///////////// add mlx func /////////////////
-
-int	exit_minirt(t_mlx *m)
-{
-	mlx_destroy_window(m->mlx, m->win);
-	free(m);
-	exit(0);
-}
-
-void	init_mlx(t_mlx *m, t_window w)
-{
-
-	m->mlx = mlx_init();
-	m->win = mlx_new_window(m->mlx, w.width, w.height, "s(oh)an's MINIRT");
-
-}
-
-int	trans_trgb(t_color color)
-{
-	int	trgb;
-
-	trgb = (int)color.x;
-	trgb = trgb << 8;
-	trgb = trgb | (int)color.y;
-	trgb = trgb << 8;
-	trgb = trgb | (int)color.z;
-	return (trgb);
-}
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-int	press_key(int key_code, t_mlx *m)
-{
-	if (key_code == KEY_ESC)
-		exit_minirt(m);
-	return (0);
-}
-
-
-
-/////////////////////////////////////////////
+#include "../includes/utils.h"
+#include "../includes/transform.h"
 
 void	print(t_scene *scene)
 {
@@ -114,22 +67,10 @@ void	print(t_scene *scene)
 	}
 }
 
-int	is_rt_file(char const *str)
-{
-	char	*file;
-
-	file = ft_strchr(str, '.');
-	if (!file || ft_strncmp(file, ".rt", ft_strlen(file)) != 0)
-		return (0);
-	return (1);
-}
-
 int	main(int argc, char **argv)
 {
 	int		fd;
 	t_scene scene;
-	//t_image	img;
-	//t_mlx	mlx;
 
 	if (argc != 2 || !ft_strncmp(argv[1], "", ft_strlen(argv[1])))
 	{	
@@ -155,47 +96,18 @@ int	main(int argc, char **argv)
 
 	///////////////////////insert mlx print/////////////////////
 
-	t_mlx	*m;
-	// t_window	win;
+	t_mlx		m;
 	t_camera	cam;
 
-	// win = window(1280, 1280); // 1:1
-	// win = window(1280, 720); // 16 : 9
-	// win = window(960, 720); // 4:3
-	//cam = camera(init_point(0,0,0), 45, win);
-	//cam = camera();
 	cam = scene.camera;
-	m = malloc(sizeof(t_mlx));
-	init_mlx(m, cam.win);
-
-	m->data.img = mlx_new_image(m->mlx, cam.win.width, cam.win.height);
-	m->data.addr = mlx_get_data_addr(m->data.img, &m->data.bits_per_pixel, &m->data.line_length, &m->data.endian);
-
-	// t_object_list *cur;
-
-	// cur = scene.objects;
-	// t_object	*obj;
-	// obj = cur->content;
-	// t_sphere	*sp = obj->property;
-	// shoot_ray(m, cam, obj);
-
-	// obj = cur->content;
-
-	check_ob_list(m, cam, scene.objects);
-
-	mlx_put_image_to_window(m->mlx, m->win, m->data.img, 0, 0);
-
-	mlx_hook(m->win, X_EVENT_KEY_PRESS, 0, &press_key, m);
-	mlx_hook(m->win, X_EVENT_KEY_EXIT, 0, &exit_minirt, m);
-	mlx_loop(m->mlx);
-
-	///////////////////////////////////////////////////////////
-
-		//mlx.mlx_ptr = mlx_init();
-	//mlx.img.img = mlx_new_image(mlx.mlx_ptr, 500, 500);
-	//mlx.img.addr = mlx_get_data_addr(mlx.img.img, &mlx.img.bits_per_pixel, &mlx.img.line_length, &mlx.img.endian);
-	//mlx.win_ptr = mlx_new_window(mlx.mlx_ptr, 500, 500, "test");
-	//mlx_loop(mlx.mlx_ptr);
+	init_mlx(&m, cam.win);
+	m.data.img = mlx_new_image(m.mlx, cam.win.width, cam.win.height);
+	m.data.addr = mlx_get_data_addr(m.data.img, &m.data.bits_per_pixel, &m.data.line_length, &m.data.endian);
+	trace_objects(&m, cam, scene.objects);
+	mlx_put_image_to_window(m.mlx, m.win, m.data.img, 0, 0);
+	mlx_hook(m.win, X_EVENT_KEY_PRESS, 0, &press_key, &m);
+	mlx_hook(m.win, X_EVENT_KEY_EXIT, 0, &exit_minirt, &m);
+	mlx_loop(m.mlx);
 	system("leaks miniRT");
 	return (0);
 }

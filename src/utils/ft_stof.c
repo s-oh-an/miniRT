@@ -1,4 +1,4 @@
-#include "../../includes/ft_string.h"
+#include "../../includes/utils.h"
 #include "../../lib/libft/libft.h"
 #include <math.h>
 

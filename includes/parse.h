@@ -9,9 +9,7 @@ int		is_valid_color_range(t_color *color);
 int		is_valid_vector_range();
 int		is_valid_ratio_range(float ratio);
 int		is_valid_fov_range();
+int		is_rt_file(char const *str);
 void	read_rt_file(int fd, t_scene *scene);
-void	set_camera_axis(t_camera *camera);
-t_vec3	translate(t_vec3 *world, t_camera *camera);
-void	world_to_camera(t_scene *scene);
 
 #endif

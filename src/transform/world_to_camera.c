@@ -1,44 +1,15 @@
 #include "../../includes/scene.h"
-#include "../../includes/parse.h"
 #include "../../includes/vector.h"
+#include "../../includes/transform.h"
 
-void	set_camera_axis(t_camera *camera)
+static void	set_camera_axis(t_camera *camera)
 {
-	t_vec3	y_axis;
-	
-	camera->n = vec_op_unit(camera->n_vector);
-	camera->n.x *= -1;
-	camera->n.y *= -1;
-	camera->n.z *= -1;
-	y_axis.x = 0;
-	y_axis.y = 1;
-	y_axis.z = 0;
-	camera->u = vec_op_crossproduct(y_axis, camera->n);
-	camera->v = vec_op_crossproduct(camera->u, camera->n);
+	camera->z = vmulti_f(vunit(camera->n_vector), -1);
+	camera->x = vcross(vec3(0, 1, 0), camera->z);
+	camera->y = vcross(camera->x, camera->z);
 }
 
-t_vec3	rotate(t_vec3 *world, t_camera *camera)
-{
-	t_vec3	new;
-	
-	//new.x = world->x * camera->u.x + world->y * camera->u.y + world->z * camera->u.z - vec_op_dotproduct(camera->orig, camera->u);
-	//new.y = world->x * camera->v.x + world->y * camera->v.y + world->z * camera->v.z - vec_op_dotproduct(camera->orig, camera->v);
-	//new.z = world->x * camera->n.x + world->y * camera->n.y + world->z * camera->n.z - vec_op_dotproduct(camera->orig, camera->n);
-	new.x = vec_op_dotproduct(*world, camera->u);
-	new.y = vec_op_dotproduct(*world, camera->v);
-	new.z = vec_op_dotproduct(*world, camera->n);
-	return (new);
-}
-
-t_vec3	translate(t_vec3 *world, t_camera *camera)
-{
-	t_vec3	new;
-	
-	new = vec_op_minus_vec(*world, camera->orig);
-	return (new);
-}
-
-void	obj_transform(t_object *obj, t_camera *camera)
+static void	obj_transform(t_object *obj, t_camera *camera)
 {
 	t_sphere	*sp;
 	t_plane		*pl;
