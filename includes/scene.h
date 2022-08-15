@@ -59,6 +59,7 @@ struct s_camera
 	t_vec			vert_vec;
 	float			focal_len;
 	t_coordinate	left_bottom;
+	float			t;
 };
 
 struct s_light

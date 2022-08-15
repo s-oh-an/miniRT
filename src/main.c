@@ -100,10 +100,11 @@ int	main(int argc, char **argv)
 	t_camera	cam;
 
 	cam = scene.camera;
+	cam.t = -42;
 	init_mlx(&m, cam.win);
 	m.data.img = mlx_new_image(m.mlx, cam.win.width, cam.win.height);
 	m.data.addr = mlx_get_data_addr(m.data.img, &m.data.bits_per_pixel, &m.data.line_length, &m.data.endian);
-	trace_objects(&m, cam, scene.objects);
+	trace_objects(&m, &cam, scene.objects);
 	mlx_put_image_to_window(m.mlx, m.win, m.data.img, 0, 0);
 	mlx_hook(m.win, X_EVENT_KEY_PRESS, 0, &press_key, &m);
 	mlx_hook(m.win, X_EVENT_KEY_EXIT, 0, &exit_minirt, &m);

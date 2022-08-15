@@ -55,7 +55,10 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	t_vec	v;
 	t_vec	ce;
 	float	cp_dot_v;
-	float	plane_t;
+	float	top_plane_t;
+	float	bottom_plane_t;
+	t_vec	cp_top;
+	t_vec	cp_bottom;
 
 	ce = vmulti_f(cylinder->coordinate, -1.0);
 	v = vmulti_f(vunit(cylinder->n_vector), -1.0);
@@ -84,18 +87,20 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 		return (1);
 	if (d_dot_v)
 	{
-		plane_t = -c_dot_v / d_dot_v;
-		cp = vplus(ce, vmulti_f(ray->vec, plane_t));
-		if (vlen2(cp) <= cylinder->radius2)
-		{
+		top_plane_t = -c_dot_v / d_dot_v;
+		cp_top = vplus(ce, vmulti_f(ray->vec, top_plane_t));
+		bottom_plane_t = (cylinder->height - c_dot_v) / d_dot_v;
+		cp_bottom = vplus(ce, vmulti_f(ray->vec, bottom_plane_t));
+		if (vlen2(cp_top) <= cylinder->radius2)
 			cylinder->top = 1;
-			return (1);
-		}
-		plane_t = (-cylinder->height - c_dot_v) / d_dot_v;
-		cp = vplus(ce, vmulti_f(ray->vec, plane_t));
-		if (vlen2(cp) <= cylinder->radius2)
-		{
+		if (vlen2(cp_bottom) - (cylinder->height * cylinder->height) <= cylinder->radius2)
 			cylinder->bottom = 1;
+		if (cylinder->top || cylinder->bottom)
+		{
+			if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
+				cylinder->bottom = 0;
+			else
+				cylinder->top = 0;
 			return (1);
 		}
 	}

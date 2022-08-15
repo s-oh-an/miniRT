@@ -11,6 +11,6 @@ typedef struct s_ray
 }	t_ray;
 
 t_ray	init_ray(float x, float y, float z);
-void	trace_objects(t_mlx *m, t_camera cam, t_object_list *cur);
+void	trace_objects(t_mlx *m, t_camera *cam, t_object_list *cur);
 
 #endif
