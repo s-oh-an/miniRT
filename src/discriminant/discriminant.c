@@ -42,8 +42,8 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 
 int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 {
-	float	d_dot_n;
-	float	c_dot_n;
+	float	d_dot_v;
+	float	c_dot_v;
 	float	c_dot_d;
 	float	c_dot_c;
 	float	d;
@@ -52,17 +52,25 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	float	c;
 	float	t[2];
 	t_vec	cp;
+	t_vec	v;
 	t_vec	ce;
-	float	cp_dot_n;
+	float	cp_dot_v;
+	float	top_plane_t;
+	float	bottom_plane_t;
+	t_vec	cp_top;
+	t_vec	cp_bottom;
 
+	cylinder->top = 0;
+	cylinder->bottom = 0;
 	ce = vmulti_f(cylinder->coordinate, -1.0);
-	d_dot_n = vdot(ray->vec, cylinder->n_vector);
-	c_dot_n = vdot(ce, cylinder->n_vector);
+	v = vmulti_f(vunit(cylinder->n_vector), -1.0);
+	d_dot_v = vdot(ray->vec, v);
+	c_dot_v = vdot(ce, v);
 	c_dot_d = vdot(ce, ray->vec);
 	c_dot_c = vdot(ce, ce);
-	a = d_dot_n * d_dot_n - 1;
-	b = d_dot_n * c_dot_n - c_dot_d;
-	c =	cylinder->radius2 - c_dot_c + (c_dot_n * c_dot_n);
+	a = d_dot_v * d_dot_v - 1;
+	b = d_dot_v * c_dot_v - c_dot_d;
+	c =	cylinder->radius2 - c_dot_c + (c_dot_v * c_dot_v);
 	d = (b * b) - (a * c);
 	if (d < 0)
 		return (0);
@@ -76,8 +84,27 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	}
 	else
 		cp = vplus(ce, vmulti_f(ray->vec, fmax(t[0], t[1])));
-	cp_dot_n = vdot(cp, vmulti_f(cylinder->n_vector, -1));
-	if (cp_dot_n >= 0 && cp_dot_n <= cylinder->height)
+	cp_dot_v = vdot(cp, v);
+	if (cp_dot_v >= 0 && cp_dot_v <= cylinder->height)
 		return (1);
+	if (d_dot_v)
+	{
+		top_plane_t = -c_dot_v / d_dot_v;
+		cp_top = vplus(ce, vmulti_f(ray->vec, top_plane_t));
+		bottom_plane_t = (cylinder->height - c_dot_v) / d_dot_v;
+		cp_bottom = vplus(ce, vmulti_f(ray->vec, bottom_plane_t));
+		if (vlen2(cp_top) <= cylinder->radius2)
+			cylinder->top = 1;
+		if (vlen2(cp_bottom) - (cylinder->height * cylinder->height) <= cylinder->radius2)
+			cylinder->bottom = 1;
+		if (cylinder->top || cylinder->bottom)
+		{
+			if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
+				cylinder->bottom = 0;
+			else
+				cylinder->top = 0;
+			return (1);
+		}
+	}
 	return (0);
 }

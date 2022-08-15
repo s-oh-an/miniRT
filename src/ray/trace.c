@@ -29,8 +29,8 @@ int	is_ray_hit_object(t_object *object, t_ray *ray, t_color *color)
 	}	
 	else if (object->type == T_CYLINDER)
 	{
-	 	(*color) = ((t_cylinder *)object->property)->color;
-	 	return (is_ray_hit_cylinder((t_cylinder *)object->property, ray));
+		(*color) = ((t_cylinder *)object->property)->color;
+		return (is_ray_hit_cylinder((t_cylinder *)object->property, ray));
 	}
 	else
 		return (0);
