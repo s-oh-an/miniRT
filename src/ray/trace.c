@@ -33,16 +33,16 @@ int	is_ray_hit_object(t_object *object, t_ray *ray, t_color *color)
 		int			res;
 
 		cy = object->property;
-	 	cy->top = 0;
-		cy->bottom = 0;
+	 	//cy->top = 0;
+		//cy->bottom = 0;
 		res = is_ray_hit_cylinder(cy, ray);
 		(*color) = ((t_cylinder *)object->property)->color;
-		if (cy->top)
-			(*color) = vec3(255, 255, 255);//(*color) = ((t_cylinder *)object->property)->color;
-		if (cy->bottom)
-			(*color) = vec3(128, 128, 128);
-	 	cy->top = 0;
-		cy->bottom = 0;
+		//if (cy->top)
+		//	(*color) = vec3(255, 255, 255);//(*color) = ((t_cylinder *)object->property)->color;
+		//if (cy->bottom)
+		//	(*color) = vec3(128, 128, 128);
+	 	//cy->top = 0;
+		//cy->bottom = 0;
 		return (res);
 	}
 	else

@@ -60,6 +60,8 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	t_vec	cp_top;
 	t_vec	cp_bottom;
 
+	cylinder->top = 0;
+	cylinder->bottom = 0;
 	ce = vmulti_f(cylinder->coordinate, -1.0);
 	v = vmulti_f(vunit(cylinder->n_vector), -1.0);
 	d_dot_v = vdot(ray->vec, v);
