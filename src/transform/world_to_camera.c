@@ -6,7 +6,7 @@ static void	set_camera_axis(t_camera *camera)
 {
 	camera->z = vmulti_f(vunit(camera->n_vector), -1);
 	camera->x = vcross(vec3(0, 1, 0), camera->z);
-	camera->y = vcross(camera->x, camera->z);
+	camera->y = vcross(camera->z, camera->x);
 }
 
 static void	obj_transform(t_object *obj, t_camera *camera)

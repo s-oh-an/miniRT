@@ -89,6 +89,8 @@ struct s_cylinder
 	float			diameter;
 	float			radius2;
 	float			height;
+	int				top;
+	int				bottom;
 	t_color			color;
 };
 
