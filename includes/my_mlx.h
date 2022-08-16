@@ -4,6 +4,9 @@
 # include "../lib/mlx/mlx.h" //
 # include "scene.h"
 
+# define KEY_RIGHT 124
+# define KEY_LEFT 123
+
 typedef struct s_data
 {
 	void	*img;
@@ -18,10 +21,11 @@ typedef struct s_mlx
 	void	*mlx;
 	void	*win;
 	t_data	data;
+	t_scene	scene;
 }	t_mlx;
 
-void	init_mlx(t_mlx *m, t_window w);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int		press_key(int key_code, t_mlx *m);
+//void	init_mlx(t_mlx *m, t_window w);
+//void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+//int		press_key(int key_code, t_mlx *m, t_scene *scene);
 
 #endif

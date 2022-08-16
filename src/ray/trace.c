@@ -2,6 +2,7 @@
 #include "../../includes/discriminant.h"
 #include "../../includes/utils.h"
 #include "../../includes/vector.h"
+#include "../../includes/ambient.h"
 
 t_ray	init_ray(float x, float y, float z)
 {
@@ -50,7 +51,7 @@ int	is_object_visible(t_camera *cam, float u, float v, t_object *object, t_color
 	return (is_ray_hit_object(object, &ray, color));
 }
 
-void	shoot_ray(t_mlx *m, t_camera *cam, t_object *object)
+void	shoot_ray(t_mlx *m, t_scene *scene, t_object *object)
 {
 	float	u;
 	float	v;
@@ -58,32 +59,34 @@ void	shoot_ray(t_mlx *m, t_camera *cam, t_object *object)
 	int		j;
 	t_color	color;
 
-	j = cam->win.height - 1;
+	j = scene->camera.win.height - 1;
 	while (j >= 0)
 	{
 		i = 0;
-		while (i < cam->win.width)
+		while (i < scene->camera.win.width)
 		{
 			// 이 픽셀에 해당하는 뷰포트의 픽셀을 지나가는 광선이 물체와 만나는지 확인
-			u = (2.0  * cam->win.ratio) * (float)i / (float)(cam->win.width);
-			v = 2.0 * (float)j / (float)(cam->win.height);
-			if (is_object_visible(cam, u, v, object, &color))
-				my_mlx_pixel_put(&(m->data), i, j, to_rgb(&color));
+			u = (2.0  * scene->camera.win.ratio) * (float)i / (float)(scene->camera.win.width);
+			v = 2.0 * (float)j / (float)(scene->camera.win.height);
+			if (is_object_visible(&scene->camera, u, v, object, &color))
+				my_mlx_pixel_put(&(m->data), i, j, to_rgb(vmulti_f(get_pixel_ambient_color(scene, color), 255)));
 			i++;
 		}
 		j--;
 	}
 }
 
-//void	check_ob_list(t_mlx *m, t_camera *cam, t_object_list *cur)
-void	trace_objects(t_mlx *m, t_camera *cam, t_object_list *cur)
+void	trace_objects(t_mlx *m, t_scene *scene)
 {
-	t_object	*obj;
+	t_object		*obj;
+	t_object_list	*cur;
 
+	cur = scene->objects;
 	while (cur)
 	{
 		obj = cur->content;
-		shoot_ray(m, cam, obj);
+		shoot_ray(m, scene, obj);
 		cur = cur->next;
 	}
+	m->scene = *scene;
 }

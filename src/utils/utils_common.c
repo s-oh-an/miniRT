@@ -1,15 +1,15 @@
 #include "../../includes/utils.h"
 
 //int	trans_trgb(t_color color)
-int	to_rgb(t_color *color)
+int	to_rgb(t_color color)
 {
 	int	trgb;
 
-	trgb = (int)color->x;
+	trgb = (int)color.x;
 	trgb = trgb << 8;
-	trgb = trgb | (int)color->y;
+	trgb = trgb | (int)color.y;
 	trgb = trgb << 8;
-	trgb = trgb | (int)color->z;
+	trgb = trgb | (int)color.z;
 	return (trgb);
 }
 
