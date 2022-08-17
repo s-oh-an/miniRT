@@ -12,7 +12,7 @@ OBJECT_DIR = ./objects
 FILES = \
 		main \
 
-PARSE_FILE = parse
+PARSE_FILE = parse init_camera
 UTILS_FILE = ft_stof utils_mlx utils_common
 VECTOR_FILE = vector
 DISCRIMINANT_FILE = discriminant
