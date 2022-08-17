@@ -1,6 +1,7 @@
 #include "../../includes/discriminant.h"
 #include "../../includes/vector.h"
 #include <math.h>
+#include <stdio.h>
 
 int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 {
@@ -21,6 +22,7 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 		if (t[0] < 0)
 			return (0);
 	}
+	//printf("sphere d : %f\n", d);
 	return (1);
 }
 

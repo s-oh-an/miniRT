@@ -3,11 +3,17 @@
 #include "../../includes/transform.h"
 #include "../../includes/camera.h"
 
+#include <stdio.h>
+
 static void	set_camera_axis(t_camera *camera)
 {
 	camera->z = vmulti_f(vunit(camera->n_vector), -1);
+	printf("camera z: %f %f %f\n", camera->z.x, camera->z.y, camera->z.z);
 	camera->x = vcross(vec3(0, 1, 0), camera->z);
+	printf("camera x: %f %f %f\n", camera->x.x, camera->x.y, camera->x.z);
 	camera->y = vcross(camera->z, camera->x);
+	printf("camera y: %f %f %f\n\n", camera->y.x, camera->y.y, camera->y.z);
+
 }
 
 static void	obj_transform(t_object *obj, t_camera *camera)
@@ -54,7 +60,7 @@ void	world_to_camera(t_scene *scene)
 		obj_transform(obj, &scene->camera);
 		cur = cur->next;
 	}
-	scene->camera.orig = translate(&scene->camera.orig, &scene->camera);
-	scene->camera.orig = rotate(&scene->camera.orig, &scene->camera);
-	scene->camera.n_vector = rotate(&scene->camera.n_vector, &scene->camera);
+	//scene->camera.orig = translate(&scene->camera.orig, &scene->camera);
+	//scene->camera.orig = rotate(&scene->camera.orig, &scene->camera);
+	//scene->camera.n_vector = rotate(&scene->camera.n_vector, &scene->camera);
 }
