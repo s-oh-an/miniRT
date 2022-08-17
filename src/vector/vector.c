@@ -100,13 +100,13 @@ t_vec	vmulti_f(t_vec vec, float t)
 }
 
 // // 벡터 축 값끼리 곱연산
-// t_vec3      vmult_(t_vec3 vec, t_vec3 vec2)
-// {
-//     vec.x *= vec2.x;
-//     vec.y *= vec2.y;
-//     vec.z *= vec2.z;
-//     return (vec);
-// }
+t_vec      vmulti(t_vec vec, t_vec vec2)
+{
+    vec.x *= vec2.x;
+    vec.y *= vec2.y;
+    vec.z *= vec2.z;
+    return (vec);
+}
 
 // 벡터 스칼라 나누기
 t_vec	vdiv(t_vec vec, float t)
@@ -132,7 +132,7 @@ t_vec	vcross(t_vec vec1, t_vec vec2)
 	t_vec	res;
 
 	res.x = (vec1.y * vec2.z) - (vec1.z * vec2.y);
-	res.y = (vec1.x * vec2.z) - (vec1.z * vec2.x);
+	res.y = (vec1.z * vec2.x) - (vec1.x * vec2.z);
 	res.z = (vec1.x * vec2.y) - (vec1.y * vec2.x);
 	return (res);
 }
@@ -157,13 +157,13 @@ t_vec	vunit(t_vec vec)
 
 // 벡터 원소 비교하는 건데 이것도 왜 하는지는 아직 모르겠음 
 // // 두 벡터의 원소를 비교하여 작은 값들만 반환
-// t_vec3  vmin(t_vec3 vec1, t_vec3 vec2)
-// {
-//     if (vec1.x > vec2.x)
-//         vec1.x = vec2.x;
-//     if (vec1.y > vec2.y)
-//         vec1.y = vec2.y;
-//     if (vec1.z > vec2.z)
-//         vec1.z = vec2.z;
-//     return (vec1);
-// }
+t_vec  vmin(t_vec vec1, t_vec vec2)
+{
+    if (vec1.x > vec2.x)
+        vec1.x = vec2.x;
+    if (vec1.y > vec2.y)
+        vec1.y = vec2.y;
+    if (vec1.z > vec2.z)
+        vec1.z = vec2.z;
+    return (vec1);
+}

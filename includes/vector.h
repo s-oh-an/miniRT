@@ -14,9 +14,11 @@ t_vec	vplus_f(t_vec vec1, float x, float y, float z);
 t_vec	vminus(t_vec vec1, t_vec vec2);
 t_vec	vminus_f(t_vec vec1, float x, float y, float z);
 t_vec	vmulti_f(t_vec vec, float t);
+t_vec	vmulti(t_vec vec1, t_vec vec2);
 float	vdot(t_vec vec1, t_vec vec2);
 t_vec	vcross(t_vec vec1, t_vec vec2);
 t_vec	vunit(t_vec vec);
 t_vec	vdiv(t_vec vec, float t);
+t_vec	vmin(t_vec vec1, t_vec vec2);
 
 #endif
