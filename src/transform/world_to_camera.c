@@ -1,7 +1,7 @@
 #include "../../includes/scene.h"
 #include "../../includes/vector.h"
 #include "../../includes/transform.h"
-#include "../../includes/parse.h"
+#include "../../includes/camera.h"
 
 static void	set_camera_axis(t_camera *camera)
 {

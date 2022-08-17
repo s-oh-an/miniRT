@@ -12,6 +12,4 @@ int		is_valid_fov_range();
 int		is_rt_file(char const *str);
 void	read_rt_file(int fd, t_scene *scene);
 
-void	camera(t_camera *camera);
-
 #endif
