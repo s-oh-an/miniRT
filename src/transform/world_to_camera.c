@@ -1,6 +1,7 @@
 #include "../../includes/scene.h"
 #include "../../includes/vector.h"
 #include "../../includes/transform.h"
+#include "../../includes/parse.h"
 
 static void	set_camera_axis(t_camera *camera)
 {
@@ -43,6 +44,7 @@ void	world_to_camera(t_scene *scene)
 	t_object		*obj;
 
 	set_camera_axis(&scene->camera);
+	camera(&(scene->camera));
 	scene->light.coordinate = translate(&scene->light.coordinate, &scene->camera);
 	scene->light.coordinate = rotate(&scene->light.coordinate, &scene->camera);
 	cur = scene->objects;

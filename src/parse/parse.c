@@ -134,13 +134,13 @@ void	set_camera(t_scene *scene, char const **data, int *identifier_flag)
 		ft_putendl_fd("Error\nInvalid FOV", 2);
 		exit(1);
 	}
-	scene->camera.win.width = 1280;
-	scene->camera.win.height = 720;
-	scene->camera.win.ratio = 16.0 / 9.0;
-	scene->camera.viewport_h = 2.0;
-	scene->camera.viewport_w = scene->camera.viewport_h * (16 /9);
-	scene->camera.focal_len = 1.0 / tan((scene->camera.fov / 2) * (M_PI / 180));
-	scene->camera.left_bottom = vec3(-(scene->camera.viewport_w / 2), -1, -(scene->camera.focal_len));
+	// scene->camera.win.width = 1280;
+	// scene->camera.win.height = 720;
+	// scene->camera.win.ratio = 16.0 / 9.0;
+	// scene->camera.viewport_h = 2.0;
+	// scene->camera.viewport_w = scene->camera.viewport_h * (16 /9);
+	// scene->camera.focal_len = 1.0 / tan((scene->camera.fov / 2) * (M_PI / 180));
+	// scene->camera.left_bottom = vec3(-(scene->camera.viewport_w / 2), -1, -(scene->camera.focal_len));
 }
 
 void	set_light(t_scene *scene, char const **data, int *identifier_flag)

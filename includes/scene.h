@@ -58,6 +58,8 @@ struct s_camera
 	t_vec			hori_vec;
 	t_vec			vert_vec;
 	float			focal_len;
+	t_vec	ver;
+	t_vec	hor;
 	t_coordinate	left_bottom;
 	float			t;
 };

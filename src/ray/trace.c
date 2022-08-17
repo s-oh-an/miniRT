@@ -13,8 +13,6 @@ t_ray	init_ray(float x, float y, float z)
 	return (ray);
 }
 
-// distinguish object
-//int	dist_object(t_object *object, t_ray *ray, t_color *color)
 int	is_ray_hit_object(t_object *object, t_ray *ray, t_color *color)
 {
 	if (object->type == T_SPHERE)
@@ -36,17 +34,17 @@ int	is_ray_hit_object(t_object *object, t_ray *ray, t_color *color)
 		return (0);
 }
 
-//int	ray_in_viewport(t_camera *cam, float u, float v, t_object *object, t_color *color)
 int	is_object_visible(t_camera *cam, float u, float v, t_object *object, t_color *color)
 {
 	t_ray	ray;
 	float	hori_r;
 	float	vert_r;
 
-	// 2.0 / 2 / win.width
-	vert_r = 1.0 / (float)cam->win.width;
-	hori_r = 1.0 / (float)cam->win.height;
-	ray = init_ray((cam->left_bottom.x + vert_r + u ), (cam->left_bottom.y + hori_r + v), cam->left_bottom.z);
+	vert_r = (0.5 / (float)cam->win.width) + u;
+	hori_r = (0.5 / (float)cam->win.height) + v;
+
+	ray.vec = vunit(vplus(vplus(cam->left_bottom,
+				vmulti_f(cam->ver, vert_r)), vmulti_f(cam->hor, hori_r)));
 	return (is_ray_hit_object(object, &ray, color));
 }
 
@@ -58,24 +56,22 @@ void	shoot_ray(t_mlx *m, t_camera *cam, t_object *object)
 	int		j;
 	t_color	color;
 
-	j = cam->win.height - 1;
-	while (j >= 0)
+	j = 0;
+	while (j < cam->win.height - 1)
 	{
 		i = 0;
-		while (i < cam->win.width)
+		while (i < cam->win.width - 1)
 		{
-			// 이 픽셀에 해당하는 뷰포트의 픽셀을 지나가는 광선이 물체와 만나는지 확인
-			u = (2.0  * cam->win.ratio) * (float)i / (float)(cam->win.width);
-			v = 2.0 * (float)j / (float)(cam->win.height);
+			u = (float)i / (float)(cam->win.width);
+			v = (float)j / (float)(cam->win.height);
 			if (is_object_visible(cam, u, v, object, &color))
-				my_mlx_pixel_put(&(m->data), i, j, to_rgb(&color));
+				my_mlx_pixel_put(&(m->data), i, (cam->win.height - 1) - j, to_rgb(&color));
 			i++;
 		}
-		j--;
+		j++;
 	}
 }
 
-//void	check_ob_list(t_mlx *m, t_camera *cam, t_object_list *cur)
 void	trace_objects(t_mlx *m, t_camera *cam, t_object_list *cur)
 {
 	t_object	*obj;

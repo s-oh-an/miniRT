@@ -28,14 +28,14 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 {
 	float	c_dot_n;
 	float	d_dot_n;
-	float	d;
+	float	t;
 
 	c_dot_n = vdot(plane->n_vector, plane->coordinate);
 	d_dot_n = vdot(plane->n_vector, ray->vec);
 	if (d_dot_n == 0)
 		return (0);
-	d = c_dot_n / d_dot_n;
-	if (d < 0)
+	t = c_dot_n / d_dot_n;
+	if (t < 0)
 		return (0);
 	return (1);
 }
