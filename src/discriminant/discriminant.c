@@ -13,7 +13,7 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 	float	c;
 	float	d;
 	float	t[2];
-	// t_ray	new_hit;
+	t_ray	new_hit;
 
 	b = vdot(ray->vec, vminus(vec3(0, 0, 0), sphere->coordinate));
 	c = vlen2(sphere->coordinate) - sphere->radius2;
@@ -30,9 +30,9 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 	//여기는 하나는 음이고 하나는 양이거나
 	// 둘다 양일때 넘어온다. 
 	//printf("sphere d : %f\n", d);
-	// new_hit = make_hit(t, ray, sphere->coordinate);
+	new_hit = make_hit_sphere(sphere, t, ray);
+	update_hit(ray, new_hit);
 	ray->hit.ray_hit = 1;
-
 	return (1);
 }
 
@@ -50,6 +50,7 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 	if (d < 0)
 		return (0);
 	ray->hit.ray_hit = 1;
+	
 	return (1);
 }
 
