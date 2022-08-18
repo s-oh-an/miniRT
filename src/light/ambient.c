@@ -1,5 +1,6 @@
 #include "../../includes/scene.h"
 #include "../../includes/vector.h"
+#include "../../includes/light.h"
 
 t_color	get_pixel_ambient_color(t_scene *scene, t_color color)
 {

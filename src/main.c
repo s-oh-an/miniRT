@@ -71,6 +71,7 @@ int	main(int argc, char **argv)
 {
 	int		fd;
 	t_scene scene;
+	t_ray	ray;
 
 	if (argc != 2 || !ft_strncmp(argv[1], "", ft_strlen(argv[1])))
 	{	
@@ -111,7 +112,7 @@ int	main(int argc, char **argv)
 		for (int j = 0; j < cam.win.height; j++)
 			my_mlx_pixel_put(&m.data, i, j, to_rgb(vec3(255, 255, 255)));
 	// trace_objects(&m, &scene);
-	shoot_ray(&m, &scene);
+	shoot_ray(&m, &scene, &ray);
 	mlx_put_image_to_window(m.mlx, m.win, m.data.img, 0, 0);
 	mlx_string_put(m.mlx, m.win, 24, 36, 0x000000,gcvt(scene.ambient.ratio, 2, ratio));
 	mlx_hook(m.win, X_EVENT_KEY_PRESS, 0, &press_key, &m);

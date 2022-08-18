@@ -2,7 +2,7 @@
 #include "../../includes/discriminant.h"
 #include "../../includes/utils.h"
 #include "../../includes/vector.h"
-#include "../../includes/ambient.h"
+#include "../../includes/light.h"
 
 #include <stdio.h>
 
@@ -93,9 +93,9 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_color *color)
 // 	return (hit);
 // }
 
-int	is_object_visible(t_scene *s, float u, float v, t_color *color)
+int	is_object_visible(t_scene *s, float u, float v, t_color *color, t_ray *ray)
 {
-	t_ray	ray;
+	//t_ray	ray;
 	float	hori_r;
 	float	vert_r;
 
@@ -105,11 +105,11 @@ int	is_object_visible(t_scene *s, float u, float v, t_color *color)
 	hori_r *= s->camera.viewport_h;
 
 	//ray.vec = vunit(vplus(vplus(s->camera.left_bottom, vmulti_f(s->camera.ver, vert_r)), vmulti_f(s->camera.hor, hori_r)));
-	ray = init_ray(s->camera.left_bottom.x + vert_r , s->camera.left_bottom.y + hori_r, s->camera.left_bottom.z);
-	return (is_ray_hit_object(s->objects, &ray, color));
+	*ray = init_ray(s->camera.left_bottom.x + vert_r , s->camera.left_bottom.y + hori_r, s->camera.left_bottom.z);
+	return (is_ray_hit_object(s->objects, ray, color));
 }
 
-void	shoot_ray(t_mlx *m, t_scene *scene)
+void	shoot_ray(t_mlx *m, t_scene *scene, t_ray *ray)
 {
 	float	u;
 	float	v;
@@ -126,9 +126,9 @@ void	shoot_ray(t_mlx *m, t_scene *scene)
 			// 이 픽셀에 해당하는 뷰포트의 픽셀을 지나가는 광선이 물체와 만나는지 확인
 			u = (float)i / (float)(scene->camera.win.width);
 			v = (float)j / (float)(scene->camera.win.height);
-			if (is_object_visible(scene, u, v, &color))
+			if (is_object_visible(scene, u, v, &color, ray))
 				// my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, 0x0000ff00);
-				my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(get_pixel_ambient_color(scene, color), 255)));
+				my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vplus(get_pixel_ambient_color(scene, color), get_pixel_diffuse_color(scene, ray)), 255)));
 			i++;
 		}
 		j++;
