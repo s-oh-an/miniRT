@@ -6,5 +6,6 @@
 
 t_color	get_pixel_ambient_color(t_scene *scene, t_color color);
 t_color	get_pixel_diffuse_color(t_scene *scene, t_ray *ray);
+t_color	get_pixel_specular_color(t_scene *scene, t_ray *ray);
 
 #endif

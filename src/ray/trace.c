@@ -126,7 +126,7 @@ void	shoot_ray(t_mlx *m, t_scene *scene)
 			u = (float)i / (float)(scene->camera.win.width);
 			v = (float)j / (float)(scene->camera.win.height);
 			if (is_object_visible(scene, u, v, &ray))
-				my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), vplus(get_pixel_ambient_color(scene, ray.hit.hit_color), get_pixel_diffuse_color(scene, &ray))), 255)));
+				my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), vplus(vplus(get_pixel_ambient_color(scene, ray.hit.hit_color), get_pixel_diffuse_color(scene, &ray)), get_pixel_specular_color(scene, &ray))), 255)));
 			i++;
 		}
 		j++;
