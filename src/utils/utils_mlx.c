@@ -9,6 +9,7 @@
 int	exit_minirt(t_mlx *m)
 {
 	mlx_destroy_window(m->mlx, m->win);
+	//system("leaks miniRT");
 	exit(0);
 }
 
@@ -40,7 +41,7 @@ int	press_key(int key_code, t_mlx *m)
 		if (m->scene.ambient.ratio + 0.1 <= 1.1)
 		{	
 			m->scene.ambient.ratio += 0.1;
-			shoot_ray(m, &(m->scene));
+			shoot_ray(m, &m->scene);
 			// trace_objects(m, &m->scene);
 			mlx_put_image_to_window(m->mlx, m->win, m->data.img, 0, 0);
 			mlx_string_put(m->mlx, m->win, 24, 36, 0x000000,gcvt(m->scene.ambient.ratio, 2, ratio));
@@ -49,8 +50,9 @@ int	press_key(int key_code, t_mlx *m)
 	else if (key_code == KEY_LEFT)
 	{
 		if (m->scene.ambient.ratio - 0.1 >= 0.0)
-		{	m->scene.ambient.ratio -= 0.1;
-			shoot_ray(m, &(m->scene));
+		{
+			m->scene.ambient.ratio -= 0.1;
+			shoot_ray(m, &m->scene);
 			// trace_objects(m, &m->scene);
 			mlx_put_image_to_window(m->mlx, m->win, m->data.img, 0, 0);
 			mlx_string_put(m->mlx, m->win, 24, 36, 0x000000,gcvt(m->scene.ambient.ratio, 2, ratio));

@@ -1,7 +1,11 @@
 #include "../../includes/discriminant.h"
 #include "../../includes/vector.h"
+#include "../../includes/hit.h"
 #include <math.h>
+
 #include <stdio.h>
+
+// 판별식은 d, t는 레이방벡의 실수배
 
 int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 {
@@ -9,20 +13,26 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 	float	c;
 	float	d;
 	float	t[2];
+	t_ray	new_hit;
 
 	b = vdot(ray->vec, vminus(vec3(0, 0, 0), sphere->coordinate));
 	c = vlen2(sphere->coordinate) - sphere->radius2;
 	d = (b * b) - c;
 	if (d < 0)
 		return (0);
-	t[0] = -b + sqrt(d);
-	t[1] = -b - sqrt(d);
+	t[0] = -b - sqrt(d);
+	t[1] = -b + sqrt(d);
 	if (t[0] * t[1] > 0)
 	{
 		if (t[0] < 0)
 			return (0);
 	}
+	//여기는 하나는 음이고 하나는 양이거나
+	// 둘다 양일때 넘어온다. 
 	//printf("sphere d : %f\n", d);
+	// new_hit = make_hit(t, ray, sphere->coordinate);
+	ray->hit.ray_hit = 1;
+
 	return (1);
 }
 
@@ -30,15 +40,16 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 {
 	float	c_dot_n;
 	float	d_dot_n;
-	float	t;
+	float	d;
 
 	c_dot_n = vdot(plane->n_vector, plane->coordinate);
 	d_dot_n = vdot(plane->n_vector, ray->vec);
 	if (d_dot_n == 0)
 		return (0);
-	t = c_dot_n / d_dot_n;
-	if (t < 0)
+	d = c_dot_n / d_dot_n;
+	if (d < 0)
 		return (0);
+	ray->hit.ray_hit = 1;
 	return (1);
 }
 
@@ -88,7 +99,10 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 		cp = vplus(ce, vmulti_f(ray->vec, fmax(t[0], t[1])));
 	cp_dot_v = vdot(cp, v);
 	if (cp_dot_v >= 0 && cp_dot_v <= cylinder->height)
+	{
+		ray->hit.ray_hit = 1;
 		return (1);
+	}
 	if (d_dot_v)
 	{
 		top_plane_t = -c_dot_v / d_dot_v;
@@ -105,6 +119,7 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 				cylinder->bottom = 0;
 			else
 				cylinder->top = 0;
+			ray->hit.ray_hit = 1;
 			return (1);
 		}
 	}

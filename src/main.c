@@ -102,7 +102,7 @@ int	main(int argc, char **argv)
 	for (int i = 0; i < 10; i++)
 		ratio[i] = 0;
 
-
+	m.scene = scene; //
 	cam = scene.camera;
 	init_mlx(&m, cam.win);
 	m.data.img = mlx_new_image(m.mlx, cam.win.width, cam.win.height);
