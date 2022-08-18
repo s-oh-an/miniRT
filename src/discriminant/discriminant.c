@@ -13,7 +13,7 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 	float	c;
 	float	d;
 	float	t[2];
-	t_ray	new_hit;
+	// t_ray	new_hit;
 
 	b = vdot(ray->vec, vminus(vec3(0, 0, 0), sphere->coordinate));
 	c = vlen2(sphere->coordinate) - sphere->radius2;
