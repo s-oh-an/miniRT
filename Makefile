@@ -19,7 +19,7 @@ VECTOR_FILE = vector
 DISCRIMINANT_FILE = discriminant hit
 RAY_FILE = trace
 TRANSFORM_FILE = world_to_camera transformation 
-LIGHT_FILE = ambient
+LIGHT_FILE = ambient diffuse
 
 #vpath %.c $(SOURCE_DIR)
 VPATH := $(shell find $(SOURCE_DIR) -type d -print | tr '\012' ':' | sed 's/:$$//')
