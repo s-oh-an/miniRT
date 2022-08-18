@@ -20,5 +20,6 @@ t_vec	vcross(t_vec vec1, t_vec vec2);
 t_vec	vunit(t_vec vec);
 t_vec	vdiv(t_vec vec, float t);
 t_vec	vmin(t_vec vec1, t_vec vec2);
+t_vec	vmax(t_vec vec1, t_vec vec2);
 
 #endif
