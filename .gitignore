@@ -6,5 +6,6 @@ miniRT
 *libmlx*
 *.swiftmodule
 *.swiftdoc
+*.swiftsourceinfo
 .ccls
 *test.c
