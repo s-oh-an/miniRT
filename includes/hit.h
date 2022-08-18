@@ -5,7 +5,13 @@
 # include "scene.h"
 # include "ray.h"
 
-t_ray	make_hit(float *t, t_ray *ray, t_coordinate center);
+int	update_hit(t_ray *ray, t_ray new);
+
+t_ray	make_hit_sphere(t_sphere *sphere, float *t, t_ray *ray);
+t_ray	make_hit_plane(t_plane *plane, float t, t_ray *ray);
+t_ray	make_hit_cylinder(t_cylinder *cylinder, float *t, t_ray *ray);
+
+
 
 #endif
 
