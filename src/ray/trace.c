@@ -13,40 +13,39 @@ t_ray	init_ray(float x, float y, float z)
 
 	vec = vec3(x, y, z);
 	ray.vec = vunit(vec);
-	ray.hit.t = 0;
+	ray.hit.t = 100000;
 	ray.hit.min = 0;
 	ray.hit.ray_hit = 0;
 	return (ray);
 }
 
-int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_color *color)
+// int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_color *color)
+int	is_ray_hit_object(t_object_list *obs, t_ray *ray)
 {
 	t_object		*obj;
 	t_object_list	*cur;
-	// int			hit;
 
-	// hit = 0;
 	cur = obs;
 	while (cur)
 	{
 		obj = cur->content;
 		if (obj->type == T_SPHERE)
 		{
-			if (is_ray_hit_sphere((t_sphere *)obj->property, ray))
-			*color = ((t_sphere *)obj->property)->color; //(color변수를 hit구조체 안으로 넣어도 괜찮을 지  물어보기 )
-				// hit++;
+			is_ray_hit_sphere((t_sphere *)obj->property, ray);
+			// if (is_ray_hit_sphere((t_sphere *)obj->property, ray))
+			// *color = ((t_sphere *)obj->property)->color; //(color변수를 hit구조체 안으로 넣어도 괜찮을 지  물어보기 )
 		}
 		else if (obj->type == T_PLANE)
 		{
-			if (is_ray_hit_plane((t_plane *)obj->property, ray))
-			*color = ((t_plane *)obj->property)->color;
-				// hit++;
+			is_ray_hit_plane((t_plane *)obj->property, ray);
+			// if (is_ray_hit_plane((t_plane *)obj->property, ray))
+			// *color = ((t_plane *)obj->property)->color;
 		}	
 		else if (obj->type == T_CYLINDER)
 		{
-			if (is_ray_hit_cylinder((t_cylinder *)obj->property, ray))
-			(*color) = ((t_cylinder *)obj->property)->color;
-				// hit++;
+			is_ray_hit_cylinder((t_cylinder *)obj->property, ray);
+			// if (is_ray_hit_cylinder((t_cylinder *)obj->property, ray))
+			// (*color) = ((t_cylinder *)obj->property)->color;
 		}
 		else
 		{
@@ -93,12 +92,11 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_color *color)
 // 	return (hit);
 // }
 
-int	is_object_visible(t_scene *s, float u, float v, t_color *color, t_ray *ray)
+int	is_object_visible(t_scene *s, float u, float v, t_ray *ray)
 {
-	//t_ray	ray;
+	// t_ray	ray;
 	float	hori_r;
 	float	vert_r;
-
 	vert_r = (0.5 / (float)s->camera.win.width) + u;
 	vert_r *= s->camera.viewport_w;
 	hori_r = (0.5 / (float)s->camera.win.height) + v;
@@ -106,7 +104,7 @@ int	is_object_visible(t_scene *s, float u, float v, t_color *color, t_ray *ray)
 
 	//ray.vec = vunit(vplus(vplus(s->camera.left_bottom, vmulti_f(s->camera.ver, vert_r)), vmulti_f(s->camera.hor, hori_r)));
 	*ray = init_ray(s->camera.left_bottom.x + vert_r , s->camera.left_bottom.y + hori_r, s->camera.left_bottom.z);
-	return (is_ray_hit_object(s->objects, ray, color));
+	return (is_ray_hit_object(s->objects, ray));
 }
 
 void	shoot_ray(t_mlx *m, t_scene *scene)
@@ -115,7 +113,7 @@ void	shoot_ray(t_mlx *m, t_scene *scene)
 	float	v;
 	int		i;
 	int		j;
-	t_color	color;
+
 	t_ray	ray;
 
 	j = 0;
@@ -127,9 +125,8 @@ void	shoot_ray(t_mlx *m, t_scene *scene)
 			// 이 픽셀에 해당하는 뷰포트의 픽셀을 지나가는 광선이 물체와 만나는지 확인
 			u = (float)i / (float)(scene->camera.win.width);
 			v = (float)j / (float)(scene->camera.win.height);
-			if (is_object_visible(scene, u, v, &color, &ray))
-				// my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, 0x0000ff00);
-				my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), vplus(get_pixel_ambient_color(scene, color), get_pixel_diffuse_color(scene, &ray))), 255)));
+			if (is_object_visible(scene, u, v, &ray))
+				my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), vplus(get_pixel_ambient_color(scene, ray.hit.hit_color), get_pixel_diffuse_color(scene, &ray))), 255)));
 			i++;
 		}
 		j++;

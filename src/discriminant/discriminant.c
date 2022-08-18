@@ -22,6 +22,7 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 		return (0);
 	t[0] = -b - sqrt(d);
 	t[1] = -b + sqrt(d);
+
 	if (t[0] * t[1] > 0)
 	{
 		if (t[0] < 0)
@@ -29,29 +30,26 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 	}
 	//여기는 하나는 음이고 하나는 양이거나
 	// 둘다 양일때 넘어온다. 
-	//printf("sphere d : %f\n", d);
 	new_hit = make_hit_sphere(sphere, t, ray);
-	update_hit(ray, new_hit);
-	ray->hit.ray_hit = 1;
-	return (1);
+	return (update_hit(ray, new_hit));
 }
 
 int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 {
 	float	c_dot_n;
 	float	d_dot_n;
-	float	d;
+	float	t;
+	t_ray	new_hit;
 
 	c_dot_n = vdot(plane->n_vector, plane->coordinate);
 	d_dot_n = vdot(plane->n_vector, ray->vec);
 	if (d_dot_n == 0)
 		return (0);
-	d = c_dot_n / d_dot_n;
-	if (d < 0)
+	t = c_dot_n / d_dot_n;
+	if (t < 0)
 		return (0);
-	ray->hit.ray_hit = 1;
-	
-	return (1);
+	new_hit = make_hit_plane(plane, t, ray);
+	return (update_hit(ray, new_hit));
 }
 
 int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
@@ -73,6 +71,9 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	float	bottom_plane_t;
 	t_vec	cp_top;
 	t_vec	cp_bottom;
+	float	mint;
+
+	t_ray	new_hit;
 
 	cylinder->top = 0;
 	cylinder->bottom = 0;
@@ -94,15 +95,19 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	{
 		if (t[0] < 0)
 			return (0);
-		cp = vplus(ce, vmulti_f(ray->vec, fmin(t[0], t[1])));
+		mint = fmin(t[0], t[1]);
+		cp = vplus(ce, vmulti_f(ray->vec, mint));
 	}
 	else
-		cp = vplus(ce, vmulti_f(ray->vec, fmax(t[0], t[1])));
+	{
+		mint = fmax(t[0], t[1]);
+		cp = vplus(ce, vmulti_f(ray->vec, mint));
+	}
 	cp_dot_v = vdot(cp, v);
 	if (cp_dot_v >= 0 && cp_dot_v <= cylinder->height)
 	{
-		ray->hit.ray_hit = 1;
-		return (1);
+		new_hit = make_hit_cylinder(cylinder, mint, ray);
+		return (update_hit(ray, new_hit));
 	}
 	if (d_dot_v)
 	{
@@ -117,11 +122,17 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 		if (cylinder->top || cylinder->bottom)
 		{
 			if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
+			{
+				mint = top_plane_t;
 				cylinder->bottom = 0;
+			}
 			else
+			{
+				mint = bottom_plane_t;
 				cylinder->top = 0;
-			ray->hit.ray_hit = 1;
-			return (1);
+			}	
+			new_hit = make_hit_cylinder(cylinder, mint, ray);
+			return (update_hit(ray, new_hit));
 		}
 	}
 	return (0);
