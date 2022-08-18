@@ -22,7 +22,7 @@ typedef struct s_ray
 }	t_ray;
 
 t_ray	init_ray(float x, float y, float z);
-void	shoot_ray(t_mlx *m, t_scene *scene, t_ray *ray);
+void	shoot_ray(t_mlx *m, t_scene *scene);
 // void	trace_objects(t_mlx *m, t_scene *scene);
 
 
