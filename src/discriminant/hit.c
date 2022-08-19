@@ -2,6 +2,8 @@
 #include "../../includes/vector.h"
 #include <math.h>
 
+// #include <stdio.h>
+
 //(1을 리턴 -> 판별식함수가 1을 리턴하는 곳이 이 함수를 사용 )
 int	update_hit(t_ray *ray, t_ray new)
 {
@@ -27,10 +29,14 @@ t_ray	make_hit_sphere(t_sphere *sphere, float *t, t_ray *ray)
 	new.hit.hit_point = vmulti_f(new.vec, new.hit.t);
 	new.hit.hit_color = sphere->color;
 	new.hit.hit_normal = vunit(vminus(new.hit.hit_point, sphere->coordinate));
+
 	if (vdot(ray->vec, new.hit.hit_normal) <= 0)
 		new.hit.in_object = 0;
-	else 
+	else
+	{
 		new.hit.in_object = 1;
+		new.hit.hit_normal = vmulti_f(new.hit.hit_normal, -1);
+	}
 	new.hit.min = 0;
 	new.hit.ray_hit = 1;
 	return (new);
@@ -47,8 +53,11 @@ t_ray	make_hit_plane(t_plane *plane, float t, t_ray *ray)
 	new.hit.hit_normal = vunit(plane->n_vector);
 	if (vdot(ray->vec, new.hit.hit_normal) <= 0)
 		new.hit.in_object = 0;
-	else 
+	else
+	{
 		new.hit.in_object = 1;
+		new.hit.hit_normal = vmulti_f(new.hit.hit_normal, -1);
+	}
 	new.hit.min = 0;
 	new.hit.ray_hit = 1;
 	return (new);
@@ -72,11 +81,14 @@ t_ray	make_hit_cylinder(t_cylinder *cylinder, float t, t_ray *ray)
 		new.hit.hit_normal = vunit(cylinder->n_vector);
 	else
 		new.hit.hit_normal = r_n_vector;
-	//else
+
 	if (vdot(ray->vec, new.hit.hit_normal) <= 0)
 		new.hit.in_object = 0;
-	else 
+	else
+	{
 		new.hit.in_object = 1;
+		new.hit.hit_normal = vmulti_f(new.hit.hit_normal, -1);
+	}
 	new.hit.min = 0;
 	new.hit.ray_hit = 1;
 	return (new);
