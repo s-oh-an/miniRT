@@ -7,7 +7,7 @@
 
 // 판별식은 d, t는 레이방벡의 실수배
 
-int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
+int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray, t_coordinate e)
 {
 	double	b;
 	double	c;
@@ -15,8 +15,8 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 	double	t[2];
 	t_ray	new_hit;
 
-	b = vdot(ray->vec, vminus(vec3(0, 0, 0), sphere->coordinate));
-	c = vlen2(sphere->coordinate) - sphere->radius2;
+	b = vdot(ray->vec, vminus(e, sphere->coordinate));
+	c = vlen2(vminus(e, sphere->coordinate)) - sphere->radius2;
 	d = (b * b) - c;
 	if (d < 0)
 		return (0);
@@ -31,17 +31,20 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 	//여기는 하나는 음이고 하나는 양이거나
 	// 둘다 양일때 넘어온다. 
 	new_hit = make_hit_sphere(sphere, t, ray);
+	
 	return (update_hit(ray, new_hit));
 }
 
-int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
+int	is_ray_hit_plane(t_plane *plane, t_ray *ray, t_coordinate e)
 {
 	double	c_dot_n;
 	double	d_dot_n;
 	double	t;
 	t_ray	new_hit;
+	t_vec	c;
 
-	c_dot_n = vdot(plane->n_vector, plane->coordinate);
+	c = vminus(plane->coordinate, e);
+	c_dot_n = vdot(plane->n_vector, c);
 	d_dot_n = vdot(plane->n_vector, ray->vec);
 	if (d_dot_n == 0)
 		return (0);
@@ -52,10 +55,7 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 	return (update_hit(ray, new_hit));
 }
 
-
-
-
-int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
+int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 {
 	double	d_dot_v;
 	double	c_dot_v;
@@ -80,7 +80,8 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 
 	cylinder->top = 0;
 	cylinder->bottom = 0;
-	ce = vmulti_f(cylinder->coordinate, -1.0);
+	//ce = vmulti_f(cylinder->coordinate, -1.0);
+	ce = vminus(e, cylinder->coordinate);
 	v = vmulti_f(vunit(cylinder->n_vector), -1.0);
 	d_dot_v = vdot(ray->vec, v);
 	c_dot_v = vdot(ce, v);
@@ -123,36 +124,55 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 		if (vlen2(cp_bottom) - (cylinder->height * cylinder->height) <= cylinder->radius2)
 			cylinder->bottom = 1;
 
-		if (cylinder->top && cylinder->bottom)
+		// if (cylinder->top && cylinder->bottom)
+		// {
+		// 	// if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
+		// 	if (fmax(top_plane_t, bottom_plane_t) == top_plane_t)
+		// 	{
+		// 		mint = top_plane_t;
+		// 		cylinder->bottom = 0;
+		// 	}
+		// 	else
+		// 	{
+		// 		mint = bottom_plane_t;
+		// 		cylinder->top = 0;
+		// 	}	
+		// 	new_hit = make_hit_cylinder(cylinder, mint, ray);
+		// 	return (update_hit(ray, new_hit));
+		// }
+		// else 
+		if (cylinder->top || cylinder->bottom)
 		{
-			// if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
-			if (fmax(top_plane_t, bottom_plane_t) == top_plane_t)
-			{
-				mint = top_plane_t;
-				cylinder->bottom = 0;
+			if (t[0] * t[1] < 0)
+			{	
+				if (fmax(top_plane_t, bottom_plane_t) == top_plane_t)
+				{
+					mint = top_plane_t;
+					cylinder->bottom = 0;
+				}
+				else
+				{
+					mint = bottom_plane_t;
+					cylinder->top = 0;
+				}	
+				new_hit = make_hit_cylinder(cylinder, mint, ray);
+				return (update_hit(ray, new_hit));
 			}
 			else
 			{
-				mint = bottom_plane_t;
-				cylinder->top = 0;
-			}	
-			new_hit = make_hit_cylinder(cylinder, mint, ray);
-			return (update_hit(ray, new_hit));
-		}
-		else if (cylinder->top || cylinder->bottom)
-		{
-			if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
-			{
-				mint = top_plane_t;
-				cylinder->bottom = 0;
+				if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
+				{
+					mint = top_plane_t;
+					cylinder->bottom = 0;
+				}
+				else
+				{
+					mint = bottom_plane_t;
+					cylinder->top = 0;
+				}	
+				new_hit = make_hit_cylinder(cylinder, mint, ray);
+				return (update_hit(ray, new_hit));
 			}
-			else
-			{
-				mint = bottom_plane_t;
-				cylinder->top = 0;
-			}	
-			new_hit = make_hit_cylinder(cylinder, mint, ray);
-			return (update_hit(ray, new_hit));
 		}
 	}
 	return (0);
