@@ -71,6 +71,27 @@ int	is_object_visible(t_scene *s, float u, float v, t_ray *ray)
 	return (is_ray_hit_object(s->objects, ray));
 }
 
+int	is_light(t_light light, t_ray ray)
+{
+	int		light_in_obj;
+	t_vec	light_vec;
+	t_vec	obj_nvec;
+
+	light_vec = vunit(vminus(ray.hit.hit_point, light.coordinate));
+	if (ray.hit.in_object) // 빛이 물체 안에 있는지 밖에 있는지 판별 필요 
+		obj_nvec = vmulti_f(ray.hit.hit_normal, -1);
+	else
+		obj_nvec = ray.hit.hit_normal;
+	if (vdot(obj_nvec, light_vec) <= 0)
+		light_in_obj = 0;
+	else
+		light_in_obj = 1;
+	if (light_in_obj != ray.hit.in_object)
+		return (0);
+	else
+		return (1);
+}
+
 void	shoot_ray(t_mlx *m, t_scene *scene)
 {
 	float	u;
@@ -89,13 +110,49 @@ void	shoot_ray(t_mlx *m, t_scene *scene)
 			u = (float)i / (float)(scene->camera.win.width);
 			v = (float)j / (float)(scene->camera.win.height);
 			if (is_object_visible(scene, u, v, &ray))
-				my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), vplus(get_pixel_ambient_color(scene, ray.hit.hit_color), get_pixel_diffuse_color(scene, &ray))), 255)));
+			{
+				if (is_light(scene->light, ray))
+				{
+					my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), vplus(get_pixel_ambient_color(scene, ray.hit.hit_color), get_pixel_diffuse_color(scene, &ray))), 255)));
+				}
+				else
+				{
+					my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), get_pixel_ambient_color(scene, ray.hit.hit_color)), 255)));
+				}
+			}
 			i++;
 		}
 		j++;
 	}
 	// printf("type : %d\n", scene->objects->content->type);
 }
+
+
+// void	shoot_ray(t_mlx *m, t_scene *scene)
+// {
+// 	float	u;
+// 	float	v;
+// 	int		i;
+// 	int		j;
+
+// 	t_ray	ray;
+
+// 	j = 0;
+// 	while (j < scene->camera.win.height - 1)
+// 	{
+// 		i = 0;
+// 		while (i < scene->camera.win.width - 1)
+// 		{
+// 			u = (float)i / (float)(scene->camera.win.width);
+// 			v = (float)j / (float)(scene->camera.win.height);
+// 			if (is_object_visible(scene, u, v, &ray))
+// 				my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), vplus(get_pixel_ambient_color(scene, ray.hit.hit_color), get_pixel_diffuse_color(scene, &ray))), 255)));
+// 			i++;
+// 		}
+// 		j++;
+// 	}
+// 	// printf("type : %d\n", scene->objects->content->type);
+// }
 
 // void	trace_objects(t_mlx *m, t_scene *scene)
 // {
