@@ -9,6 +9,7 @@ DISCRIMINANT_DIR = $(SOURCE_DIR)/discriminant/
 RAY_DIR = $(SOURCE_DIR)/ray/
 TRANSFORM_DIR = $(SOURCE_DIR)/transform/
 LIGHT_DIR = $(SOURCE_DIR)/light/
+SHADOW_DIR = $(SOURCE_DIR)/shadow/
 OBJECT_DIR = ./objects
 FILES = \
 		main \
@@ -20,6 +21,7 @@ DISCRIMINANT_FILE = discriminant hit
 RAY_FILE = trace
 TRANSFORM_FILE = world_to_camera transformation 
 LIGHT_FILE = ambient diffuse
+SHADOW_FILE = shadow
 
 #vpath %.c $(SOURCE_DIR)
 VPATH := $(shell find $(SOURCE_DIR) -type d -print | tr '\012' ':' | sed 's/:$$//')
@@ -32,6 +34,7 @@ SOURCES = $(addsuffix .c, $(FILES)) \
 		  $(addprefix $(RAY_DIR), $(addsuffix .c, $(RAY_FILE))) \
 		  $(addprefix $(TRANSFORM_DIR), $(addsuffix .c, $(TRANSFORM_FILE))) \
 		  $(addprefix $(LIGHT_DIR), $(addsuffix .c, $(LIGHT_FILE))) \
+		  $(addprefix $(SHADOW_DIR), $(addsuffix .c, $(SHADOW_FILE))) \
 
 OBJECTS = $(addprefix $(OBJECT_DIR)/, $(notdir $(SOURCES:.c=.o)))
 
