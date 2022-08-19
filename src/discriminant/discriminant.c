@@ -52,6 +52,9 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 	return (update_hit(ray, new_hit));
 }
 
+
+
+
 int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 {
 	float	d_dot_v;
@@ -119,7 +122,24 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 			cylinder->top = 1;
 		if (vlen2(cp_bottom) - (cylinder->height * cylinder->height) <= cylinder->radius2)
 			cylinder->bottom = 1;
-		if (cylinder->top || cylinder->bottom)
+
+		if (cylinder->top && cylinder->bottom)
+		{
+			// if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
+			if (fmax(top_plane_t, bottom_plane_t) == top_plane_t)
+			{
+				mint = top_plane_t;
+				cylinder->bottom = 0;
+			}
+			else
+			{
+				mint = bottom_plane_t;
+				cylinder->top = 0;
+			}	
+			new_hit = make_hit_cylinder(cylinder, mint, ray);
+			return (update_hit(ray, new_hit));
+		}
+		else if (cylinder->top || cylinder->bottom)
 		{
 			if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
 			{
@@ -137,3 +157,5 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	}
 	return (0);
 }
+
+
