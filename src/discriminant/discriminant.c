@@ -9,10 +9,10 @@
 
 int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray, t_coordinate e)
 {
-	float	b;
-	float	c;
-	float	d;
-	float	t[2];
+	double	b;
+	double	c;
+	double	d;
+	double	t[2];
 	t_ray	new_hit;
 
 	b = vdot(ray->vec, vminus(e, sphere->coordinate));
@@ -37,9 +37,9 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray, t_coordinate e)
 
 int	is_ray_hit_plane(t_plane *plane, t_ray *ray, t_coordinate e)
 {
-	float	c_dot_n;
-	float	d_dot_n;
-	float	t;
+	double	c_dot_n;
+	double	d_dot_n;
+	double	t;
 	t_ray	new_hit;
 	t_vec	c;
 
@@ -57,24 +57,24 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray, t_coordinate e)
 
 int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 {
-	float	d_dot_v;
-	float	c_dot_v;
-	float	c_dot_d;
-	float	c_dot_c;
-	float	d;
-	float	a;
-	float	b;
-	float	c;
-	float	t[2];
+	double	d_dot_v;
+	double	c_dot_v;
+	double	c_dot_d;
+	double	c_dot_c;
+	double	d;
+	double	a;
+	double	b;
+	double	c;
+	double	t[2];
 	t_vec	cp;
 	t_vec	v;
 	t_vec	ce;
-	float	cp_dot_v;
-	float	top_plane_t;
-	float	bottom_plane_t;
+	double	cp_dot_v;
+	double	top_plane_t;
+	double	bottom_plane_t;
 	t_vec	cp_top;
 	t_vec	cp_bottom;
-	float	mint;
+	double	mint;
 
 	t_ray	new_hit;
 

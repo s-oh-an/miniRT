@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-t_ray	init_ray(float x, float y, float z)
+t_ray	init_ray(double x, double y, double z)
 {
 	t_ray	ray;
 	t_vec	vec;
@@ -93,14 +93,14 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_coordinate e)
 // 	return (hit);
 // }
 
-int	is_object_visible(t_scene *s, float u, float v, t_ray *ray)
+int	is_object_visible(t_scene *s, double u, double v, t_ray *ray)
 {
 	// t_ray	ray;
-	float	hori_r;
-	float	vert_r;
-	vert_r = (0.5 / (float)s->camera.win.width) + u;
+	double	hori_r;
+	double	vert_r;
+	vert_r = (0.5 / (double)s->camera.win.width) + u;
 	vert_r *= s->camera.viewport_w;
-	hori_r = (0.5 / (float)s->camera.win.height) + v;
+	hori_r = (0.5 / (double)s->camera.win.height) + v;
 	hori_r *= s->camera.viewport_h;
 
 	//ray.vec = vunit(vplus(vplus(s->camera.left_bottom, vmulti_f(s->camera.ver, vert_r)), vmulti_f(s->camera.hor, hori_r)));
@@ -110,8 +110,8 @@ int	is_object_visible(t_scene *s, float u, float v, t_ray *ray)
 
 void	shoot_ray(t_mlx *m, t_scene *scene)
 {
-	float	u;
-	float	v;
+	double	u;
+	double	v;
 	int		i;
 	int		j;
 
@@ -124,8 +124,8 @@ void	shoot_ray(t_mlx *m, t_scene *scene)
 		while (i < scene->camera.win.width - 1)
 		{
 			// 이 픽셀에 해당하는 뷰포트의 픽셀을 지나가는 광선이 물체와 만나는지 확인
-			u = (float)i / (float)(scene->camera.win.width);
-			v = (float)j / (float)(scene->camera.win.height);
+			u = (double)i / (double)(scene->camera.win.width);
+			v = (double)j / (double)(scene->camera.win.height);
 			if (is_object_visible(scene, u, v, &ray))
 			{	
 				if (!is_pixel_in_shadow(scene->objects, &scene->light, &ray))

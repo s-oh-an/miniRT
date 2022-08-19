@@ -4,14 +4,14 @@
 
 int	is_pixel_in_shadow(t_object_list *objs, t_light *light, t_ray *ray)
 {
-	//float	pl;
+	//double	pl;
 	t_ray	tmp;
 	t_vec	pl;
-	float	len;
+	double	len;
 	t_vec	pp;
 
 	//tmp = *ray;
-	pp = vmulti_f(ray->hit.hit_normal, 0.0002);
+	pp = vmulti_f(ray->hit.hit_normal, 0.000001);
 
 	//pl = vminus(light->coordinate, ray->hit.hit_point);
 	pl = vminus(light->coordinate, vplus(ray->hit.hit_point, pp));

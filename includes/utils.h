@@ -4,7 +4,7 @@
 #include "scene.h"
 #include "my_mlx.h"
 
-float	ft_stof(char const *str);
+double	ft_stof(char const *str);
 
 int		exit_minirt(t_mlx *m);
 void	init_mlx(t_mlx *m, t_window w);

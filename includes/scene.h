@@ -26,14 +26,14 @@ typedef t_list				t_object_list;
 
 struct s_vec3
 {
-	float	x;
-	float	y;
-	float	z;
+	double	x;
+	double	y;
+	double	z;
 };
 
 struct s_ambient
 {
-	float	ratio;
+	double	ratio;
 	t_color	color;
 };
 
@@ -41,7 +41,7 @@ typedef struct s_window
 {
 	int		width;
 	int		height;
-	float	ratio;
+	double	ratio;
 }	t_window;
 
 struct s_camera
@@ -52,29 +52,29 @@ struct s_camera
 	t_vec			y;
 	t_vec			z;
 	t_window		win;
-	float			fov;
-	float			viewport_h;
-	float			viewport_w;
+	double			fov;
+	double			viewport_h;
+	double			viewport_w;
 	t_vec			hori_vec;
 	t_vec			vert_vec;
-	float			focal_len;
+	double			focal_len;
 	t_vec	ver;
 	t_vec	hor;
 	t_coordinate	left_bottom;
-	float			t;
+	double			t;
 };
 
 struct s_light
 {
 	t_coordinate	coordinate;
-	float			ratio;
+	double			ratio;
 };
 
 struct s_sphere
 {
 	t_coordinate	coordinate;
-	float			diameter;
-	float			radius2;
+	double			diameter;
+	double			radius2;
 	t_color			color;
 };
 
@@ -89,9 +89,9 @@ struct s_cylinder
 {
 	t_coordinate	coordinate;
 	t_normal_vector	n_vector;
-	float			diameter;
-	float			radius2;
-	float			height;
+	double			diameter;
+	double			radius2;
+	double			height;
 	int				top;
 	int				bottom;
 	t_color			color;
