@@ -11,7 +11,7 @@ int	is_duplicate_identifier(int identifier_flag)
 	return (0);
 }
 
-int	is_valid_ratio_range(float ratio)
+int	is_valid_ratio_range(double ratio)
 {
 	if (ratio < 0.0 || ratio > 1.0)
 		return (0);
@@ -34,7 +34,7 @@ int	is_valid_vector_range(t_normal_vector *vec)
 	return (1);
 }
 
-int	is_valid_property(float value)
+int	is_valid_property(double value)
 {
 	if (value < 0.0)
 		return (0);
@@ -51,7 +51,7 @@ int	get_field_count(char const **data)
 	return (i);
 }
 
-void	set_light_ratio(float *ratio, char const *str)
+void	set_light_ratio(double *ratio, char const *str)
 {
 	*ratio = ft_stof(str);
 	if (!is_valid_ratio_range(*ratio))

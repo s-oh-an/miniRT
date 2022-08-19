@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 
-t_vec	vec3(float x, float y, float z)
+t_vec	vec3(double x, double y, double z)
 {
 	t_vec vec;
 	
@@ -12,7 +12,7 @@ t_vec	vec3(float x, float y, float z)
 	return (vec);
 }
 
-/*t_vec	init_point(float x, float y, float z)
+/*t_vec	init_point(double x, double y, double z)
 {
 	t_vec point;
 	
@@ -22,7 +22,7 @@ t_vec	vec3(float x, float y, float z)
 	return (point);
 }
 
-t_color	init_color(float x, float y, float z)
+t_color	init_color(double x, double y, double z)
 {
 	t_color color;
 	
@@ -32,7 +32,7 @@ t_color	init_color(float x, float y, float z)
 	return (color);
 }
 
-void	set_vec(t_vec *vec, float x, float y, float z)
+void	set_vec(t_vec *vec, double x, double y, double z)
 {
 	vec->x = x;
 	vec->y = y;
@@ -40,17 +40,17 @@ void	set_vec(t_vec *vec, float x, float y, float z)
 }*/
 
 // 벡터 길이 제곱
-float	vlen2(t_vec vec)
+double	vlen2(t_vec vec)
 {
-	float	len;
+	double	len;
 
 	len = (vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 	return (len);
 }
 
-float	vlen(t_vec vec)
+double	vlen(t_vec vec)
 {
-	float len;
+	double len;
 
 	len = sqrt(vlen2(vec));
 	return (len);
@@ -65,7 +65,7 @@ t_vec	vplus(t_vec vec1, t_vec vec2)
 	return (vec1);
 }
 
-t_vec	vplus_f(t_vec vec1, float x, float y, float z)
+t_vec	vplus_f(t_vec vec1, double x, double y, double z)
 {
 	vec1.x = vec1.x + x;
 	vec1.y = vec1.y + y;
@@ -82,7 +82,7 @@ t_vec	vminus(t_vec vec1, t_vec vec2)
 	return (vec1);
 }
 
-t_vec	vminus_f(t_vec vec1, float x, float y, float z)
+t_vec	vminus_f(t_vec vec1, double x, double y, double z)
 {
 	vec1.x = vec1.x - x;
 	vec1.y = vec1.y - y;
@@ -91,7 +91,7 @@ t_vec	vminus_f(t_vec vec1, float x, float y, float z)
 }
 
 // 벡터 곱셈
-t_vec	vmulti_f(t_vec vec, float t)
+t_vec	vmulti_f(t_vec vec, double t)
 {
 	vec.x = vec.x * t;
 	vec.y = vec.y * t;
@@ -109,7 +109,7 @@ t_vec      vmulti(t_vec vec, t_vec vec2)
 }
 
 // 벡터 스칼라 나누기
-t_vec	vdiv(t_vec vec, float t)
+t_vec	vdiv(t_vec vec, double t)
 {
 	vec.x = vec.x * (1 / t);
 	vec.y = vec.y * (1 / t);
@@ -119,9 +119,9 @@ t_vec	vdiv(t_vec vec, float t)
 }
 
 // 벡터 
-float	vdot(t_vec vec1, t_vec vec2)
+double	vdot(t_vec vec1, t_vec vec2)
 {
-	float	res;
+	double	res;
 
 	res = (vec1.x * vec2.x) + (vec1.y * vec2.y) + (vec1.z * vec2.z);
 	return (res);
@@ -141,7 +141,7 @@ t_vec	vcross(t_vec vec1, t_vec vec2)
 t_vec	vunit(t_vec vec)
 {
 	t_vec	unit;
-	float			len;
+	double			len;
 
 	len = vlen(vec);
 	if (len == 0)

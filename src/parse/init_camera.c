@@ -12,7 +12,7 @@ void	camera(t_camera *camera)
 	camera->win.height = 720;
 	// camera->win.width = 1280;
 	// camera->win.height = 1280;
-	camera->win.ratio = (float)camera->win.width / (float)camera->win.height;
+	camera->win.ratio = (double)camera->win.width / (double)camera->win.height;
 	camera->viewport_h = 2.0;
 	camera->viewport_w = camera->viewport_h * (camera->win.ratio);
 	camera->focal_len = 1.0 / tan((camera->fov / 2) * (M_PI / 180));	

@@ -2,9 +2,9 @@
 #include "../../lib/libft/libft.h"
 #include <math.h>
 
-float	ft_stof(char const *str)
+double	ft_stof(char const *str)
 {
-	float	ret;
+	double	ret;
 	int		digit;
 	int		digit_decimal;
 	int		sign;
