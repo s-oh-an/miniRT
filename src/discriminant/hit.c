@@ -58,6 +58,8 @@ t_ray	make_hit_cylinder(t_cylinder *cylinder, double t, t_ray *ray)
 {
 	t_ray	new;
 	t_vec	r_n_vector;
+	t_vec	cp;
+	t_vec	ccp;
 
 	new.vec = ray->vec;
 	new.hit.t = t;
@@ -65,14 +67,15 @@ t_ray	make_hit_cylinder(t_cylinder *cylinder, double t, t_ray *ray)
 	new.hit.hit_color = cylinder->color;
 	r_n_vector = vunit(vmulti_f(cylinder->n_vector, -1.0));
 	if (!cylinder->top && !cylinder->bottom)
-		new.hit.hit_normal = vunit(vminus(vminus(new.hit.hit_point, cylinder->coordinate), 
-									vmulti_f(r_n_vector, vdot(vminus(new.hit.hit_point, 
-									cylinder->coordinate), r_n_vector))));
+	{	
+		cp = vminus(new.hit.hit_point, cylinder->coordinate);
+		ccp = vmulti_f(r_n_vector, vdot(r_n_vector, cp));
+		new.hit.hit_normal = vunit(vminus(cp, ccp));
+	}
 	else if (cylinder->top)
 		new.hit.hit_normal = vunit(cylinder->n_vector);
 	else
 		new.hit.hit_normal = r_n_vector;
-	//else
 	if (vdot(ray->vec, new.hit.hit_normal) <= 0)
 		new.hit.in_object = 0;
 	else 

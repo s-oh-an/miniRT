@@ -125,16 +125,14 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 			cylinder->bottom = 1;
 		if (cylinder->top || cylinder->bottom)
 		{
-			if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
-			{
-				mint = top_plane_t;
-				cylinder->bottom = 0;
-			}
+			if (top_plane_t * bottom_plane_t < 0)
+				mint = fmax(top_plane_t, bottom_plane_t);
 			else
-			{
-				mint = bottom_plane_t;
-				cylinder->top = 0;
-			}	
+				mint = fmin(top_plane_t, bottom_plane_t);
+			if (mint == top_plane_t)
+				cylinder->bottom = 0;
+			else
+				cylinder->top = 0;		
 			new_hit = make_hit_cylinder(cylinder, mint, ray);
 			return (update_hit(ray, new_hit));
 		}
