@@ -20,7 +20,6 @@ t_ray	init_ray(double x, double y, double z)
 	return (ray);
 }
 
-// int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_color *color)
 int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_coordinate e)
 {
 	t_object		*obj;
@@ -33,20 +32,14 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_coordinate e)
 		if (obj->type == T_SPHERE)
 		{
 			is_ray_hit_sphere((t_sphere *)obj->property, ray, e);
-			// if (is_ray_hit_sphere((t_sphere *)obj->property, ray))
-			// *color = ((t_sphere *)obj->property)->color; //(color변수를 hit구조체 안으로 넣어도 괜찮을 지  물어보기 )
 		}
 		else if (obj->type == T_PLANE)
 		{
 			is_ray_hit_plane((t_plane *)obj->property, ray, e);
-			// if (is_ray_hit_plane((t_plane *)obj->property, ray))
-			// *color = ((t_plane *)obj->property)->color;
 		}	
 		else if (obj->type == T_CYLINDER)
 		{
 			is_ray_hit_cylinder((t_cylinder *)obj->property, ray, e);
-			// if (is_ray_hit_cylinder((t_cylinder *)obj->property, ray))
-			// (*color) = ((t_cylinder *)obj->property)->color;
 		}
 		else
 		{
@@ -56,42 +49,6 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_coordinate e)
 	}
 	return (ray->hit.ray_hit);
 }
-
-// int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_color *color)
-// {
-// 	t_object	*obj;
-// 	int			hit;
-
-// 	hit = 0;
-// 	while (obs)
-// 	{
-// 		obj = obs->content;
-// 		if (obj->type == T_SPHERE)
-// 		{
-// 			*color = ((t_sphere *)obj->property)->color; //(color변수를 hit구조체 안으로 넣어도 괜찮을 지  물어보기 )
-// 			if (is_ray_hit_sphere((t_sphere *)obj->property, ray))
-// 				hit++;
-// 		}
-// 		else if (obj->type == T_PLANE)
-// 		{
-// 			*color = ((t_plane *)obj->property)->color;
-// 			if (is_ray_hit_plane((t_plane *)obj->property, ray))
-// 				hit++;
-// 		}	
-// 		else if (obj->type == T_CYLINDER)
-// 		{
-// 			(*color) = ((t_cylinder *)obj->property)->color;
-// 			if (is_ray_hit_cylinder((t_cylinder *)obj->property, ray))
-// 				hit++;
-// 		}
-// 		else
-// 		{
-// 			// 없는 물체 타입에 대한 에러 -> 근데 파싱에서 이런 경우를 다 걸러서 굳이 필요할까 싶음.
-// 		}
-// 		obs = obs->next;
-// 	}
-// 	return (hit);
-// }
 
 int	is_object_visible(t_scene *s, double u, double v, t_ray *ray)
 {
@@ -113,27 +70,52 @@ int	is_light(t_light light, t_ray ray)
 	int		light_in_obj;
 	t_vec	light_vec;
 	t_vec	obj_nvec;
-	t_vec	cp;
 
-	cp = ray.hit.hit_point;
-	light_vec = vunit(vminus(light.coordinate, ray.hit.hit_point)); // LP
-	//if (ray.hit.in_object) // 빛이 물체 안에 있는지 밖에 있는지 판별 필요 
-	//	obj_nvec = vmulti_f(ray.hit.hit_normal, -1);
-	//else
-	obj_nvec = ray.hit.hit_normal;
+	light_vec = vunit(vminus(ray.hit.hit_point, light.coordinate)); // LP
+
+	if (ray.hit.in_object) // 빛이 물체 안에 있으면 바꿨던 방향벡터를 다시 돌려놓고 LP와 방향비교 
+		obj_nvec = vmulti_f(ray.hit.hit_normal, -1);
+	else
+		obj_nvec = ray.hit.hit_normal;
+
 	if (vdot(obj_nvec, light_vec) < 0)
-		light_in_obj = 0;
+		light_in_obj = 0; // 물체 밖에 있다 
 	else
 		light_in_obj = 1;
 	
-	if (ray.hit.in_object && light_in_obj != ray.hit.in_object)
-	// if (light_in_obj != ray.hit.in_object)
+	if (light_in_obj != ray.hit.in_object)
+	// 이전 버전으로 했을떄 (in_object조건 추가했을 때) botton2.rt에서 빨간 구외의 물체 안에 빛을 넣으면 빛이 새서 이렇게 바꿨어요!! - san
 		return (0);
-	//else if (ray.hit.in_object && vdot(cp, light_vec) < 0)
-	//	return (0);
 	else
 		return (1);
 }
+
+// int	is_light(t_light light, t_ray ray)
+// {
+// 	int		light_in_obj;
+// 	t_vec	light_vec;
+// 	t_vec	obj_nvec;
+// 	t_vec	cp;
+
+// 	cp = ray.hit.hit_point;
+// 	light_vec = vunit(vminus(light.coordinate, ray.hit.hit_point)); // LP
+// 	//if (ray.hit.in_object) // 빛이 물체 안에 있는지 밖에 있는지 판별 필요 
+// 	//	obj_nvec = vmulti_f(ray.hit.hit_normal, -1);
+// 	//else
+// 	obj_nvec = ray.hit.hit_normal;
+// 	if (vdot(obj_nvec, light_vec) < 0)
+// 		light_in_obj = 0;
+// 	else
+// 		light_in_obj = 1;
+	
+// 	if (ray.hit.in_object && light_in_obj != ray.hit.in_object)
+// 	// if (light_in_obj != ray.hit.in_object)
+// 		return (0);
+// 	//else if (ray.hit.in_object && vdot(cp, light_vec) < 0)
+// 	//	return (0);
+// 	else
+// 		return (1);
+// }
 
 void	shoot_ray(t_mlx *m, t_scene *scene)
 {
