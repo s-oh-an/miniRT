@@ -106,6 +106,7 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 	{
 		mint = fmax(t[0], t[1]);
 		cp = vplus(ce, vmulti_f(ray->vec, mint));
+		ray->hit.in_object = 1;
 	}
 	cp_dot_v = vdot(cp, v);
 	if (cp_dot_v >= 0 && cp_dot_v <= cylinder->height)
@@ -123,59 +124,22 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 			cylinder->top = 1;
 		if (vlen2(cp_bottom) - (cylinder->height * cylinder->height) <= cylinder->radius2)
 			cylinder->bottom = 1;
-
-		// if (cylinder->top && cylinder->bottom)
-		// {
-		// 	// if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
-		// 	if (fmax(top_plane_t, bottom_plane_t) == top_plane_t)
-		// 	{
-		// 		mint = top_plane_t;
-		// 		cylinder->bottom = 0;
-		// 	}
-		// 	else
-		// 	{
-		// 		mint = bottom_plane_t;
-		// 		cylinder->top = 0;
-		// 	}	
-		// 	new_hit = make_hit_cylinder(cylinder, mint, ray);
-		// 	return (update_hit(ray, new_hit));
-		// }
-		// else 
 		if (cylinder->top || cylinder->bottom)
 		{
-			if (t[0] * t[1] < 0)
+			if (top_plane_t * bottom_plane_t < 0)
 			{	
-				if (fmax(top_plane_t, bottom_plane_t) == top_plane_t)
-				{
-					mint = top_plane_t;
-					cylinder->bottom = 0;
-				}
-				else
-				{
-					mint = bottom_plane_t;
-					cylinder->top = 0;
-				}	
-				new_hit = make_hit_cylinder(cylinder, mint, ray);
-				return (update_hit(ray, new_hit));
+				mint = fmax(top_plane_t, bottom_plane_t);
+				ray->hit.in_object = 1;
 			}
 			else
-			{
-				if (fmin(top_plane_t, bottom_plane_t) == top_plane_t)
-				{
-					mint = top_plane_t;
-					cylinder->bottom = 0;
-				}
-				else
-				{
-					mint = bottom_plane_t;
-					cylinder->top = 0;
-				}	
-				new_hit = make_hit_cylinder(cylinder, mint, ray);
-				return (update_hit(ray, new_hit));
-			}
+				mint = fmin(top_plane_t, bottom_plane_t);
+			if (mint == top_plane_t)
+				cylinder->bottom = 0;
+			else
+				cylinder->top = 0;		
+			new_hit = make_hit_cylinder(cylinder, mint, ray);
+			return (update_hit(ray, new_hit));
 		}
 	}
 	return (0);
 }
-
-
