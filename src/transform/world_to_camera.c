@@ -7,11 +7,22 @@
 
 static void	set_camera_axis(t_camera *camera)
 {
-	camera->z = vmulti_f(vunit(camera->n_vector), -1);
+	/*camera->z = vmulti_f(vunit(camera->n_vector), -1);
 	printf("camera z: %f %f %f\n", camera->z.x, camera->z.y, camera->z.z);
 	camera->x = vcross(vec3(0, 1, 0), camera->z);
 	printf("camera x: %f %f %f\n", camera->x.x, camera->x.y, camera->x.z);
 	camera->y = vcross(camera->z, camera->x);
+	printf("camera y: %f %f %f\n\n", camera->y.x, camera->y.y, camera->y.z);*/
+	camera->z = vmulti_f(vunit(camera->n_vector), -1);
+	printf("camera z: %f %f %f\n", camera->z.x, camera->z.y, camera->z.z);
+	if (camera->z.x == 0 && camera->z.y == 1 && camera->z.z == 0)
+		camera->x = vunit(vcross(vec3(-1, 0, 0), camera->z));
+	else if (camera->z.x == 0 && camera->z.y == -1 && camera->z.z == 0)
+		camera->x = vunit(vcross(vec3(1, 0, 0), camera->z));
+	else
+		camera->x = vunit(vcross(vec3(0, 1, 0), camera->z));
+	printf("camera x: %f %f %f\n", camera->x.x, camera->x.y, camera->x.z);
+	camera->y = vunit(vcross(camera->z, camera->x));
 	printf("camera y: %f %f %f\n\n", camera->y.x, camera->y.y, camera->y.z);
 
 }
