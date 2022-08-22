@@ -106,7 +106,6 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 	{
 		mint = fmax(t[0], t[1]);
 		cp = vplus(ce, vmulti_f(ray->vec, mint));
-		ray->hit.in_object = 1;
 	}
 	cp_dot_v = vdot(cp, v);
 	if (cp_dot_v >= 0 && cp_dot_v <= cylinder->height)
@@ -127,10 +126,7 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 		if (cylinder->top || cylinder->bottom)
 		{
 			if (top_plane_t * bottom_plane_t < 0)
-			{	
 				mint = fmax(top_plane_t, bottom_plane_t);
-				ray->hit.in_object = 1;
-			}
 			else
 				mint = fmin(top_plane_t, bottom_plane_t);
 			if (mint == top_plane_t)
