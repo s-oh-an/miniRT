@@ -17,6 +17,7 @@ t_ray	init_ray(double x, double y, double z)
 	ray.hit.t = 100000;
 	ray.hit.min = 0;
 	ray.hit.ray_hit = 0;
+	ray.hit.in_object = 0;
 	return (ray);
 }
 
@@ -40,6 +41,7 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_coordinate e)
 		else if (obj->type == T_CYLINDER)
 		{
 			is_ray_hit_cylinder((t_cylinder *)obj->property, ray, e);
+			is_ray_hit_cylinder_topbottom((t_cylinder *)obj->property, ray, e);
 		}
 		else
 		{
