@@ -30,7 +30,8 @@ t_ray	make_hit_sphere(t_sphere *sphere, double *t, t_ray *ray)
 	new.hit.hit_color = sphere->color;
 	new.hit.hit_normal = vunit(vminus(new.hit.hit_point, sphere->coordinate));
 
-	if (vdot(ray->vec, new.hit.hit_normal) <= 0)
+	// if (vdot(ray->vec, new.hit.hit_normal) <= 0)
+	if ((vdot(ray->vec, new.hit.hit_normal) < 0) || small_than_eps(vdot(ray->vec, new.hit.hit_normal)))
 		new.hit.in_object = 0;
 	else
 	{

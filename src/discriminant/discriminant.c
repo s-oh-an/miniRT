@@ -5,6 +5,15 @@
 
 #include <stdio.h>
 
+// //절댓값 epsilon 대소 비교하는 함수, 비교값이 크면 0, 작으면 1을 반환 -> vector.c
+// int	small_than_eps(double d)
+// {
+// 	if (d < 1e-6 && d > -(1e-6))
+// 		return (1);
+// 	else
+// 		return (0);
+// }
+
 // 판별식은 d, t는 레이방벡의 실수배
 
 int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray, t_coordinate e)
@@ -46,7 +55,8 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray, t_coordinate e)
 	c = vminus(plane->coordinate, e);
 	c_dot_n = vdot(plane->n_vector, c);
 	d_dot_n = vdot(plane->n_vector, ray->vec);
-	if (d_dot_n == 0)
+	// if (d_dot_n == 0)
+	if (small_than_eps(d_dot_n))
 		return (0);
 	t = c_dot_n / d_dot_n;
 	if (t < 0)
@@ -83,9 +93,11 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 		cp_bottom = vplus(ce, vmulti_f(ray->vec, bottom_plane_t));
 		
 		//return (0);
-		if (vlen2(cp_top) <= cylinder->radius2)
+		// if (vlen2(cp_top) <= cylinder->radius2)
+		if ((vlen2(cp_top) < cylinder->radius2) || small_than_eps(vlen2(cp_top) - cylinder->radius2))
 			cylinder->top = 1;
-		if (vlen2(cp_bottom) - (cylinder->height * cylinder->height) <= cylinder->radius2)
+		// if (vlen2(cp_bottom) - (cylinder->height * cylinder->height) <= cylinder->radius2)
+		if ((vlen2(cp_bottom) - (cylinder->height * cylinder->height) < cylinder->radius2) || small_than_eps(vlen2(cp_bottom) - (cylinder->height * cylinder->height) - cylinder->radius2))
 			cylinder->bottom = 1;
 		if (!cylinder->top && !cylinder->bottom)
 			return (0);
@@ -147,6 +159,7 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 	return (0);
 }
 
+
 int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 {
 	double	d_dot_v;
@@ -180,12 +193,14 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 	c =	cylinder->radius2 - c_dot_c + (c_dot_v * c_dot_v);
 	d = (b * b) - (a * c);
 	if (d < 0)
+	// if (small_than_eps(d))
 		return (0);
 	t[0] = (-b - sqrt(d)) / a;
 	t[1] = (-b + sqrt(d)) / a;
 	if (t[0] * t[1] > 0)
 	{
 		if (t[0] < 0)
+		// if (small_than_eps(t[0]))
 			return (0);
 		mint = fmin(t[0], t[1]);
 		cp = vplus(ce, vmulti_f(ray->vec, mint));
@@ -196,7 +211,9 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 		cp = vplus(ce, vmulti_f(ray->vec, mint));
 	}
 	cp_dot_v = vdot(cp, v);
-	if (cp_dot_v >= 0 && cp_dot_v <= cylinder->height)
+	// if (cp_dot_v >= 0 && cp_dot_v <= cylinder->height)
+	if ((cp_dot_v > 0 || small_than_eps(cp_dot_v)) && (cp_dot_v < cylinder->height || small_than_eps(cp_dot_v - cylinder->height)))
+	// if (!small_than_eps(cp_dot_v) && small_than_eps(cp_dot_v - cylinder->height))
 	{
 		new_hit = make_hit_cylinder(cylinder, mint, ray);
 		//new_hit.hit.hit_color = vec3(0, 0, 255);
