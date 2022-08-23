@@ -74,6 +74,7 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 	v = vmulti_f(vunit(cylinder->n_vector), -1.0);
 	d_dot_v = vdot(ray->vec, v);
 	c_dot_v = vdot(ce, v);
+	//printf("inside t:%f\n", ray->hit.t);
 	if (d_dot_v)
 	{
 		top_plane_t = -c_dot_v / d_dot_v;
@@ -99,11 +100,13 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 				else
 					mint = fmin(top_plane_t, bottom_plane_t);
 			}
-			else if (cylinder->top)
+			else if (cylinder->top && top_plane_t > 0)
 				mint = top_plane_t;
-			else
+			else if (cylinder->bottom && bottom_plane_t > 0)
 				mint = bottom_plane_t;
-		//}
+			else
+				return (0);
+				//}
 		//if (cylinder->top && cylinder->bottom)
 		//{
 			//if (top_plane_t * bottom_plane_t < 0)
