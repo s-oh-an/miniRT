@@ -6,6 +6,7 @@
 t_color	get_pixel_diffuse_color(t_scene *scene, t_ray *ray)
 {
 	t_color	diffuse;
+	t_color	color;
 	t_vec	l;
 
 	diffuse = vec3(1, 1, 1);
@@ -16,7 +17,13 @@ t_color	get_pixel_diffuse_color(t_scene *scene, t_ray *ray)
 	
 	
 	diffuse = vmulti_f(diffuse, vdot(ray->hit.hit_normal, l) * -scene->light.ratio);
-	return (diffuse);
+	diffuse = vmax(vec3(0, 0, 0), diffuse);
+	color = ray->hit.hit_color;
+	color.x /= 255;
+	color.y /= 255;
+	color.z /= 255;
+	diffuse = vmulti(color, diffuse);
+	return (vmin(vec3(1, 1, 1), diffuse));
 	//return (vmax(vec3(0, 0, 0), diffuse));
 }
 
