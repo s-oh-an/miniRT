@@ -2,16 +2,14 @@
 #include "../../includes/vector.h"
 #include <math.h>
 
-// #include <stdio.h>
+#include <stdio.h>
 
 //(1을 리턴 -> 판별식함수가 1을 리턴하는 곳이 이 함수를 사용 )
 int	update_hit(t_ray *ray, t_ray new)
 {
-	if (ray->hit.t > new.hit.t)	// - + 일떄는 + 값이 교점 
+	if (ray->hit.t > new.hit.t)
 	{
 		*ray = new;
-		// printf("nvertor x : %f y : %f z : %f\n", ray->hit.hit_normal.x, ray->hit.hit_normal.y, ray->hit.hit_normal.z);
-
 	}
 	return (1);
 }
@@ -22,7 +20,7 @@ t_ray	make_hit_sphere(t_sphere *sphere, double *t, t_ray *ray)
 	t_ray	new;
 
 	new.vec = ray->vec;
-	if (t[0] * t[1] < 0)
+	if (t[0] * t[1] < -1e-6)
 		new.hit.t = t[1];
 	else
 		new.hit.t = t[0];
@@ -31,7 +29,7 @@ t_ray	make_hit_sphere(t_sphere *sphere, double *t, t_ray *ray)
 	new.hit.hit_normal = vunit(vminus(new.hit.hit_point, sphere->coordinate));
 
 	// if (vdot(ray->vec, new.hit.hit_normal) <= 0)
-	if ((vdot(ray->vec, new.hit.hit_normal) < 0) || small_than_eps(vdot(ray->vec, new.hit.hit_normal)))
+	if ((vdot(ray->vec, new.hit.hit_normal) < 1e-6))
 		new.hit.in_object = 0;
 	else
 	{
@@ -52,7 +50,7 @@ t_ray	make_hit_plane(t_plane *plane, double t, t_ray *ray)
 	new.hit.hit_point = vmulti_f(new.vec, new.hit.t);
 	new.hit.hit_color = plane->color;
 	new.hit.hit_normal = vunit(plane->n_vector);
-	if (vdot(ray->vec, new.hit.hit_normal) <= 0)
+	if (vdot(ray->vec, new.hit.hit_normal) < 1e-6)
 		new.hit.in_object = 0;
 	else
 	{
@@ -78,8 +76,7 @@ t_ray	make_hit_cylinder_topbottom(t_cylinder *cylinder, double t, t_ray *ray)
 		new.hit.hit_normal = vunit(cylinder->n_vector);
 	else 
 		new.hit.hit_normal = r_n_vector;
-	
-	if (vdot(ray->vec, new.hit.hit_normal) < 0)
+	if (vdot(ray->vec, new.hit.hit_normal) < 1e-6)
 		new.hit.in_object = 0;
 	else 
 	{	
@@ -102,11 +99,11 @@ t_ray	make_hit_cylinder(t_cylinder *cylinder, double t, t_ray *ray)
 	new.hit.t = t;
 	new.hit.hit_point = vmulti_f(new.vec, new.hit.t);	
 	new.hit.hit_color = cylinder->color;
-	r_n_vector = vunit(vmulti_f(cylinder->n_vector, -1.0));
+	r_n_vector = vmulti_f(vunit(cylinder->n_vector), -1);
 	cp = vminus(new.hit.hit_point, cylinder->coordinate);
 	ccp = vmulti_f(r_n_vector, vdot(r_n_vector, cp));
 	new.hit.hit_normal = vunit(vminus(cp, ccp));
-	if (vdot(ray->vec, new.hit.hit_normal) < 0)
+	if (vdot(ray->vec, new.hit.hit_normal) < 1e-6)
 		new.hit.in_object = 0;
 	else 
 	{	

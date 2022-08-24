@@ -4,6 +4,7 @@
 		"ray.h": "c",
 		"scene.h": "c",
 		"math.h": "c",
-		"vector.h": "c"
+		"vector.h": "c",
+		"stdio.h": "c"
 	}
 }

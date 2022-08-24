@@ -21,6 +21,6 @@ t_vec	vunit(t_vec vec);
 t_vec	vdiv(t_vec vec, double t);
 t_vec	vmin(t_vec vec1, t_vec vec2);
 t_vec	vmax(t_vec vec1, t_vec vec2);
-int	small_than_eps(double d);
+// int	small_than_eps(double d);
 
 #endif

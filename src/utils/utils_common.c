@@ -26,3 +26,9 @@ void	free_array(char **array)
 	free(array);
 }
 
+// int	err_exit(int err_code, char *str)
+// {
+// 	perror(str);
+
+// 	exit(err_code);
+// }
