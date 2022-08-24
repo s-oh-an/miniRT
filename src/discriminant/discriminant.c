@@ -3,10 +3,7 @@
 #include "../../includes/hit.h"
 #include <math.h>
 
-#include <stdio.h>
-
-
-int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray, t_coordinate e)
+int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray, t_coordinate from)
 {
 	double	b;
 	double	c;
@@ -14,25 +11,23 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray, t_coordinate e)
 	double	t[2];
 	t_ray	new_hit;
 
-	b = vdot(ray->vec, vminus(e, sphere->coordinate));
-	c = vlen2(vminus(e, sphere->coordinate)) - sphere->radius2;
+	b = vdot(ray->vec, vminus(from, sphere->coordinate));
+	c = vlen2(vminus(from, sphere->coordinate)) - sphere->radius2;
 	d = (b * b) - c;
 	if (d < -E)
 		return (0);
 	t[0] = -b - sqrt(d);
 	t[1] = -b + sqrt(d);
-
 	if (t[0] * t[1] > E)
 	{
 		if (t[0] < -E)
 			return (0);
 	}
 	new_hit = make_hit_sphere(sphere, t, ray);
-	
 	return (update_hit(ray, new_hit));
 }
 
-int	is_ray_hit_plane(t_plane *plane, t_ray *ray, t_coordinate e)
+int	is_ray_hit_plane(t_plane *plane, t_ray *ray, t_coordinate from)
 {
 	double	c_dot_n;
 	double	d_dot_n;
@@ -40,20 +35,19 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray, t_coordinate e)
 	t_ray	new_hit;
 	t_vec	c;
 
-	c = vminus(plane->coordinate, e);
+	c = vminus(plane->coordinate, from);
 	c_dot_n = vdot(plane->n_vector, c);
 	d_dot_n = vdot(plane->n_vector, ray->vec);
-	// if (d_dot_n == 0)
 	if (d_dot_n > -E && d_dot_n < E)
 		return (0);
 	t = c_dot_n / d_dot_n;
-	if (t < -E) // (t<0)
+	if (t < -E)
 		return (0);
 	new_hit = make_hit_plane(plane, t, ray);
 	return (update_hit(ray, new_hit));
 }
 
-int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
+int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate from)
 {
 	double	top_plane_t;
 	double	bottom_plane_t;
@@ -68,7 +62,7 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 
 	cylinder->top = 0;
 	cylinder->bottom = 0;
-	ce = vminus(e, cylinder->coordinate);
+	ce = vminus(from, cylinder->coordinate);
 	v = vmulti_f(vunit(cylinder->n_vector), -1.0);
 	d_dot_v = vdot(ray->vec, v);
 	c_dot_v = vdot(ce, v);
@@ -78,72 +72,27 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 		cp_top = vplus(ce, vmulti_f(ray->vec, top_plane_t));
 		bottom_plane_t = (cylinder->height - c_dot_v) / d_dot_v;
 		cp_bottom = vplus(ce, vmulti_f(ray->vec, bottom_plane_t));
-		
-		//return (0);
-
 		if (top_plane_t < -E && bottom_plane_t < -E)
 			return (0);
-		// if (vlen2(cp_top) <= cylinder->radius2)
-		if (vlen2(cp_top) < cylinder->radius2) // && top_plane_t > E)
+		if (vlen2(cp_top) < cylinder->radius2)
 			cylinder->top = 1;
-		// if (vlen2(cp_bottom) - (cylinder->height * cylinder->height) <= cylinder->radius2)
-		if ((vlen2(cp_bottom) - (cylinder->height * cylinder->height) < cylinder->radius2 + E)) //&& bottom_plane_t > E)
+		if ((vlen2(cp_bottom) - (cylinder->height * cylinder->height) < cylinder->radius2))
 			cylinder->bottom = 1;
-
 		// if (!cylinder->top && !cylinder->bottom)
 		// 	return (0);
-		//if (top_plane_t < -E || bottom_plane_t < -E)
-		//	mint = fmax(top_plane_t, bottom_plane_t);
-		//else
-		//{
-			if (cylinder->top && cylinder->bottom)
-			{
-				if (top_plane_t * bottom_plane_t < -E)
-					mint = fmax(top_plane_t, bottom_plane_t);
-				else
-					mint = fmin(top_plane_t, bottom_plane_t);
-			}
-			else if (cylinder->top && top_plane_t > -E)
-				mint = top_plane_t;
-			else if (cylinder->bottom && bottom_plane_t > -E)
-				mint = bottom_plane_t;
+		if (cylinder->top && cylinder->bottom)
+		{
+			if (top_plane_t * bottom_plane_t < -E)
+				mint = fmax(top_plane_t, bottom_plane_t);
 			else
-				return (0);
-				//}
-		//if (cylinder->top && cylinder->bottom)
-		//{
-			//if (top_plane_t * bottom_plane_t < -E)
-			//	mint = fmax(top_plane_t, bottom_plane_t);
-			//else
-		//mint = fmin(top_plane_t, bottom_plane_t);
-		
-		
-		//if (mint == top_plane_t)
-		//	cylinder->bottom = 0;
-		//else
-		//	cylinder->top = 0;		
-			//new_hit = make_hit_cylinder_topbottom(cylinder, mint, ray);
-			//return (update_hit(ray, new_hit));
-		//}
-		//else if (cylinder->top || cylinder->bottom)
-		//{
-		//	if (top_plane_t * bottom_plane_t < -E)
-		//		mint = fmax(top_plane_t, bottom_plane_t);
-		//	else
-		//		mint = fmin(top_plane_t, bottom_plane_t);
-		//	if (mint == top_plane_t && top_plane_t > E)
-		//	{
-		//		cylinder->bottom = 0;
-		//		//new_hit = make_hit_cylinder_topbottom(cylinder, mint, ray);
-		//	}
-		//	else
-		//	{	
-		//		cylinder->top = 0;
-		//		//new_hit = make_hit_cylinder_topbottom(cylinder, mint, ray);
-		//	}
-		//}
-		//else
-		//	return (0);
+				mint = fmin(top_plane_t, bottom_plane_t);
+		}
+		else if (cylinder->top && top_plane_t > -E)
+			mint = top_plane_t;
+		else if (cylinder->bottom && bottom_plane_t > -E)
+			mint = bottom_plane_t;
+		else
+			return (0);
 		new_hit = make_hit_cylinder_topbottom(cylinder, mint, ray);
 		return (update_hit(ray, new_hit));
 	}
@@ -151,7 +100,7 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 }
 
 
-int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
+int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate from)
 {
 	double	d_dot_v;
 	double	c_dot_v;
@@ -173,7 +122,7 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 	//ce = vmulti_f(cylinder->coordinate, -1.0);
 	cylinder->top = 0;
 	cylinder->bottom = 0;
-	ce = vminus(e, cylinder->coordinate);
+	ce = vminus(from, cylinder->coordinate);
 	v = vmulti_f(vunit(cylinder->n_vector), -1.0);
 	d_dot_v = vdot(ray->vec, v);
 	c_dot_v = vdot(ce, v);
