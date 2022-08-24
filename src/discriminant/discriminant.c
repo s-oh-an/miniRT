@@ -17,14 +17,14 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray, t_coordinate e)
 	b = vdot(ray->vec, vminus(e, sphere->coordinate));
 	c = vlen2(vminus(e, sphere->coordinate)) - sphere->radius2;
 	d = (b * b) - c;
-	if (d < -1e-6)
+	if (d < -E)
 		return (0);
 	t[0] = -b - sqrt(d);
 	t[1] = -b + sqrt(d);
 
-	if (t[0] * t[1] > 1e-6)
+	if (t[0] * t[1] > E)
 	{
-		if (t[0] < -1e-6)
+		if (t[0] < -E)
 			return (0);
 	}
 	new_hit = make_hit_sphere(sphere, t, ray);
@@ -44,10 +44,10 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray, t_coordinate e)
 	c_dot_n = vdot(plane->n_vector, c);
 	d_dot_n = vdot(plane->n_vector, ray->vec);
 	// if (d_dot_n == 0)
-	if (d_dot_n > -1e-6 && d_dot_n < 1e-6)
+	if (d_dot_n > -E && d_dot_n < E)
 		return (0);
 	t = c_dot_n / d_dot_n;
-	if (t < -1e-6) // (t<0)
+	if (t < -E) // (t<0)
 		return (0);
 	new_hit = make_hit_plane(plane, t, ray);
 	return (update_hit(ray, new_hit));
@@ -81,38 +81,38 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 		
 		//return (0);
 
-		if (top_plane_t < -1e-6 && bottom_plane_t < -1e-6)
+		if (top_plane_t < -E && bottom_plane_t < -E)
 			return (0);
 		// if (vlen2(cp_top) <= cylinder->radius2)
-		if (vlen2(cp_top) < cylinder->radius2) // && top_plane_t > 1e-6)
+		if (vlen2(cp_top) < cylinder->radius2) // && top_plane_t > E)
 			cylinder->top = 1;
 		// if (vlen2(cp_bottom) - (cylinder->height * cylinder->height) <= cylinder->radius2)
-		if ((vlen2(cp_bottom) - (cylinder->height * cylinder->height) < cylinder->radius2 + 1e-6)) //&& bottom_plane_t > 1e-6)
+		if ((vlen2(cp_bottom) - (cylinder->height * cylinder->height) < cylinder->radius2 + E)) //&& bottom_plane_t > E)
 			cylinder->bottom = 1;
 
 		// if (!cylinder->top && !cylinder->bottom)
 		// 	return (0);
-		//if (top_plane_t < -1e-6 || bottom_plane_t < -1e-6)
+		//if (top_plane_t < -E || bottom_plane_t < -E)
 		//	mint = fmax(top_plane_t, bottom_plane_t);
 		//else
 		//{
 			if (cylinder->top && cylinder->bottom)
 			{
-				if (top_plane_t * bottom_plane_t < -1e-6)
+				if (top_plane_t * bottom_plane_t < -E)
 					mint = fmax(top_plane_t, bottom_plane_t);
 				else
 					mint = fmin(top_plane_t, bottom_plane_t);
 			}
-			else if (cylinder->top && top_plane_t > -1e-6)
+			else if (cylinder->top && top_plane_t > -E)
 				mint = top_plane_t;
-			else if (cylinder->bottom && bottom_plane_t > -1e-6)
+			else if (cylinder->bottom && bottom_plane_t > -E)
 				mint = bottom_plane_t;
 			else
 				return (0);
 				//}
 		//if (cylinder->top && cylinder->bottom)
 		//{
-			//if (top_plane_t * bottom_plane_t < -1e-6)
+			//if (top_plane_t * bottom_plane_t < -E)
 			//	mint = fmax(top_plane_t, bottom_plane_t);
 			//else
 		//mint = fmin(top_plane_t, bottom_plane_t);
@@ -127,11 +127,11 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 		//}
 		//else if (cylinder->top || cylinder->bottom)
 		//{
-		//	if (top_plane_t * bottom_plane_t < -1e-6)
+		//	if (top_plane_t * bottom_plane_t < -E)
 		//		mint = fmax(top_plane_t, bottom_plane_t);
 		//	else
 		//		mint = fmin(top_plane_t, bottom_plane_t);
-		//	if (mint == top_plane_t && top_plane_t > 1e-6)
+		//	if (mint == top_plane_t && top_plane_t > E)
 		//	{
 		//		cylinder->bottom = 0;
 		//		//new_hit = make_hit_cylinder_topbottom(cylinder, mint, ray);
@@ -183,13 +183,13 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 	b = d_dot_v * c_dot_v - c_dot_d;
 	c =	cylinder->radius2 - c_dot_c + (c_dot_v * c_dot_v);
 	d = (b * b) - (a * c);
-	if (d < -1e-6)
+	if (d < -E)
 		return (0);
 	t[0] = (-b - sqrt(d)) / a;
 	t[1] = (-b + sqrt(d)) / a;
-	if (t[0] * t[1] > 1e-6)
+	if (t[0] * t[1] > E)
 	{
-		if (t[0] < -1e-6)
+		if (t[0] < -E)
 			return (0);
 		mint = fmin(t[0], t[1]);
 		cp = vplus(ce, vmulti_f(ray->vec, mint));
@@ -202,7 +202,7 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate e)
 	}
 	cp_dot_v = vdot(cp, v);
 	// if (cp_dot_v >= 0 && cp_dot_v <= cylinder->height)
-	if (cp_dot_v > -1e-6 && cp_dot_v < cylinder->height)
+	if (cp_dot_v > -E && cp_dot_v < cylinder->height)
 	{
 		new_hit = make_hit_cylinder(cylinder, mint, ray);
 		//new_hit.hit.hit_color = vec3(0, 0, 255);

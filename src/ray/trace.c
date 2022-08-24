@@ -68,7 +68,7 @@ int	is_light(t_light light, t_ray ray)
 	t_vec	obj_nvec;
 	// t_vec	pp;
 
-	// pp = vmulti_f(ray.hit.hit_normal, 1e-6);
+	// pp = vmulti_f(ray.hit.hit_normal, E);
 	// //printf("norm: %f %f z:%f\n", ray.hit.hit_normal.x, ray.hit.hit_normal.y, ray.hit.hit_normal.z);
 
 	// light_vec = vunit(vminus(vplus(ray.hit.hit_point, pp), light.coordinate)); // LP
@@ -80,7 +80,7 @@ int	is_light(t_light light, t_ray ray)
 	else
 		obj_nvec = ray.hit.hit_normal;
 
-	if (vdot(obj_nvec, light_vec) < 1e-6)
+	if (vdot(obj_nvec, light_vec) < E)
 		light_in_obj = 0;
 	else
 		light_in_obj = 1;

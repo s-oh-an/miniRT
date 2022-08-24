@@ -20,5 +20,5 @@ void	camera(t_camera *camera)
 	//								vmulti_f(camera->z, camera->focal_len));
 	camera->left_bottom = vec3(-camera->viewport_w / 2, -camera->viewport_h / 2, -camera->focal_len);
 									//printf("left_bottom x: %f y: %f z: %f\n", camera->left_bottom.x, camera->left_bottom.y, camera->left_bottom.z);
-	// camera->orig = vplus(camera->orig, vmulti_f(vunit(camera->n_vector), 1e-6));
+	// camera->orig = vplus(camera->orig, vmulti_f(vunit(camera->n_vector), E));
 }

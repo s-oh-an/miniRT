@@ -7,6 +7,7 @@
 
 # define X_EVENT_KEY_PRESS		2
 # define X_EVENT_KEY_EXIT		17
+# define E 1e-6
 
 typedef struct s_scene		t_scene;
 typedef struct s_ambient	t_ambient;

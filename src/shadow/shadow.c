@@ -12,7 +12,7 @@ int	is_pixel_in_shadow(t_object_list *objs, t_light *light, t_ray *ray)
 	t_vec	pp;
 
 	//tmp = *ray;
-	pp = vmulti_f(ray->hit.hit_normal, 1e-6);
+	pp = vmulti_f(ray->hit.hit_normal, E);
 
 	//printf("norm: %f %f z:%f\n", ray->hit.hit_normal.x, ray->hit.hit_normal.y, ray->hit.hit_normal.z);
 
@@ -22,7 +22,7 @@ int	is_pixel_in_shadow(t_object_list *objs, t_light *light, t_ray *ray)
 	len = vlen(pl);
 	pl = vunit(pl);
 	// printf("normal x: %f, y: %f, z: %f\n", ray->hit.hit_normal.x, ray->hit.hit_normal.y, ray->hit.hit_normal.z);
-	if (vdot(ray->hit.hit_normal, pl) < 1e-6)
+	if (vdot(ray->hit.hit_normal, pl) < E)
 	{
 		return (0);
 	}
@@ -30,8 +30,8 @@ int	is_pixel_in_shadow(t_object_list *objs, t_light *light, t_ray *ray)
 	tmp.hit.hit_point = vplus(ray->hit.hit_point, pp);
 	if (is_ray_hit_object(objs, &tmp, tmp.hit.hit_point))
 	{	
-		// if (tmp.hit.t > -1e-6 && fabs(tmp.hit.t - len) < 1e-6)
-		if (tmp.hit.t > -1e-6 && tmp.hit.t < len - 1e-6)
+		// if (tmp.hit.t > -E && fabs(tmp.hit.t - len) < E)
+		if (tmp.hit.t > -E && tmp.hit.t < len - E)
 		{
 //printf("in: %d t: %f x: %f y: %f z: %f\n", ray->hit.in_object, tmp.hit.t, ray->hit.hit_normal.x, ray->hit.hit_normal.y, ray->hit.hit_normal.z);			
 			return (1);
