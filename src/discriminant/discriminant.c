@@ -74,9 +74,9 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 		cp_bottom = vplus(ce, vmulti_f(ray->vec, bottom_plane_t));
 		if (top_plane_t < -E && bottom_plane_t < -E)
 			return (0);
-		if (vlen2(cp_top) < cylinder->radius2)
+		if (vlen2(cp_top) < cylinder->radius2 + E)
 			cylinder->top = 1;
-		if ((vlen2(cp_bottom) - (cylinder->height * cylinder->height) < cylinder->radius2))
+		if ((vlen2(cp_bottom) - (cylinder->height * cylinder->height) < cylinder->radius2 + E))
 			cylinder->bottom = 1;
 		// if (!cylinder->top && !cylinder->bottom)
 		// 	return (0);
@@ -119,7 +119,6 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate from)
 
 	t_ray	new_hit;
 
-	//ce = vmulti_f(cylinder->coordinate, -1.0);
 	cylinder->top = 0;
 	cylinder->bottom = 0;
 	ce = vminus(from, cylinder->coordinate);
@@ -142,7 +141,6 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate from)
 			return (0);
 		mint = fmin(t[0], t[1]);
 		cp = vplus(ce, vmulti_f(ray->vec, mint));
-		// printf("mint: %f\n", mint);
 	}
 	else
 	{
@@ -150,11 +148,9 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray, t_coordinate from)
 		cp = vplus(ce, vmulti_f(ray->vec, mint));
 	}
 	cp_dot_v = vdot(cp, v);
-	// if (cp_dot_v >= 0 && cp_dot_v <= cylinder->height)
-	if (cp_dot_v > -E && cp_dot_v < cylinder->height)
+	if (cp_dot_v > -E && cp_dot_v < cylinder->height + E)
 	{
 		new_hit = make_hit_cylinder(cylinder, mint, ray);
-		//new_hit.hit.hit_color = vec3(0, 0, 255);
 		return (update_hit(ray, new_hit));
 	}
 	return (0);
