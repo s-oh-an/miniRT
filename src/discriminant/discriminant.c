@@ -66,7 +66,7 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray, t_coordinate
 	v = vmulti_f(vunit(cylinder->n_vector), -1.0);
 	d_dot_v = vdot(ray->vec, v);
 	c_dot_v = vdot(ce, v);
-	if (d_dot_v)
+	if (d_dot_v < -E || d_dot_v > E)
 	{
 		top_plane_t = -c_dot_v / d_dot_v;
 		cp_top = vplus(ce, vmulti_f(ray->vec, top_plane_t));
