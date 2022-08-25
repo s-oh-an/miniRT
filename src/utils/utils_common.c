@@ -1,6 +1,5 @@
 #include "../../includes/utils.h"
 
-//int	trans_trgb(t_color color)
 int	to_rgb(t_color color)
 {
 	int	trgb;
@@ -25,10 +24,3 @@ void	free_array(char **array)
 	}
 	free(array);
 }
-
-// int	err_exit(int err_code, char *str)
-// {
-// 	perror(str);
-
-// 	exit(err_code);
-// }

@@ -9,7 +9,7 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 	double	c;
 	double	d;
 	double	t[2];
-	t_ray	new_hit;
+	t_hit	new;
 
 	b = vdot(ray->direction, vminus(ray->origin, sphere->coordinate));
 	c = vlen2(vminus(ray->origin, sphere->coordinate)) - sphere->radius2;
@@ -23,8 +23,8 @@ int	is_ray_hit_sphere(t_sphere *sphere, t_ray *ray)
 		if (t[0] < -E)
 			return (0);
 	}
-	new_hit = make_hit_sphere(sphere, t, ray);
-	return (update_hit(ray, new_hit));
+	new = make_hit_sphere(sphere, t, ray);
+	return (update_hit(ray, new));
 }
 
 int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
@@ -32,7 +32,7 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 	double	c_dot_n;
 	double	d_dot_n;
 	double	t;
-	t_ray	new_hit;
+	t_hit	new;
 	t_vec	c;
 
 	c = vminus(plane->coordinate, ray->origin);
@@ -43,8 +43,8 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 	t = c_dot_n / d_dot_n;
 	if (t < -E)
 		return (0);
-	new_hit = make_hit_plane(plane, t, ray);
-	return (update_hit(ray, new_hit));
+	new = make_hit_plane(plane, t, ray);
+	return (update_hit(ray, new));
 }
 
 int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray)
@@ -58,7 +58,7 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray)
 	double	c_dot_v;
 	t_vec	v;
 	t_vec	ce;
-	t_ray	new_hit;
+	t_hit	new;
 
 	cylinder->top = 0;
 	cylinder->bottom = 0;
@@ -93,8 +93,8 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray)
 			mint = bottom_plane_t;
 		else
 			return (0);
-		new_hit = make_hit_cylinder_topbottom(cylinder, mint, ray);
-		return (update_hit(ray, new_hit));
+		new = make_hit_cylinder_topbottom(cylinder, mint, ray);
+		return (update_hit(ray, new));
 	}
 	return (0);
 }
@@ -116,7 +116,7 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	double	cp_dot_v;
 	double	mint;
 
-	t_ray	new_hit;
+	t_hit	new;
 
 	cylinder->top = 0;
 	cylinder->bottom = 0;
@@ -149,8 +149,8 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	cp_dot_v = vdot(cp, v);
 	if (cp_dot_v > -E && cp_dot_v < cylinder->height + E)
 	{
-		new_hit = make_hit_cylinder(cylinder, mint, ray);
-		return (update_hit(ray, new_hit));
+		new = make_hit_cylinder(cylinder, mint, ray);
+		return (update_hit(ray, new));
 	}
 	return (0);
 }

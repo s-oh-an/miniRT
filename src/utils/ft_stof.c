@@ -4,10 +4,10 @@
 
 double	ft_stof(char const *str)
 {
-	double	ret;
-	int		digit;
-	int		digit_decimal;
-	int		sign;
+	long double	ret;
+	int			digit;
+	int			digit_decimal;
+	int			sign;
 
 	ret = 0;
 	digit = 0;
@@ -23,7 +23,7 @@ double	ft_stof(char const *str)
 		ret  = (ret * 10) + *str - '0';
 		++str;
 		++digit;
-		if (digit > 8)
+		if (digit > 14)
 		{
 			ft_putendl_fd("Error\nExceeds Significant Digits Limit", 2);
 			exit(1);
@@ -42,7 +42,7 @@ double	ft_stof(char const *str)
 		ret +=  (*str - '0') * pow(10, -digit_decimal);
 		++str;
 		++digit;
-		if (digit > 8)
+		if (digit > 14)
 		{
 			ft_putendl_fd("Error\nExceeds Significant Digits Limit", 2);
 			exit(1);

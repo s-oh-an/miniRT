@@ -111,7 +111,7 @@ t_vec	vunit(t_vec vec)
 	len = vlen(vec);
 	if (len == 0)
 	{
-		perror("Error\ninvalid location\nexiting...");
+		ft_putendl_fd("Error\ninvalid location\nexiting...", 2);
 		// system("leaks miniRT");
 		exit(1); 
 	}
@@ -142,12 +142,3 @@ t_vec	vmax(t_vec vec1, t_vec vec2)
 		vec1.z = vec2.z;
 	return (vec1);
 }
-
-// //절댓값 epsilon 대소 비교하는 함수, 비교값이 크면 0, 작으면 1을 반환 
-// int	small_than_eps(double d)
-// {
-// 	if (d < E && d > -(E))
-// 		return (1);
-// 	else
-// 		return (0);
-// }

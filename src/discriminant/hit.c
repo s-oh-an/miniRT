@@ -2,106 +2,95 @@
 #include "../../includes/vector.h"
 #include <math.h>
 
-int	update_hit(t_ray *ray, t_ray new)
+int	update_hit(t_ray *old, t_hit new)
 {
-	if (ray->hit.t > new.hit.t)
-	{
-		*ray = new;
-		return (1);
-	}
-	return (0);
+	if (old->hit.t > new.t)
+		old->hit = new;
+	return (1);
 }
 
-t_ray	make_hit_sphere(t_sphere *sphere, double *t, t_ray *r)
+t_hit	make_hit_sphere(t_sphere *sphere, double *t, t_ray *ray)
 {
-	t_ray	new;
+	t_hit	hit;
 
-	new = ray(r->direction, r->origin);
 	if (t[0] * t[1] < -E)
-		new.hit.t = t[1];
+		hit.t = t[1];
 	else
-		new.hit.t = t[0];
-	new.hit.point = vmulti_f(new.direction, new.hit.t);
-	new.hit.color = sphere->color;
-	new.hit.normal = vunit(vminus(new.hit.point, sphere->coordinate));
-	if ((vdot(r->direction, new.hit.normal) < E))
-		new.hit.in_object = 0;
-	else
-	{
-		new.hit.in_object = 1;
-		new.hit.normal = vmulti_f(new.hit.normal, -1);
-	}
-	new.hit.ray_hit = 1;
-	return (new);
-}
-
-t_ray	make_hit_plane(t_plane *plane, double t, t_ray *r)
-{
-	t_ray	new;
-
-	new = ray(r->direction, r->origin);
-	new.hit.t = t;
-	new.hit.point = vmulti_f(new.direction, new.hit.t);
-	new.hit.color = plane->color;
-	new.hit.normal = vunit(plane->n_vector);
-	if (vdot(r->direction, new.hit.normal) < E)
-		new.hit.in_object = 0;
+		hit.t = t[0];
+	hit.point = vmulti_f(ray->direction, hit.t);
+	hit.color = sphere->color;
+	hit.normal = vunit(vminus(hit.point, sphere->coordinate));
+	if ((vdot(ray->direction, hit.normal) < E))
+		hit.in_object = 0;
 	else
 	{
-		new.hit.in_object = 1;
-		new.hit.normal = vmulti_f(new.hit.normal, -1);
+		hit.in_object = 1;
+		hit.normal = vmulti_f(hit.normal, -1);
 	}
-	new.hit.ray_hit = 1;
-	return (new);
+	return (hit);
 }
 
-t_ray	make_hit_cylinder_topbottom(t_cylinder *cylinder, double t, t_ray *r)
+t_hit	make_hit_plane(t_plane *plane, double t, t_ray *ray)
 {
-	t_ray	new;
+	t_hit	hit;
+
+	hit.t = t;
+	hit.point = vmulti_f(ray->direction, hit.t);
+	hit.color = plane->color;
+	hit.normal = vunit(plane->n_vector);
+	if (vdot(ray->direction, hit.normal) < E)
+		hit.in_object = 0;
+	else
+	{
+		hit.in_object = 1;
+		hit.normal = vmulti_f(hit.normal, -1);
+	}
+	return (hit);
+}
+
+t_hit	make_hit_cylinder_topbottom(t_cylinder *cylinder, double t, t_ray *ray)
+{
+	t_hit	hit;
 	t_vec	r_n_vector;
 
-	new = ray(r->direction, r->origin);
-	new.hit.t = t;
-	new.hit.point = vmulti_f(new.direction, new.hit.t);	
-	new.hit.color = cylinder->color;
+	hit.t = t;
+	hit.point = vmulti_f(ray->direction, hit.t);	
+	hit.color = cylinder->color;
 	r_n_vector = vunit(vmulti_f(cylinder->n_vector, -1.0));
 	if (cylinder->top)
-		new.hit.normal = vunit(cylinder->n_vector);
+		hit.normal = vunit(cylinder->n_vector);
 	else 
-		new.hit.normal = r_n_vector;
-	if (vdot(r->direction, new.hit.normal) < E)
-		new.hit.in_object = 0;
+		hit.normal = r_n_vector;
+	if (vdot(ray->direction, hit.normal) < E)
+		hit.in_object = 0;
 	else 
 	{	
-		new.hit.in_object = 1;
-		new.hit.normal = vmulti_f(new.hit.normal, -1);
+		hit.in_object = 1;
+		hit.normal = vmulti_f(hit.normal, -1);
 	}
-	new.hit.ray_hit = 1;
-	return (new);
+	return (hit);
 }
 
-t_ray	make_hit_cylinder(t_cylinder *cylinder, double t, t_ray *r)
+t_hit	make_hit_cylinder(t_cylinder *cylinder, double t, t_ray *ray)
 {
-	t_ray	new;
+	t_hit	hit;
 	t_vec	r_n_vector;
 	t_vec	cp;
 	t_vec	ccp;
 
-	new = ray(r->direction, r->origin);
-	new.hit.t = t;
-	new.hit.point = vmulti_f(new.direction, new.hit.t);	
-	new.hit.color = cylinder->color;
+	hit.t = t;
+	hit.point = vmulti_f(ray->direction, hit.t);	
+	hit.color = cylinder->color;
 	r_n_vector = vmulti_f(vunit(cylinder->n_vector), -1);
-	cp = vminus(new.hit.point, cylinder->coordinate);
+	cp = vminus(hit.point, cylinder->coordinate);
 	ccp = vmulti_f(r_n_vector, vdot(r_n_vector, cp));
-	new.hit.normal = vunit(vminus(cp, ccp));
-	if (vdot(r->direction, new.hit.normal) < E)
-		new.hit.in_object = 0;
+	hit.normal = vunit(vminus(cp, ccp));
+	if (vdot(ray->direction, hit.normal) < E)
+		hit.in_object = 0;
 	else 
 	{	
-		new.hit.in_object = 1;
-		new.hit.normal = vmulti_f(new.hit.normal, -1);
+		hit.in_object = 1;
+		hit.normal = vmulti_f(hit.normal, -1);
 	}
-	new.hit.ray_hit = 1;
-	return (new);
+	return (hit);
 }

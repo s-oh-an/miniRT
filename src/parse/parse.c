@@ -95,7 +95,7 @@ void	set_ambient(t_scene *scene, char const **data, int *identifier_flag)
 	}
 	if (get_field_count(data) != 3)
 	{
-		ft_putendl_fd("Error\nNot enough Field Arguments", 2);
+		ft_putendl_fd("Error\nWrong Argument Field Count", 2);
 		exit(1);
 	}
 	*identifier_flag |= 1;
@@ -112,7 +112,7 @@ void	set_camera(t_scene *scene, char const **data, int *identifier_flag)
 {
 	if (get_field_count(data) != 4)
 	{
-		ft_putendl_fd("Error\nNot enough Field Arguments", 2);
+		ft_putendl_fd("Error\nWrong Argument Field Count", 2);
 		exit(1);
 	}
 	if (is_duplicate_identifier(*identifier_flag & 2))
@@ -134,20 +134,13 @@ void	set_camera(t_scene *scene, char const **data, int *identifier_flag)
 		ft_putendl_fd("Error\nInvalid FOV", 2);
 		exit(1);
 	}
-	// scene->camera.win.width = 1280;
-	// scene->camera.win.height = 720;
-	// scene->camera.win.ratio = 16.0 / 9.0;
-	// scene->camera.viewport_h = 2.0;
-	// scene->camera.viewport_w = scene->camera.viewport_h * (16 /9);
-	// scene->camera.focal_len = 1.0 / tan((scene->camera.fov / 2) * (M_PI / 180));
-	// scene->camera.left_bottom = vec3(-(scene->camera.viewport_w / 2), -1, -(scene->camera.focal_len));
 }
 
 void	set_light(t_scene *scene, char const **data, int *identifier_flag)
 {
 	if (get_field_count(data) != 4)
 	{
-		ft_putendl_fd("Error\nNot enough Field Arguments", 2);
+		ft_putendl_fd("Error\nWrong Argument Field Count", 2);
 		exit(1);
 	}
 	if (is_duplicate_identifier(*identifier_flag & 4))
@@ -168,7 +161,7 @@ void	set_sphere(t_scene *scene, char const **data)
 
 	if (get_field_count(data) != 4)
 	{
-		ft_putendl_fd("Error\nNot enough Field Arguments", 2);
+		ft_putendl_fd("Error\nWrong Argument Field Count", 2);
 		exit(1);
 	}
 	obj = ft_calloc(1, sizeof(t_object));
@@ -211,7 +204,7 @@ void	set_plane(t_scene *scene, char const **data)
 
 	if (get_field_count(data) != 4)
 	{
-		ft_putendl_fd("Error\nNot enough Field Arguments", 2);
+		ft_putendl_fd("Error\nWrong Argument Field Count", 2);
 		exit(1);
 	}
 	obj = ft_calloc(1, sizeof(t_object));
@@ -253,7 +246,7 @@ void	set_cylinder(t_scene *scene, char const **data)
 
 	if (get_field_count(data) != 6)
 	{
-		ft_putendl_fd("Error\nNot enough Field Arguments", 2);
+		ft_putendl_fd("Error\nWrong Argument Field Count", 2);
 		exit(1);
 	}
 	obj = ft_calloc(1, sizeof(t_object));
