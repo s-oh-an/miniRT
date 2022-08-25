@@ -2,13 +2,11 @@
 #include "../../includes/vector.h"
 #include <math.h>
 
-#include <stdio.h>
-
 void	camera(t_camera *camera)
 {
-	camera->win.width = 1280;
-	camera->win.height = 720;
-	camera->win.ratio = (double)camera->win.width / (double)camera->win.height;
+	camera->win.w = 1280;
+	camera->win.h = 720;
+	camera->win.ratio = (double)camera->win.w / (double)camera->win.h;
 	camera->viewport_h = 2.0;
 	camera->viewport_w = camera->viewport_h * (camera->win.ratio);
 	camera->focal_len = 1.0 / tan((camera->fov / 2) * (M_PI / 180));	

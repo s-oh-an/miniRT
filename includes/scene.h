@@ -40,8 +40,8 @@ struct s_ambient
 
 typedef struct s_window
 {
-	int		width;
-	int		height;
+	double	w;
+	double	h;
 	double	ratio;
 }	t_window;
 

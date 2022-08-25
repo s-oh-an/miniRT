@@ -47,7 +47,7 @@ int	is_ray_hit_plane(t_plane *plane, t_ray *ray)
 	return (update_hit(ray, new));
 }
 
-int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray)
+int	is_ray_hit_cylinder_cover(t_cylinder *cylinder, t_ray *ray)
 {
 	double	top_plane_t;
 	double	bottom_plane_t;

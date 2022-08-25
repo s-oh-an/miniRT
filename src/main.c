@@ -94,8 +94,6 @@ int	main(int argc, char **argv)
 	printf("\n\n");
 	print(&scene);
 
-	///////////////////////insert mlx print/////////////////////
-
 	t_mlx		m;
 	t_camera	cam;
 	char		ratio[10];
@@ -105,10 +103,10 @@ int	main(int argc, char **argv)
 	m.scene = scene; //
 	cam = scene.camera;
 	init_mlx(&m, cam.win);
-	m.data.img = mlx_new_image(m.mlx, cam.win.width, cam.win.height);
+	m.data.img = mlx_new_image(m.mlx, cam.win.w, cam.win.h);
 	m.data.addr = mlx_get_data_addr(m.data.img, &m.data.bits_per_pixel, &m.data.line_length, &m.data.endian);
-	for (int i = 0; i < cam.win.width; i++)
-		for (int j = 0; j < cam.win.height; j++)
+	for (int i = 0; i < cam.win.w; i++)
+		for (int j = 0; j < cam.win.h; j++)
 			my_mlx_pixel_put(&m.data, i, j, to_rgb(vec3(255, 255, 255)));
 	// trace_objects(&m, &scene);
 	shoot_ray(&m, &scene);
