@@ -24,7 +24,6 @@ typedef t_vec				t_color;
 typedef t_vec				t_normal_vector;
 typedef t_list				t_object_list;
 
-
 struct s_vec3
 {
 	double	x;
@@ -59,8 +58,8 @@ struct s_camera
 	t_vec			hori_vec;
 	t_vec			vert_vec;
 	double			focal_len;
-	t_vec	ver;
-	t_vec	hor;
+	t_vec			ver;
+	t_vec			hor;
 	t_coordinate	left_bottom;
 	double			t;
 };

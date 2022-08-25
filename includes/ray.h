@@ -10,7 +10,7 @@ typedef struct s_hit
 	t_coordinate	point;
 	t_color			color;
 	t_vec			normal;
-	int				in_object;	// 0이면 물체 밖에 카메라, 1이면 물체 안에 카메라
+	int				in_object;
 }	t_hit;
 
 typedef struct s_ray
