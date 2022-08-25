@@ -17,6 +17,7 @@ typedef struct s_object		t_object;
 typedef struct s_sphere		t_sphere;
 typedef struct s_plane		t_plane;
 typedef struct s_cylinder	t_cylinder;
+typedef struct s_cy_calc	t_cy_calc;
 typedef struct s_vec3		t_vec;
 
 typedef t_vec				t_coordinate;
@@ -85,6 +86,17 @@ struct s_plane
 	t_color			color;
 };
 
+struct s_cy_calc
+{
+	t_vec	v;
+	double	top_t;
+	double	bottom_t;
+	double	d_dot_v;
+	double	c_dot_v;
+	t_vec	ce;
+	double	t[2];
+};
+
 struct s_cylinder
 {
 	t_coordinate	coordinate;
@@ -95,6 +107,7 @@ struct s_cylinder
 	int				top;
 	int				bottom;
 	t_color			color;
+	t_cy_calc		tcc;
 };
 
 struct s_object
