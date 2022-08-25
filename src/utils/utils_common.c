@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:49:02 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:49:19 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:01:54 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ void	error_exit(char const *msg)
 void	perror_exit(void)
 {
 	perror("Error");
-	exit (1);
+	exit(1);
 }

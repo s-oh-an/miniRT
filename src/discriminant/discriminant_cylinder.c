@@ -6,16 +6,18 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:47:05 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:47:06 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:14:23 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/scene.h"
+#include "../../includes/ray.h"
 #include "../../includes/discriminant.h"
 #include "../../includes/vector.h"
 #include "../../includes/hit.h"
 #include <math.h>
 
-void	calc_t_of_cover(t_cylinder *cy, t_ray *ray)
+static void	calc_t_of_cover(t_cylinder *cy, t_ray *ray)
 {
 	t_vec	cp_top;
 	t_vec	cp_bottom;
@@ -56,13 +58,13 @@ int	is_ray_hit_cylinder_cover(t_cylinder *cylinder, t_ray *ray)
 			mint = cylinder->tcc.bottom_t;
 		else
 			return (0);
-		new = make_hit_cylinder_topbottom(cylinder, mint, ray);
+		new = make_hit_cylinder_cover(cylinder, mint, ray);
 		return (update_hit(ray, new));
 	}
 	return (0);
 }
 
-int	discriminant_cylinder_side(t_cylinder *cy, t_ray *ray)
+static int	discriminant_cylinder_side(t_cylinder *cy, t_ray *ray)
 {
 	double	d;
 	double	a;
@@ -80,7 +82,7 @@ int	discriminant_cylinder_side(t_cylinder *cy, t_ray *ray)
 	return (1);
 }
 
-void	init_calc_cylinder(t_cylinder *cylinder, t_ray *ray)
+static void	init_calc_cylinder(t_cylinder *cylinder, t_ray *ray)
 {
 	cylinder->tcc.ce = vminus(ray->origin, cylinder->coordinate);
 	cylinder->tcc.v = vmulti_f(vunit(cylinder->n_vector), -1.0);

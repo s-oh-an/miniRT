@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:40:24 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:40:26 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 18:57:10 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "../lib/libft/libft.h"
 #include "../lib/mlx/mlx.h"
 #include <fcntl.h>
-#include <errno.h>
 
 int	main(int argc, char **argv)
 {

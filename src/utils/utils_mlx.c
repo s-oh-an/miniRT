@@ -6,14 +6,13 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:49:31 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:49:33 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:01:22 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/scene.h"
 #include "../../lib/mlx/mlx.h"
 #include "../../includes/my_mlx.h"
-#include "../../includes/ray.h"
 
 int	exit_minirt(t_mlx *m)
 {

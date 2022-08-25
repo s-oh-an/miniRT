@@ -6,12 +6,11 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:42:16 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:42:17 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:26:03 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/scene.h"
-#include "../../includes/ray.h"
 #include "../../includes/vector.h"
 #include "../../includes/light.h"
 

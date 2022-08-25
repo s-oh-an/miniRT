@@ -6,13 +6,14 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:41:56 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:41:58 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:13:01 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/scene.h"
+#include "../../includes/ray.h"
 #include "../../includes/hit.h"
 #include "../../includes/vector.h"
-#include <math.h>
 
 int	update_hit(t_ray *old, t_hit new)
 {
@@ -60,7 +61,7 @@ t_hit	make_hit_plane(t_plane *plane, double t, t_ray *ray)
 	return (hit);
 }
 
-t_hit	make_hit_cylinder_topbottom(t_cylinder *cylinder, double t, t_ray *ray)
+t_hit	make_hit_cylinder_cover(t_cylinder *cylinder, double t, t_ray *ray)
 {
 	t_hit	hit;
 	t_vec	r_n_vector;

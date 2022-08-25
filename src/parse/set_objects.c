@@ -6,10 +6,11 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:46:39 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:46:40 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:07:18 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/scene.h"
 #include "../../includes/parse.h"
 #include "../../includes/utils.h"
 

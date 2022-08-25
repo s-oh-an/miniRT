@@ -6,14 +6,13 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:49:44 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:49:45 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:00:36 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parse.h"
+#include "../../includes/scene.h"
 #include "../../includes/utils.h"
 #include "../../lib/libft/libft.h"
-#include "../../includes/vector.h"
 
 void	set_vec3(struct s_vec3 *vec, char const *str)
 {

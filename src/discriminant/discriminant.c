@@ -6,10 +6,12 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:41:49 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:41:51 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:15:11 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/scene.h"
+#include "../../includes/ray.h"
 #include "../../includes/discriminant.h"
 #include "../../includes/vector.h"
 #include "../../includes/hit.h"

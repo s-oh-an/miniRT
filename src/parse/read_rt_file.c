@@ -6,15 +6,14 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:46:47 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:46:48 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:08:20 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/scene.h"
 #include "../../includes/parse.h"
 #include "../../includes/utils.h"
 #include "../../lib/libft/libft.h"
-#include "../../includes/vector.h"
-#include <math.h>
 
 int	is_valid_scene(int identifier_flag, t_object_list *list)
 {

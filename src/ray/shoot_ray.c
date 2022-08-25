@@ -6,12 +6,11 @@
 /*   By: san <san@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 15:28:18 by san               #+#    #+#             */
-/*   Updated: 2022/08/25 18:34:12 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/25 19:06:00 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/ray.h"
-#include "../../includes/discriminant.h"
 #include "../../includes/utils.h"
 #include "../../includes/vector.h"
 #include "../../includes/light.h"
