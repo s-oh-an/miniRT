@@ -7,13 +7,12 @@
 
 #include <stdio.h>
 
-t_ray	init_ray(double x, double y, double z)
+t_ray	ray(t_vec direction, t_coordinate origin)
 {
 	t_ray	ray;
-	t_vec	vec;
 
-	vec = vec3(x, y, z);
-	ray.direction = vunit(vec);
+	ray.direction = vunit(direction);
+	ray.origin = origin;
 	ray.hit.t = 100000;
 	ray.hit.ray_hit = 0;
 	ray.hit.in_object = 0;
@@ -43,18 +42,20 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray)
 	return (ray->hit.ray_hit);
 }
 
-int	is_object_visible(t_scene *s, double u, double v, t_ray *ray)
+int	is_object_visible(t_scene *s, double u, double v, t_ray *r)
 {
 	double	hori_r;
 	double	vert_r;
+	t_vec	point;
+
 	vert_r = (0.5 / (double)s->camera.win.width) + u;
 	vert_r *= s->camera.viewport_w;
 	hori_r = (0.5 / (double)s->camera.win.height) + v;
 	hori_r *= s->camera.viewport_h;
 
-	*ray = init_ray(s->camera.left_bottom.x + vert_r , s->camera.left_bottom.y + hori_r, s->camera.left_bottom.z);
-	ray->origin = vec3(0, 0, 0);
-	return (is_ray_hit_object(s->objects, ray));
+	point = vec3(s->camera.left_bottom.x + vert_r , s->camera.left_bottom.y + hori_r, s->camera.left_bottom.z);
+	*r = ray(point, vec3(0, 0, 0));
+	return (is_ray_hit_object(s->objects, r));
 }
 
 int	is_light(t_light light, t_ray ray)

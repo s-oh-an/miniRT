@@ -3,25 +3,23 @@
 #include <stdio.h>
 #include <math.h>
 
-int	is_pixel_in_shadow(t_object_list *objs, t_light *light, t_ray *ray)
+int	is_pixel_in_shadow(t_object_list *objs, t_light *light, t_ray *primary)
 {
-	t_ray	tmp;
+	t_ray	shadow;
 	t_vec	pl;
 	double	len;
 	t_vec	pp;
 
-	pp = vmulti_f(ray->hit.normal, E);
-	pl = vminus(light->coordinate, vplus(ray->hit.point, pp));
+	pp = vmulti_f(primary->hit.normal, E);
+	pl = vminus(light->coordinate, vplus(primary->hit.point, pp));
 	len = vlen(pl);
 	pl = vunit(pl);
-	if (vdot(ray->hit.normal, pl) < E)
+	if (vdot(primary->hit.normal, pl) < E)
 		return (0);
-	tmp = init_ray(pl.x, pl.y, pl.z);
-	tmp.hit.point = vplus(ray->hit.point, pp);
-	tmp.origin = tmp.hit.point;
-	if (is_ray_hit_object(objs, &tmp))
-	{	
-		if (tmp.hit.t > -E && tmp.hit.t < len - E)
+	shadow = ray(vec3(pl.x, pl.y, pl.z), vplus(primary->hit.point, pp));
+	if (is_ray_hit_object(objs, &shadow))
+	{
+		if (shadow.hit.t > -E && shadow.hit.t < len - E)
 			return (1);
 	}
 	return (0);
