@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   trace.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: san <san@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/25 15:28:18 by san               #+#    #+#             */
+/*   Updated: 2022/08/25 15:28:20 by san              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/ray.h"
 #include "../../includes/discriminant.h"
 #include "../../includes/utils.h"
@@ -41,7 +53,7 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray)
 	return (res);
 }
 
-int	is_pixel_visible(t_scene *s, double u, double v, t_ray *r)
+int	is_pixel(t_scene *s, double u, double v, t_ray *r)
 {
 	double	hori_r;
 	double	vert_r;
@@ -90,15 +102,18 @@ void	shoot_ray(t_mlx *m, t_scene *s)
 		i = -1;
 		while (++i < s->camera.win.w - 1)
 		{
-			if (is_pixel_visible(s, i / s->camera.win.w, j / s->camera.win.h, &ray))
+			if (is_pixel(s, i / s->camera.win.w, j / s->camera.win.h, &ray))
 			{
-				if (is_light(s->light, ray) && !is_pixel_in_shadow(s->objects, &s->light, &ray))
-						my_mlx_pixel_put(&(m->data), i, s->camera.win.h - 1 - j,
-							to_rgb(vmulti_f(vmin(vec3(1, 1, 1),
-							vplus(get_pixel_ambient_color(s, ray.hit.color),
-							get_pixel_diffuse_color(s, &ray))), 255)));
+				if (is_light(s->light, ray) && !is_pixel_in_shadow
+					(s->objects, &s->light, &ray))
+					my_mlx_pixel_put(&(m->data), i, s->camera.win.h - 1 - j,
+						to_rgb(vmulti_f(vmin(vec3(1, 1, 1), \
+						vplus(get_pixel_ambient_color(s, ray.hit.color), \
+						get_pixel_diffuse_color(s, &ray))), 255)));
 				else
-					my_mlx_pixel_put(&(m->data), i, s->camera.win.h - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), get_pixel_ambient_color(s, ray.hit.color)), 255)));
+					my_mlx_pixel_put(&(m->data), i, s->camera.win.h - 1 - j,
+						to_rgb(vmulti_f(vmin(vec3(1, 1, 1), \
+						get_pixel_ambient_color(s, ray.hit.color)), 255)));
 			}
 		}
 	}

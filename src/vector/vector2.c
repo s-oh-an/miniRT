@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: san <san@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/25 15:28:48 by san               #+#    #+#             */
+/*   Updated: 2022/08/25 15:28:49 by san              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/vector.h"
 
 t_vec	vminus(t_vec vec1, t_vec vec2)
@@ -21,7 +33,7 @@ t_vec	vmulti_f(t_vec vec, double t)
 	vec.x = vec.x * t;
 	vec.y = vec.y * t;
 	vec.z = vec.z * t;
-	return (vec);	
+	return (vec);
 }
 
 t_vec	vmulti(t_vec vec, t_vec vec2)
@@ -37,6 +49,5 @@ t_vec	vdiv(t_vec vec, double t)
 	vec.x = vec.x * (1 / t);
 	vec.y = vec.y * (1 / t);
 	vec.z = vec.z * (1 / t);
-
 	return (vec);
 }
