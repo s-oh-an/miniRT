@@ -5,6 +5,8 @@
 		"scene.h": "c",
 		"math.h": "c",
 		"vector.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"limits.h": "c",
+		"float.h": "c"
 	}
 }

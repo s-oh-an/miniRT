@@ -16,7 +16,7 @@ int	exit_minirt(t_mlx *m)
 void	init_mlx(t_mlx *m, t_window w)
 {
 	m->mlx = mlx_init();
-	m->win = mlx_new_window(m->mlx, w.width, w.height, "s(oh)an's MINIRT");
+	m->win = mlx_new_window(m->mlx, w.w, w.h, "s(oh)an's MINIRT");
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -42,7 +42,6 @@ int	press_key(int key_code, t_mlx *m)
 		{	
 			m->scene.ambient.ratio += 0.1;
 			shoot_ray(m, &m->scene);
-			// trace_objects(m, &m->scene);
 			mlx_put_image_to_window(m->mlx, m->win, m->data.img, 0, 0);
 			mlx_string_put(m->mlx, m->win, 24, 36, 0x000000,gcvt(m->scene.ambient.ratio, 2, ratio));
 		}
@@ -53,7 +52,6 @@ int	press_key(int key_code, t_mlx *m)
 		{
 			m->scene.ambient.ratio -= 0.1;
 			shoot_ray(m, &m->scene);
-			// trace_objects(m, &m->scene);
 			mlx_put_image_to_window(m->mlx, m->win, m->data.img, 0, 0);
 			mlx_string_put(m->mlx, m->win, 24, 36, 0x000000,gcvt(m->scene.ambient.ratio, 2, ratio));
 		}
