@@ -10,15 +10,15 @@ RAY_DIR = $(SOURCE_DIR)/ray/
 TRANSFORM_DIR = $(SOURCE_DIR)/transform/
 LIGHT_DIR = $(SOURCE_DIR)/light/
 SHADOW_DIR = $(SOURCE_DIR)/shadow/
-OBJECT_DIR = ./objects
+OBJECT_DIR = ./object_files
 FILES = \
 		main \
 
-PARSE_FILE = parse init_camera
-UTILS_FILE = ft_stof utils_mlx utils_common
+PARSE_FILE = read_rt_file set_objects set_view
+UTILS_FILE = ft_stof utils_mlx utils_common utils_parse utils_parse_bool
 VECTOR_FILE = vector vector2 vector3
 DISCRIMINANT_FILE = discriminant hit
-RAY_FILE = trace
+RAY_FILE = ray shoot_ray
 TRANSFORM_FILE = world_to_camera transformation 
 LIGHT_FILE = ambient diffuse
 SHADOW_FILE = shadow
@@ -76,7 +76,7 @@ clean:
 fclean:
 	rm -rf $(OBJECT_DIR)
 	rm -f $(NAME) $(LIBFT) $(MLX)
-	@make -C $(MLX_DIR) clean
+	@make -C $(MLX_DIR) fclean
 	@make -C $(LIBFT_DIR) fclean
 
 re :

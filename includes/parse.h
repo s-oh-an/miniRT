@@ -3,13 +3,13 @@
 
 # include "scene.h"
 
-int		is_valid_identifier(char const *str);
-int		is_valid_scene();
-int		is_valid_color_range(t_color *color);
-int		is_valid_vector_range();
-int		is_valid_ratio_range(double ratio);
-int		is_valid_fov_range();
-int		is_rt_file(char const *str);
 void	read_rt_file(int fd, t_scene *scene);
+
+void	set_sphere(t_scene *scene, char const **data);
+void	set_plane(t_scene *scene, char const **data);
+void	set_cylinder(t_scene *scene, char const **data);
+void	set_ambient(t_scene *scene, char const **data, int *identifier_flag);
+void	set_camera(t_scene *scene, char const **data, int *identifier_flag);
+void	set_light(t_scene *scene, char const **data, int *identifier_flag);
 
 #endif

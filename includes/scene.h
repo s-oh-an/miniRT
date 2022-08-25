@@ -52,7 +52,6 @@ struct s_camera
 	t_vec			x;
 	t_vec			y;
 	t_vec			z;
-	t_window		win;
 	double			fov;
 	double			viewport_h;
 	double			viewport_w;
@@ -110,6 +109,7 @@ struct s_scene
 	t_light			light;
 	t_camera		camera;
 	t_object_list	*objects;
+	t_window		win;
 };
 
 enum e_object_type

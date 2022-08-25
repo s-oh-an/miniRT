@@ -24,3 +24,9 @@ void	free_array(char **array)
 	}
 	free(array);
 }
+
+void	error_exit(char const *msg)
+{
+	ft_putendl_fd((char*)msg, 2);
+	exit(1);
+}

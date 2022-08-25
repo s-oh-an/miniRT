@@ -115,11 +115,8 @@ int	is_ray_hit_cylinder(t_cylinder *cylinder, t_ray *ray)
 	t_vec	ce;
 	double	cp_dot_v;
 	double	mint;
-
 	t_hit	new;
 
-	cylinder->top = 0;
-	cylinder->bottom = 0;
 	ce = vminus(ray->origin, cylinder->coordinate);
 	v = vmulti_f(vunit(cylinder->n_vector), -1.0);
 	d_dot_v = vdot(ray->direction, v);
