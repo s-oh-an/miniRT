@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_objects.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/25 18:46:39 by sohan             #+#    #+#             */
+/*   Updated: 2022/08/25 18:46:40 by sohan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/parse.h"
 #include "../../includes/utils.h"
 
@@ -22,7 +34,7 @@ void	set_sphere(t_scene *scene, char const **data)
 	set_vec3(&sp.color, data[3]);
 	if (!is_valid_color_range(&scene->ambient.color))
 		error_exit("Error\nInvalid Color Range");
-	*(t_sphere*)obj->property = sp;
+	*(t_sphere *)obj->property = sp;
 	tmp = ft_lstnew(obj);
 	if (!tmp)
 		error_exit("Error\nError While malloc");
@@ -49,11 +61,20 @@ void	set_plane(t_scene *scene, char const **data)
 	set_vec3(&pl.color, data[3]);
 	if (!is_valid_color_range(&scene->ambient.color))
 		error_exit("Error\nInvalid Color Range");
-	*(t_plane*)obj->property = pl;
+	*(t_plane *)obj->property = pl;
 	tmp = ft_lstnew(obj);
 	if (!tmp)
 		error_exit("Error\nError While malloc");
 	ft_lstadd_back(&scene->objects, tmp);
+}
+
+static void	set_cylinder_property(t_cylinder *cy, char const **data)
+{
+	cy->diameter = ft_stof(data[3]);
+	cy->height = ft_stof(data[4]);
+	if (!is_valid_property(cy->diameter) || !is_valid_property(cy->height))
+		error_exit("Error\nInvalid Property Value");
+	cy->radius2 = (cy->diameter / 2) * (cy->diameter / 2);
 }
 
 void	set_cylinder(t_scene *scene, char const **data)
@@ -73,15 +94,11 @@ void	set_cylinder(t_scene *scene, char const **data)
 	set_vec3(&cy.n_vector, data[2]);
 	if (!is_valid_vector_range(&scene->camera.n_vector))
 		error_exit("Error\nInvalid Normal Vector Range");
-	cy.diameter = ft_stof(data[3]);
-	cy.height = ft_stof(data[4]);
-	if (!is_valid_property(cy.diameter) || !is_valid_property(cy.height))
-		error_exit("Error\nInvalid Property Value");
-	cy.radius2 = (cy.diameter / 2) * (cy.diameter / 2);
+	set_cylinder_property(&cy, data);
 	set_vec3(&cy.color, data[5]);
 	if (!is_valid_color_range(&scene->ambient.color))
 		error_exit("Error\nInvalid Color Range");
-	*(t_cylinder*)obj->property = cy;
+	*(t_cylinder *)obj->property = cy;
 	tmp = ft_lstnew(obj);
 	if (!tmp)
 		error_exit("Error\nError While malloc");

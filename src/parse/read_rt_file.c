@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_rt_file.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/25 18:46:47 by sohan             #+#    #+#             */
+/*   Updated: 2022/08/25 18:46:48 by sohan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/parse.h"
 #include "../../includes/utils.h"
 #include "../../lib/libft/libft.h"
@@ -13,7 +25,7 @@ int	is_valid_scene(int identifier_flag, t_object_list *list)
 
 void	set_elements(t_scene *scene, char *line, int *identifier_flag)
 {
-	char **data;
+	char	**data;
 
 	data = ft_split_space(line);
 	if (!data)
@@ -43,7 +55,7 @@ void	read_rt_file(int fd, t_scene *scene)
 	char	*line;
 	int		ret;
 	int		identifier_flag;
-	
+
 	ret = 1;
 	identifier_flag = 0;
 	line = NULL;

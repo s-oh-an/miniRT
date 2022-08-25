@@ -1,12 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_stof.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/25 18:48:53 by sohan             #+#    #+#             */
+/*   Updated: 2022/08/25 18:48:54 by sohan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/utils.h"
 #include "../../lib/libft/libft.h"
 #include <math.h>
-
-void	err_exit(char *str)
-{
-	ft_putendl_fd(str, 2);
-	exit(1);
-}
 
 int	is_expo(char const **str, long double *ret)
 {
@@ -19,7 +25,7 @@ int	is_expo(char const **str, long double *ret)
 		++*str;
 		++digit;
 		if (digit > 14)
-			err_exit("Error\nExceeds Significant Digits Limit");
+			error_exit("Error\nExceeds Significant Digits Limit");
 	}
 	return (digit);
 }
@@ -36,7 +42,7 @@ void	is_frac(char const **str, long double *ret, int digit)
 		++*str;
 		++digit;
 		if (digit > 14)
-			err_exit("Error\nExceeds Significant Digits Limit");
+			error_exit("Error\nExceeds Significant Digits Limit");
 	}
 }
 
@@ -55,11 +61,11 @@ double	ft_stof(char const *str)
 		++str;
 	digit = is_expo(&str, &ret);
 	if (*str != '\0' && *str != '.')
-		err_exit("Error\nNot a Number");
+		error_exit("Error\nNot a Number");
 	if (*str == '.')
 		++str;
 	is_frac(&str, &ret, digit);
 	if (*str != '\0')
-		err_exit("Error\nNot a Number");
+		error_exit("Error\nNot a Number");
 	return (sign * ret);
 }

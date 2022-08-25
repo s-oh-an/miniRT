@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_common.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/25 18:49:02 by sohan             #+#    #+#             */
+/*   Updated: 2022/08/25 18:49:19 by sohan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/utils.h"
+#include <stdio.h>
 
 int	to_rgb(t_color color)
 {
@@ -27,6 +40,12 @@ void	free_array(char **array)
 
 void	error_exit(char const *msg)
 {
-	ft_putendl_fd((char*)msg, 2);
+	ft_putendl_fd((char *)msg, 2);
 	exit(1);
+}
+
+void	perror_exit(void)
+{
+	perror("Error");
+	exit (1);
 }

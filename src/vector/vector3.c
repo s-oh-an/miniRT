@@ -6,11 +6,12 @@
 /*   By: san <san@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 15:28:55 by san               #+#    #+#             */
-/*   Updated: 2022/08/25 15:28:56 by san              ###   ########.fr       */
+/*   Updated: 2022/08/25 18:51:20 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/vector.h"
+#include "../../includes/utils.h"
 
 double	vdot(t_vec vec1, t_vec vec2)
 {
@@ -37,11 +38,7 @@ t_vec	vunit(t_vec vec)
 
 	len = vlen(vec);
 	if (len == 0)
-	{
-		ft_putendl_fd("Error\ninvalid location\nexiting...", 2);
-		// system("leaks miniRT");
-		exit(1);
-	}
+		error_exit("Error\ninvalid location\nexiting...");
 	unit.x = vec.x / len;
 	unit.y = vec.y / len;
 	unit.z = vec.z / len;
