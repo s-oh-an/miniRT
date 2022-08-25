@@ -16,20 +16,25 @@ void	set_elements(t_scene *scene, char *line, int *identifier_flag)
 	char **data;
 
 	data = ft_split_space(line);
-	if (!ft_strncmp(data[0], "A", ft_strlen(data[0])))
-		set_ambient(scene, (char const **)data, identifier_flag);
-	else if (!ft_strncmp(data[0], "C", ft_strlen(data[0])))
-		set_camera(scene, (char const **)data, identifier_flag);
-	else if (!ft_strncmp(data[0], "L", ft_strlen(data[0])))
-		set_light(scene, (char const **)data, identifier_flag);
-	else if (!ft_strncmp(data[0], "sp", ft_strlen(data[0])))
-		set_sphere(scene, (char const **)data);
-	else if (!ft_strncmp(data[0], "pl", ft_strlen(data[0])))
-		set_plane(scene, (char const **)data);
-	else if (!ft_strncmp(data[0], "cy", ft_strlen(data[0])))
-		set_cylinder(scene, (char const **)data);
-	else
-		error_exit("Error\nInvalid Identifier");
+	if (!data)
+		error_exit("Error\nError While malloc");
+	if (data[0])
+	{
+		if (!ft_strncmp(data[0], "A", ft_strlen(data[0])))
+			set_ambient(scene, (char const **)data, identifier_flag);
+		else if (!ft_strncmp(data[0], "C", ft_strlen(data[0])))
+			set_camera(scene, (char const **)data, identifier_flag);
+		else if (!ft_strncmp(data[0], "L", ft_strlen(data[0])))
+			set_light(scene, (char const **)data, identifier_flag);
+		else if (!ft_strncmp(data[0], "sp", ft_strlen(data[0])))
+			set_sphere(scene, (char const **)data);
+		else if (!ft_strncmp(data[0], "pl", ft_strlen(data[0])))
+			set_plane(scene, (char const **)data);
+		else if (!ft_strncmp(data[0], "cy", ft_strlen(data[0])))
+			set_cylinder(scene, (char const **)data);
+		else
+			error_exit("Error\nInvalid Identifier");
+	}
 	free_array(data);
 }
 

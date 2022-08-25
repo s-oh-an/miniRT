@@ -41,5 +41,3 @@ void	set_light(t_scene *scene, char const **data, int *identifier_flag)
 	set_vec3(&scene->light.coordinate, data[1]);
 	set_light_ratio(&scene->light.ratio, data[2]);
 }
-
-
