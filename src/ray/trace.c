@@ -13,15 +13,14 @@ t_ray	init_ray(double x, double y, double z)
 	t_vec	vec;
 
 	vec = vec3(x, y, z);
-	ray.vec = vunit(vec);
+	ray.direction = vunit(vec);
 	ray.hit.t = 100000;
-	ray.hit.min = 0;
 	ray.hit.ray_hit = 0;
 	ray.hit.in_object = 0;
 	return (ray);
 }
 
-int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_coordinate e)
+int	is_ray_hit_object(t_object_list *obs, t_ray *ray)
 {
 	t_object		*obj;
 	t_object_list	*cur;
@@ -31,17 +30,13 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray, t_coordinate e)
 	{
 		obj = cur->content;
 		if (obj->type == T_SPHERE)
-			is_ray_hit_sphere((t_sphere *)obj->property, ray, e);
+			is_ray_hit_sphere((t_sphere *)obj->property, ray);
 		else if (obj->type == T_PLANE)
-			is_ray_hit_plane((t_plane *)obj->property, ray, e);
+			is_ray_hit_plane((t_plane *)obj->property, ray);
 		else if (obj->type == T_CYLINDER)
 		{
-			is_ray_hit_cylinder((t_cylinder *)obj->property, ray, e);
-			is_ray_hit_cylinder_topbottom((t_cylinder *)obj->property, ray, e);
-		}
-		else
-		{
-			// 없는 물체 타입에 대한 에러 -> 근데 파싱에서 이런 경우를 다 걸러서 굳이 필요할까 싶음.
+			is_ray_hit_cylinder((t_cylinder *)obj->property, ray);
+			is_ray_hit_cylinder_topbottom((t_cylinder *)obj->property, ray);
 		}
 		cur = cur->next;
 	}
@@ -58,7 +53,8 @@ int	is_object_visible(t_scene *s, double u, double v, t_ray *ray)
 	hori_r *= s->camera.viewport_h;
 
 	*ray = init_ray(s->camera.left_bottom.x + vert_r , s->camera.left_bottom.y + hori_r, s->camera.left_bottom.z);
-	return (is_ray_hit_object(s->objects, ray, vec3(0, 0, 0)));
+	ray->origin = vec3(0, 0, 0);
+	return (is_ray_hit_object(s->objects, ray));
 }
 
 int	is_light(t_light light, t_ray ray)
@@ -68,17 +64,17 @@ int	is_light(t_light light, t_ray ray)
 	t_vec	obj_nvec;
 	// t_vec	pp;
 
-	// pp = vmulti_f(ray.hit.hit_normal, E);
-	// //printf("norm: %f %f z:%f\n", ray.hit.hit_normal.x, ray.hit.hit_normal.y, ray.hit.hit_normal.z);
+	// pp = vmulti_f(ray.hit.normal);
+	// //printf("norm: %f %f z:%f\n", ray.hit.normal.x, ray.hit.normal.y, ray.hit.normal.z);
 
-	// light_vec = vunit(vminus(vplus(ray.hit.hit_point, pp), light.coordinate)); // LP
-	light_vec = vunit(vminus(ray.hit.hit_point, light.coordinate)); // LP
+	// light_vec = vunit(vminus(vplus(ray.hit.point, pp), light.coordinate)); // LP
+	light_vec = vunit(vminus(ray.hit.point, light.coordinate)); // LP
 
 
 	if (ray.hit.in_object)
-		obj_nvec = vmulti_f(ray.hit.hit_normal, -1);
+		obj_nvec = vmulti_f(ray.hit.normal, -1);
 	else
-		obj_nvec = ray.hit.hit_normal;
+		obj_nvec = ray.hit.normal;
 
 	if (vdot(obj_nvec, light_vec) < E)
 		light_in_obj = 0;
@@ -112,11 +108,11 @@ void	shoot_ray(t_mlx *m, t_scene *scene)
 			{
 				if (is_light(scene->light, ray) && !is_pixel_in_shadow(scene->objects, &scene->light, &ray))
 				{
-					my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), vplus(get_pixel_ambient_color(scene, ray.hit.hit_color), get_pixel_diffuse_color(scene, &ray))), 255)));
+					my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), vplus(get_pixel_ambient_color(scene, ray.hit.color), get_pixel_diffuse_color(scene, &ray))), 255)));
 				}
 				else
 				{
-					my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), get_pixel_ambient_color(scene, ray.hit.hit_color)), 255)));
+					my_mlx_pixel_put(&(m->data), i, scene->camera.win.height - 1 - j, to_rgb(vmulti_f(vmin(vec3(1, 1, 1), get_pixel_ambient_color(scene, ray.hit.color)), 255)));
 					//my_mlx_pixel_put(&m->data, i, scene->camera.win.height - 1 - j, to_rgb(vec3(0, 0, 0)));
 				}
 			}
