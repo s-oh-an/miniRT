@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shoot_ray.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: san <san@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/25 15:28:18 by san               #+#    #+#             */
+/*   Updated: 2022/08/25 18:34:12 by sohan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/ray.h"
+#include "../../includes/discriminant.h"
 #include "../../includes/utils.h"
 #include "../../includes/vector.h"
 #include "../../includes/light.h"
@@ -55,16 +68,16 @@ void	shoot_ray(t_mlx *m, t_scene *s)
 		{
 			if (is_pixel_visible(s, i / s->win.w, j / s->win.h, &ray))
 			{
-				if (is_light(s->light, ray) && 
-							!is_pixel_in_shadow(s->objects, &s->light, &ray))
-						my_mlx_pixel_put(&(m->data), i, s->win.h - 1 - j,
-							to_rgb(vmulti_f(vmin(vec3(1, 1, 1),
-							vplus(get_pixel_ambient_color(s, ray.hit.color),
-							get_pixel_diffuse_color(s, &ray))), 255)));
+				if (is_light(s->light, ray) && !is_pixel_in_shadow
+					(s->objects, &s->light, &ray))
+					my_mlx_pixel_put(&(m->data), i, s->win.h - 1 - j,
+						to_rgb(vmulti_f(vmin(vec3(1, 1, 1), \
+						vplus(get_pixel_ambient_color(s, ray.hit.color), \
+						get_pixel_diffuse_color(s, &ray))), 255)));
 				else
-					my_mlx_pixel_put(&(m->data), i, s->win.h - 1 - j, 
-					to_rgb(vmulti_f(vmin(vec3(1, 1, 1), 
-							get_pixel_ambient_color(s, ray.hit.color)), 255)));
+					my_mlx_pixel_put(&(m->data), i, s->win.h - 1 - j,
+						to_rgb(vmulti_f(vmin(vec3(1, 1, 1), \
+						get_pixel_ambient_color(s, ray.hit.color)), 255)));
 			}
 		}
 	}
