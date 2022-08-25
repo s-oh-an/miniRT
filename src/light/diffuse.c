@@ -8,9 +8,13 @@ t_color	get_pixel_diffuse_color(t_scene *scene, t_ray *ray)
 	t_color	diffuse;
 	t_color	color;
 	t_vec	pl;
+	double	d;
+	double	attenuation;
 
 	diffuse = vec3(1, 1, 1);
-	pl = vunit(vminus(scene->light.coordinate, ray->hit.point));
+	pl = vminus(scene->light.coordinate, ray->hit.point);
+	d = vlen(pl);
+	pl = vunit(pl);
 	diffuse = vmulti_f(diffuse, vdot(ray->hit.normal, pl) * scene->light.ratio);
 	diffuse = vmax(vec3(0, 0, 0), diffuse);
 	color = ray->hit.color;
@@ -18,5 +22,7 @@ t_color	get_pixel_diffuse_color(t_scene *scene, t_ray *ray)
 	color.y /= 255;
 	color.z /= 255;
 	diffuse = vmulti(color, diffuse);
+	attenuation = 1 / (1 + (0.0014 * d) + (0.000007 * d * d));
+	diffuse = vmulti_f(diffuse, attenuation);
 	return (vmin(vec3(1, 1, 1), diffuse));
 }

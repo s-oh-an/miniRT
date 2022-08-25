@@ -78,8 +78,8 @@ int	is_ray_hit_cylinder_topbottom(t_cylinder *cylinder, t_ray *ray)
 			cylinder->top = 1;
 		if ((vlen2(cp_bottom) - (cylinder->height * cylinder->height) < cylinder->radius2 + E))
 			cylinder->bottom = 1;
-		// if (!cylinder->top && !cylinder->bottom)
-		// 	return (0);
+		if (!cylinder->top && !cylinder->bottom)
+		 	return (0);
 		if (cylinder->top && cylinder->bottom)
 		{
 			if (top_plane_t * bottom_plane_t < -E)
