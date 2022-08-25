@@ -42,7 +42,7 @@ int	is_ray_hit_object(t_object_list *obs, t_ray *ray)
 	return (ray->hit.ray_hit);
 }
 
-int	is_object_visible(t_scene *s, double u, double v, t_ray *r)
+int	is_pixel_visible(t_scene *s, double u, double v, t_ray *r)
 {
 	double	hori_r;
 	double	vert_r;
@@ -105,7 +105,7 @@ void	shoot_ray(t_mlx *m, t_scene *scene)
 		{
 			// u = (double)i / (double)(scene->camera.win.width);
 			// v = (double)j / (double)(scene->camera.win.height);
-			if (is_object_visible(scene, (double)i / (double)(scene->camera.win.width), (double)j / (double)(scene->camera.win.height), &ray))
+			if (is_pixel_visible(scene, (double)i / (double)(scene->camera.win.width), (double)j / (double)(scene->camera.win.height), &ray))
 			{
 				if (is_light(scene->light, ray) && !is_pixel_in_shadow(scene->objects, &scene->light, &ray))
 				{
