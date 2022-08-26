@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:52:18 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:53:02 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/26 11:21:04 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	set_camera_axis(t_camera *camera)
 {
 	camera->z = vmulti_f(vunit(camera->n_vector), -1);
 	if (camera->z.x == 0 && camera->z.y == 1 && camera->z.z == 0)
-		camera->x = vunit(vcross(vec3(-1, 0, 0), camera->z));
+		camera->x = vunit(vcross(camera->z, vec3(0, 0, 1)));
 	else if (camera->z.x == 0 && camera->z.y == -1 && camera->z.z == 0)
-		camera->x = vunit(vcross(vec3(1, 0, 0), camera->z));
+		camera->x = vunit(vcross(camera->z, vec3(0, 0, -1)));
 	else
-		camera->x = vunit(vcross(vec3(0, 1, 0), camera->z));
-	camera->y = vunit(vcross(camera->z, camera->x));
+		camera->x = vunit(vcross(camera->z, vec3(0, 1, 0)));
+	camera->y = vunit(vcross(camera->x, camera->z));
 }
 
 static void	set_camera_viewport(t_scene *scene, t_camera *camera)
@@ -34,7 +34,12 @@ static void	set_camera_viewport(t_scene *scene, t_camera *camera)
 	scene->win.ratio = (double)scene->win.w / (double)scene->win.h;
 	camera->viewport_h = 2.0;
 	camera->viewport_w = camera->viewport_h * (scene->win.ratio);
-	camera->focal_len = 1.0 / tan((camera->fov / 2) * (M_PI / 180));
+	if (camera->fov == 0)
+		camera->focal_len = INF;
+	else if (camera->fov == 180)
+		camera->focal_len = 0;
+	else
+		camera->focal_len = 1.0 / tan((camera->fov / 2) * (M_PI / 180));
 	camera->left_bottom = vec3(-camera->viewport_w / 2, \
 						-camera->viewport_h / 2, -camera->focal_len);
 }

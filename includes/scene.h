@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:54:47 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:54:48 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/26 10:21:17 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define X_EVENT_KEY_PRESS		2
 # define X_EVENT_KEY_EXIT		17
 # define E 1e-6
+# define INF 99999999999999
 
 typedef struct s_scene		t_scene;
 typedef struct s_ambient	t_ambient;

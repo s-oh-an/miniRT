@@ -6,7 +6,7 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:46:56 by sohan             #+#    #+#             */
-/*   Updated: 2022/08/25 18:46:57 by sohan            ###   ########.fr       */
+/*   Updated: 2022/08/26 09:56:11 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_ray	ray(t_vec direction, t_coordinate origin)
 
 	ray.direction = vunit(direction);
 	ray.origin = origin;
-	ray.hit.t = 100000;
+	ray.hit.t = INF;
 	ray.hit.in_object = 0;
 	return (ray);
 }
